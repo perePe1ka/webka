@@ -1,34 +1,32 @@
-package ru.web.laba_web2.models;
+package ru.web.laba_web2.dtos;
 
-import jakarta.persistence.*;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
 import org.hibernate.annotations.Cascade;
+import ru.web.laba_web2.models.Model;
 
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "brand")
-public class Brand extends BaseEntity{
+public class BrandDto {
+    private int id;
     private String name; //наименование бренда
 
     private java.sql.Date created; //дата и время
     private java.sql.Date modified; //дата и время
+    private Model model;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "offer")
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Set<Model> model;
-
-    protected Brand() {
-
-    }
-    public Brand(String name, Date created, Date modified, Set<Model> model) {
+    public BrandDto(String name, Date created, Date modified, Model model) {
         this.name = name;
         this.created = created;
         this.modified = modified;
-        model = new HashSet<Model>();
+        this.model = model;
     }
-    @Column(name = "name", length = 50, nullable = false)
+
+    public BrandDto() {
+
+    }
+
     public String getName() {
         return name;
     }
@@ -36,7 +34,7 @@ public class Brand extends BaseEntity{
     public void setName(String name) {
         this.name = name;
     }
-    @Column(name = "created", length = 50, nullable = false)
+
     public Date getCreated() {
         return created;
     }
@@ -44,12 +42,20 @@ public class Brand extends BaseEntity{
     public void setCreated(Date created) {
         this.created = created;
     }
-    @Column(name = "modified", length = 50, nullable = false)
+
     public Date getModified() {
         return modified;
     }
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    public Model getModel() {
+        return model;
+    }
+
+    public void setModel(Model model) {
+        this.model = model;
     }
 }

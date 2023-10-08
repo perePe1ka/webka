@@ -1,14 +1,14 @@
-package ru.web.laba_web2.models;
+package ru.web.laba_web2.dtos;
 
-import jakarta.persistence.*;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import org.hibernate.annotations.Cascade;
+import ru.web.laba_web2.models.Brand;
 
 import java.sql.Date;
-import java.util.HashSet;
 
-@Entity
-@Table(name = "model")
-public class Model extends BaseEntity{
+public class ModelDto {
+    private int id;
     private String name; //имя модели
 
     private enum category{
@@ -24,14 +24,9 @@ public class Model extends BaseEntity{
     private java.sql.Date created;
 
     private java.sql.Date modified;
-
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "brand_id", referencedColumnName = "id", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Brand brand;
 
-    public Model(String name, String imageUrl, int startYear, int endYear, Date created, Date modified, Brand brand) {
+    public ModelDto(String name, String imageUrl, int startYear, int endYear, Date created, Date modified, Brand brand) {
         this.name = name;
         this.imageUrl = imageUrl;
         this.startYear = startYear;
@@ -41,10 +36,10 @@ public class Model extends BaseEntity{
         this.brand = brand;
     }
 
-    protected Model() {
+    public ModelDto() {
 
     }
-    @Column(name = "name", length = 50, nullable = false)
+
     public String getName() {
         return name;
     }
@@ -52,7 +47,7 @@ public class Model extends BaseEntity{
     public void setName(String name) {
         this.name = name;
     }
-    @Column(name = "imageUrl", length = 50, nullable = false)
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -60,7 +55,7 @@ public class Model extends BaseEntity{
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    @Column(name = "startYear", length = 50, nullable = false)
+
     public int getStartYear() {
         return startYear;
     }
@@ -68,7 +63,7 @@ public class Model extends BaseEntity{
     public void setStartYear(int startYear) {
         this.startYear = startYear;
     }
-    @Column(name = "endYear", length = 50, nullable = false)
+
     public int getEndYear() {
         return endYear;
     }
@@ -76,7 +71,7 @@ public class Model extends BaseEntity{
     public void setEndYear(int endYear) {
         this.endYear = endYear;
     }
-    @Column(name = "created", length = 50, nullable = false)
+
     public Date getCreated() {
         return created;
     }
@@ -84,7 +79,7 @@ public class Model extends BaseEntity{
     public void setCreated(Date created) {
         this.created = created;
     }
-    @Column(name = "modified", length = 50, nullable = false)
+
     public Date getModified() {
         return modified;
     }
@@ -92,7 +87,7 @@ public class Model extends BaseEntity{
     public void setModified(Date modified) {
         this.modified = modified;
     }
-    @Column(name = "brand", length = 50, nullable = false)
+
     public Brand getBrand() {
         return brand;
     }
