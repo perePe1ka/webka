@@ -12,20 +12,16 @@ import java.util.Set;
 public class OfferDto {
     private int id;
     private String description;
-
-    private enum engine{
-        GASOLINE, DIESEL, ELECTRIC, HYBRID
-    }
+    private Engine engine;
 
     private String imageUrl;
 
     private int milleage;
 
     private int price;
+    private Transmission transmission;
 
-    private enum transmission {
-        MANUAL, AUTOMATIC
-    }
+
     private int year;
 
     private java.sql.Date created;
@@ -33,18 +29,21 @@ public class OfferDto {
     private java.sql.Date modified;
 
 
-    private Model model;
+    private ModelDto model;
 
-    private User seller;
+    private UserDto seller;
 
     public OfferDto() {
 
     }
-    public OfferDto(String description, String imageUrl, int milleage, int price, int year, Date created, Date modified, Model model, User seller) {
+
+    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, Date created, Date modified, ModelDto model, UserDto seller) {
         this.description = description;
+        this.engine = engine;
         this.imageUrl = imageUrl;
         this.milleage = milleage;
         this.price = price;
+        this.transmission = transmission;
         this.year = year;
         this.created = created;
         this.modified = modified;
@@ -58,6 +57,14 @@ public class OfferDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Engine getEngine() {
+        return engine;
+    }
+
+    public void setEngine(Engine engine) {
+        this.engine = engine;
     }
 
     public String getImageUrl() {
@@ -84,6 +91,14 @@ public class OfferDto {
         this.price = price;
     }
 
+    public Transmission getTransmission() {
+        return transmission;
+    }
+
+    public void setTransmission(Transmission transmission) {
+        this.transmission = transmission;
+    }
+
     public int getYear() {
         return year;
     }
@@ -108,19 +123,19 @@ public class OfferDto {
         this.modified = modified;
     }
 
-    public Model getModel() {
+    public ModelDto getModel() {
         return model;
     }
 
-    public void setModel(Model model) {
+    public void setModel(ModelDto model) {
         this.model = model;
     }
 
-    public User getSeller() {
+    public UserDto getSeller() {
         return seller;
     }
 
-    public void setSeller(User seller) {
+    public void setSeller(UserDto seller) {
         this.seller = seller;
     }
 }

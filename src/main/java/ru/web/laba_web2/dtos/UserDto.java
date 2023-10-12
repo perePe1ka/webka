@@ -21,7 +21,7 @@ public class UserDto {
 
     private boolean isActive;
 
-    private Roles role;
+    private RolesDto role;
 
     private String imageUrl;
 
@@ -29,14 +29,12 @@ public class UserDto {
 
     private java.sql.Date modified;
 
-    private Offer offer;
 
     public UserDto() {
 
     }
 
-    public UserDto(int id, String username, String password, String firstName, String lastName, boolean isActive, Roles role, String imageUrl, Date created, Date modified, Offer offer) {
-        this.id = id;
+    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, RolesDto role, String imageUrl, Date created, Date modified) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -46,7 +44,6 @@ public class UserDto {
         this.imageUrl = imageUrl;
         this.created = created;
         this.modified = modified;
-        this.offer = offer;
     }
 
     public int getId() {
@@ -97,11 +94,11 @@ public class UserDto {
         isActive = active;
     }
 
-    public Roles getRole() {
+    public RolesDto getRole() {
         return role;
     }
 
-    public void setRole(Roles role) {
+    public void setRole(RolesDto role) {
         this.role = role;
     }
 
@@ -129,11 +126,4 @@ public class UserDto {
         this.modified = modified;
     }
 
-    public Offer getOffer() {
-        return offer;
-    }
-
-    public void setOffer(Offer offer) {
-        this.offer = offer;
-    }
 }

@@ -1,19 +1,12 @@
 package ru.web.laba_web2.dtos;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import org.hibernate.annotations.Cascade;
-import ru.web.laba_web2.models.Brand;
-
 import java.sql.Date;
 
 public class ModelDto {
     private int id;
     private String name; //имя модели
 
-    private enum category{
-        CAR, BUS, TRUCK, MOTORCYCLE
-    }
+    private Category category;
 
     private String imageUrl; //ссылка на юрл
 
@@ -24,10 +17,11 @@ public class ModelDto {
     private java.sql.Date created;
 
     private java.sql.Date modified;
-    private Brand brand;
+    private BrandDto brand;
 
-    public ModelDto(String name, String imageUrl, int startYear, int endYear, Date created, Date modified, Brand brand) {
+    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, Date created, Date modified, BrandDto brand) {
         this.name = name;
+        this.category = category;
         this.imageUrl = imageUrl;
         this.startYear = startYear;
         this.endYear = endYear;
@@ -46,6 +40,14 @@ public class ModelDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getImageUrl() {
@@ -88,11 +90,19 @@ public class ModelDto {
         this.modified = modified;
     }
 
-    public Brand getBrand() {
+    public BrandDto getBrand() {
         return brand;
     }
 
-    public void setBrand(Brand brand) {
+    public void setBrand(BrandDto brand) {
         this.brand = brand;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
