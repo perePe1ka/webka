@@ -29,12 +29,14 @@ public class UserDto {
 
     private java.sql.Date modified;
 
+    private OfferDto offer;
+
 
     public UserDto() {
 
     }
 
-    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, RolesDto role, String imageUrl, Date created, Date modified) {
+    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, RolesDto role, String imageUrl, Date created, Date modified, OfferDto offer) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -44,6 +46,7 @@ public class UserDto {
         this.imageUrl = imageUrl;
         this.created = created;
         this.modified = modified;
+        this.offer = offer;
     }
 
     public int getId() {
@@ -126,4 +129,11 @@ public class UserDto {
         this.modified = modified;
     }
 
+    public OfferDto getOffer() {
+        return offer;
+    }
+
+    public void setOffer(OfferDto offerDto) {
+        this.offer = offerDto;
+    }
 }

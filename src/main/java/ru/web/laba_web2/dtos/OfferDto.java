@@ -29,15 +29,11 @@ public class OfferDto {
     private java.sql.Date modified;
 
 
-    private ModelDto model;
-
-    private UserDto seller;
-
     public OfferDto() {
 
     }
 
-    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, Date created, Date modified, ModelDto model, UserDto seller) {
+    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, Date created, Date modified) {
         this.description = description;
         this.engine = engine;
         this.imageUrl = imageUrl;
@@ -47,8 +43,6 @@ public class OfferDto {
         this.year = year;
         this.created = created;
         this.modified = modified;
-        this.model = model;
-        this.seller = seller;
     }
 
     public String getDescription() {
@@ -123,19 +117,11 @@ public class OfferDto {
         this.modified = modified;
     }
 
-    public ModelDto getModel() {
-        return model;
+    public int getId() {
+        return id;
     }
 
-    public void setModel(ModelDto model) {
-        this.model = model;
-    }
-
-    public UserDto getSeller() {
-        return seller;
-    }
-
-    public void setSeller(UserDto seller) {
-        this.seller = seller;
+    public void setId(int id) {
+        this.id = id;
     }
 }

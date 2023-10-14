@@ -2,6 +2,7 @@ package ru.web.laba_web2.models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
+import ru.web.laba_web2.dtos.Category;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -11,9 +12,7 @@ import java.util.HashSet;
 public class Model extends BaseEntity{
     private String name; //имя модели
 
-    private enum category{
-        CAR, BUS, TRUCK, MOTORCYCLE
-    }
+    private Category category;
 
     private String imageUrl; //ссылка на юрл
 
@@ -31,14 +30,21 @@ public class Model extends BaseEntity{
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Brand brand;
 
-    public Model(String name, String imageUrl, int startYear, int endYear, Date created, Date modified, Brand brand) {
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "offer_id", referencedColumnName = "id", nullable=false)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Offer offer;
+
+    public Model(String name, Category category,String imageUrl, int startYear, int endYear, Date created, Date modified, Brand brand, Offer offer) {
         this.name = name;
+        this.category = category;
         this.imageUrl = imageUrl;
         this.startYear = startYear;
         this.endYear = endYear;
         this.created = created;
         this.modified = modified;
         this.brand = brand;
+        this.offer = offer;
     }
 
     protected Model() {
@@ -99,5 +105,21 @@ public class Model extends BaseEntity{
 
     public void setBrand(Brand brand) {
         this.brand = brand;
+    }
+    @Column(name = "category", length = 50, nullable = false)
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Offer getOffer() {
+        return offer;
+    }
+
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 }

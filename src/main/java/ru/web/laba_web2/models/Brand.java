@@ -15,14 +15,14 @@ public class Brand extends BaseEntity{
     private java.sql.Date created; //дата и время
     private java.sql.Date modified; //дата и время
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "offer")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Set<Model> model;
 
     protected Brand() {
 
     }
-    public Brand(String name, Date created, Date modified, Set<Model> model) {
+    public Brand(String name, Date created, Date modified) {
         this.name = name;
         this.created = created;
         this.modified = modified;

@@ -19,7 +19,9 @@ public class ModelDto {
     private java.sql.Date modified;
     private BrandDto brand;
 
-    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, Date created, Date modified, BrandDto brand) {
+    private OfferDto offer;
+
+    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, Date created, Date modified, BrandDto brand, OfferDto offer) {
         this.name = name;
         this.category = category;
         this.imageUrl = imageUrl;
@@ -28,6 +30,7 @@ public class ModelDto {
         this.created = created;
         this.modified = modified;
         this.brand = brand;
+        this.offer = offer;
     }
 
     public ModelDto() {
@@ -104,5 +107,13 @@ public class ModelDto {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public OfferDto getOffer() {
+        return offer;
+    }
+
+    public void setOffer(OfferDto offer) {
+        this.offer = offer;
     }
 }

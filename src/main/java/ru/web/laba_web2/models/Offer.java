@@ -3,6 +3,8 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.query.sql.internal.ParameterRecognizerImpl;
+import ru.web.laba_web2.dtos.Engine;
+import ru.web.laba_web2.dtos.Transmission;
 
 import java.sql.Date;
 import java.util.HashSet;
@@ -13,9 +15,7 @@ import java.util.Set;
 public class Offer extends BaseEntity{
     private String description;
 
-    private enum engine{
-        GASOLINE, DIESEL, ELECTRIC, HYBRID
-    }
+    private Engine engine;
 
     private String imageUrl;
 
@@ -23,9 +23,7 @@ public class Offer extends BaseEntity{
 
     private int price;
 
-    private enum transmission {
-        MANUAL, AUTOMATIC
-    }
+    private Transmission transmission;
     private int year;
 
     private java.sql.Date created;
@@ -95,32 +93,34 @@ public class Offer extends BaseEntity{
     public void setModified(Date modified) {
         this.modified = modified;
     }
-
-    public Set<Model> getModel() {
-        return model;
+    @Column(name = "engine", length = 50, nullable = false)
+    public Engine getEngine() {
+        return engine;
     }
 
-    public void setModel(Set<Model> model) {
-        this.model = model;
+    public void setEngine(Engine engine) {
+        this.engine = engine;
+    }
+    @Column(name = "transmission", length = 50, nullable = false)
+    public Transmission getTransmission() {
+        return transmission;
     }
 
-    public Set<User> getSeller() {
-        return seller;
-    }
-
-    public void setSeller(Set<User> seller) {
-        this.seller = seller;
+    public void setTransmission(Transmission transmission) {
+        this.transmission = transmission;
     }
 
     protected Offer() {
 
     }
 
-    public Offer(String description, String imageUrl, int milleage, int price, int year, Date created, Date modified, Set<Model> model, Set<User> seller) {
+    public Offer(String description, Engine engine,String imageUrl, int milleage, int price, Transmission transmission,int year, Date created, Date modified) {
         this.description = description;
+        this.engine = engine;
         this.imageUrl = imageUrl;
         this.milleage = milleage;
         this.price = price;
+        this.transmission = transmission;
         this.year = year;
         this.created = created;
         this.modified = modified;

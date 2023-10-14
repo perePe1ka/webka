@@ -34,6 +34,8 @@ public class User extends BaseEntity{
     private Offer offer;
 
 
+
+
     protected User () {
 
     }
@@ -48,7 +50,9 @@ public class User extends BaseEntity{
         this.imageUrl = imageUrl;
         this.created = created;
         this.modified = modified;
+        this.offer = offer;
     }
+
     @Column(name = "username", length = 50, nullable = false)
     public String getUsername() {
         return username;

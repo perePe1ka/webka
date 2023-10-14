@@ -5,10 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.dtos.BrandDto;
 import ru.web.laba_web2.dtos.ModelDto;
+import ru.web.laba_web2.dtos.OfferDto;
 import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.models.Model;
+import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.repositories.ModelRepository;
+import ru.web.laba_web2.repositories.OfferRepository;
 import ru.web.laba_web2.services.ModelService;
 
 import java.util.List;
@@ -27,6 +30,9 @@ public class ModelServiceImpl implements ModelService<Integer> {
     @Autowired
     private ModelRepository modelRepository;
 
+    @Autowired
+    private OfferRepository offerRepository;
+
 
     @Override
     public ModelDto register(ModelDto modelDto) {
@@ -34,6 +40,10 @@ public class ModelServiceImpl implements ModelService<Integer> {
         if (modelDto.getBrand().getId() != 0) {
             Brand brand = brandRepository.findById(modelDto.getBrand().getId()).get();
             model.setBrand(brand);
+        }
+        if (modelDto.getOffer().getId() != 0) {
+            Offer offer = offerRepository.findById(modelDto.getOffer().getId()).get();
+            model.setOffer(offer);
         }
         return modelMapper.map(modelRepository.save(model), ModelDto.class);
     }
@@ -49,10 +59,12 @@ public class ModelServiceImpl implements ModelService<Integer> {
     }
 
     @Override
-    public void transfer(ModelDto modelDto, BrandDto brandDto) {
+    public void transfer(ModelDto modelDto, BrandDto brandDto, OfferDto offerDto) {
         Model model = modelRepository.findById(modelDto.getId()).get();
         Brand brand = brandRepository.findById(brandDto.getId()).get();
+        Offer offer = offerRepository.findById(offerDto.getId()).get();
         model.setBrand(brand);
+        model.setOffer(offer);
         modelRepository.save(model);
     }
 
