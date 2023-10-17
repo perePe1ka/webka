@@ -1,6 +1,8 @@
 package ru.web.laba_web2.models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Cascade;
 
 import java.sql.Date;
@@ -11,7 +13,6 @@ import java.util.Set;
 @Table(name = "brand")
 public class Brand extends BaseEntity{
     private String name; //наименование бренда
-
     private java.sql.Date created; //дата и время
     private java.sql.Date modified; //дата и время
 
@@ -51,5 +52,10 @@ public class Brand extends BaseEntity{
 
     public void setModified(Date modified) {
         this.modified = modified;
+    }
+
+    @Override
+    public String toString() {
+        return "Group { id=" + id + ", name=" + name + ", created=" + created + ", modified= " + modified + " }";
     }
 }

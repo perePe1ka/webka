@@ -18,8 +18,4 @@ public interface UserService<ID> {
     Optional<UserDto> findById(ID id);
 
     List<UserDto> getAll();
-
-    List<UserDto> findByRole(String roles);
-
-    List<UserDto> findByOffer(String roles);
 }

@@ -13,7 +13,6 @@ import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.repositories.ModelRepository;
 import ru.web.laba_web2.repositories.OfferRepository;
 import ru.web.laba_web2.services.ModelService;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

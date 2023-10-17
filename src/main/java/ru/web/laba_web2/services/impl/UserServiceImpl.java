@@ -76,13 +76,13 @@ public class UserServiceImpl implements UserService<Integer> {
         return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
-    @Override
-    public List<UserDto> findByRole(String roles) {
-        return userRepository.findAllRolesName(roles).stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<UserDto> findByRole(String roles) {
+//        return userRepository.findAllRolesName(roles).stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+//    }
 
-    @Override
-    public List<UserDto> findByOffer(String offer) {
-        return userRepository.findAllOfferName(offer).stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
-    }
+//    @Override
+//    public List<UserDto> findByOffer(String offer) {
+//        return userRepository.findAllOfferName(offer).stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+//    }
 }
