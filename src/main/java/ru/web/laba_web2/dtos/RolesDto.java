@@ -1,28 +1,21 @@
 package ru.web.laba_web2.dtos;
 
+import lombok.Data;
+import java.util.UUID;
 
 
-
+@Data
 public class RolesDto {
-    private int id;
+    private Long uuid;
 
     private Role role;
 
-
-    public RolesDto(Role role) {
-        this.role = role;
-    }
 
     public RolesDto() {
 
     }
 
-    public int getId() {
-        return id;
+    public RolesDto(Role role) {
+        this.role = role;
     }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
 }

@@ -1,21 +1,19 @@
 package ru.web.laba_web2.services;
 
 import ru.web.laba_web2.dtos.*;
-import ru.web.laba_web2.models.User;
-
 import java.util.List;
 import java.util.Optional;
 
-public interface UserService<ID> {
+public interface UserService<Long> {
     UserDto register(UserDto userDto);
 
-    void expel(UserDto userDto);
+    void delete(UserDto userDto);
 
-    void expel(ID id);
+    void deleteByUUID(Long uuid);
 
     void transfer(UserDto userDto, RolesDto rolesDto, OfferDto offerDto);
 
-    Optional<UserDto> findById(ID id);
+    Optional<UserDto> findByUUID(Long uuid);
 
     List<UserDto> getAll();
 }

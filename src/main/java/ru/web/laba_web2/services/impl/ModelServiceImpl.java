@@ -15,11 +15,11 @@ import ru.web.laba_web2.repositories.OfferRepository;
 import ru.web.laba_web2.services.ModelService;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class ModelServiceImpl implements ModelService<Integer> {
-
+public class ModelServiceImpl implements ModelService<Long> {
     @Autowired
     private ModelMapper modelMapper;
 
@@ -36,40 +36,40 @@ public class ModelServiceImpl implements ModelService<Integer> {
     @Override
     public ModelDto register(ModelDto modelDto) {
         Model model = modelMapper.map(modelDto, Model.class);
-        if (modelDto.getBrand().getId() != 0) {
-            Brand brand = brandRepository.findById(modelDto.getBrand().getId()).get();
+        if (modelDto.getBrand().getUuid() != null) {
+            Brand brand = brandRepository.findByUuid(modelDto.getBrand().getUuid()).get();
             model.setBrand(brand);
         }
-        if (modelDto.getOffer().getId() != 0) {
-            Offer offer = offerRepository.findById(modelDto.getOffer().getId()).get();
+        if (modelDto.getOffer().getUuid() != null) {
+            Offer offer = offerRepository.findByUuid(modelDto.getOffer().getUuid()).get();
             model.setOffer(offer);
         }
         return modelMapper.map(modelRepository.save(model), ModelDto.class);
     }
 
     @Override
-    public void expel(ModelDto modelDto) {
-        modelRepository.deleteById(modelDto.getId());
+    public void delete(ModelDto modelDto) {
+        modelRepository.deleteByUuid(modelDto.getUuid());
     }
 
     @Override
-    public void expel(Integer id) {
-        modelRepository.deleteById(id);
+    public void deleteByUUID(Long uuid) {
+        modelRepository.deleteByUuid(uuid);
     }
 
     @Override
     public void transfer(ModelDto modelDto, BrandDto brandDto, OfferDto offerDto) {
-        Model model = modelRepository.findById(modelDto.getId()).get();
-        Brand brand = brandRepository.findById(brandDto.getId()).get();
-        Offer offer = offerRepository.findById(offerDto.getId()).get();
+        Model model = modelRepository.findByUuid(modelDto.getUuid()).get();
+        Brand brand = brandRepository.findByUuid(brandDto.getUuid()).get();
+        Offer offer = offerRepository.findByUuid(offerDto.getUuid()).get();
         model.setBrand(brand);
         model.setOffer(offer);
         modelRepository.save(model);
     }
 
     @Override
-    public Optional<ModelDto> findById(Integer id) {
-        return Optional.ofNullable(modelMapper.map(modelRepository.findById(id), ModelDto.class));
+    public Optional<ModelDto> findByUUID(Long uuid) {
+        return Optional.ofNullable(modelMapper.map(modelRepository.findByUuid(uuid), ModelDto.class));
     }
 
     @Override

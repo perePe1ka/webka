@@ -1,9 +1,12 @@
 package ru.web.laba_web2.dtos;
 
-import java.sql.Date;
+import lombok.Data;
+import java.time.LocalDate;
+import java.util.UUID;
 
+@Data
 public class ModelDto {
-    private int id;
+    private Long uuid;
     private String name; //имя модели
 
     private Category category;
@@ -14,106 +17,26 @@ public class ModelDto {
 
     private int endYear;
 
-    private java.sql.Date created;
+    private LocalDate created;
 
-    private java.sql.Date modified;
+    private LocalDate modified;
     private BrandDto brand;
 
     private OfferDto offer;
-
-    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, Date created, Date modified, BrandDto brand, OfferDto offer) {
-        this.name = name;
-        this.category = category;
-        this.imageUrl = imageUrl;
-        this.startYear = startYear;
-        this.endYear = endYear;
-        this.created = created;
-        this.modified = modified;
-        this.brand = brand;
-        this.offer = offer;
-    }
 
     public ModelDto() {
 
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, LocalDate created, LocalDate modified, BrandDto brand, OfferDto offer) {
         this.name = name;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public int getStartYear() {
-        return startYear;
-    }
-
-    public void setStartYear(int startYear) {
         this.startYear = startYear;
-    }
-
-    public int getEndYear() {
-        return endYear;
-    }
-
-    public void setEndYear(int endYear) {
         this.endYear = endYear;
-    }
-
-    public Date getCreated() {
-        return created;
-    }
-
-    public void setCreated(Date created) {
         this.created = created;
-    }
-
-    public Date getModified() {
-        return modified;
-    }
-
-    public void setModified(Date modified) {
         this.modified = modified;
-    }
-
-    public BrandDto getBrand() {
-        return brand;
-    }
-
-    public void setBrand(BrandDto brand) {
         this.brand = brand;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public OfferDto getOffer() {
-        return offer;
-    }
-
-    public void setOffer(OfferDto offer) {
         this.offer = offer;
     }
 }

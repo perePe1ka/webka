@@ -8,14 +8,14 @@ import java.util.UUID;
 public abstract class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    protected int id;
+    @Column(name = "uuid", nullable = false)
+    protected Long uuid;
 
-    public int getId() {
-        return id;
+    public Long getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(Long uuid) {
+        this.uuid = uuid;
     }
 }
