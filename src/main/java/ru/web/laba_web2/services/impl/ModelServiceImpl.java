@@ -53,7 +53,7 @@ public class ModelServiceImpl implements ModelService<Long> {
     }
 
     @Override
-    public void deleteByUUID(Long uuid) {
+    public void deleteByUuid(Long uuid) {
         modelRepository.deleteByUuid(uuid);
     }
 
@@ -68,7 +68,7 @@ public class ModelServiceImpl implements ModelService<Long> {
     }
 
     @Override
-    public Optional<ModelDto> findByUUID(Long uuid) {
+    public Optional<ModelDto> findByUuid(Long uuid) {
         return Optional.ofNullable(modelMapper.map(modelRepository.findByUuid(uuid), ModelDto.class));
     }
 
