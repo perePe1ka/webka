@@ -38,7 +38,7 @@ public class User extends BaseEntity{
     @Column(name = "modified", columnDefinition = "DATE")
     private LocalDate modified;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Offer> offers;
 
 

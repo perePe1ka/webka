@@ -8,8 +8,8 @@ import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.constants.Transmission;
 import ru.web.laba_web2.dtos.*;
-import ru.web.laba_web2.services.ModelService;
-import ru.web.laba_web2.services.UserService;
+import ru.web.laba_web2.services.impl.OfferServiceImpl;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -19,10 +19,7 @@ import java.util.Optional;
 public class DataInitializer implements CommandLineRunner {
 
     @Autowired
-    private ModelService modelService;
-
-    @Autowired
-    private UserService userService;
+    private OfferServiceImpl offerService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -67,32 +64,6 @@ public class DataInitializer implements CommandLineRunner {
                 brandDto2
         );
 
-        OfferDto offerDto1 = new OfferDto(
-                "some news",
-                Engine.GASOLINE,
-                "https://vlad3.com/image.jpg",
-                200000,
-                2000,
-                Transmission.MANUAL,
-                2023,
-                LocalDate.now(),
-                LocalDate.now(),
-                modelDto1
-        );
-
-        OfferDto offerDto2 = new OfferDto(
-                "some news",
-                Engine.DIESEL,
-                "https://vlad4.com/image.jpg",
-                10000,
-                3000,
-                Transmission.AUTOMATIC,
-                2022,
-                LocalDate.now(),
-                LocalDate.now(),
-                modelDto2
-        );
-
         RolesDto rolesDto1 = new RolesDto(
                 Role.USER
         );
@@ -110,8 +81,7 @@ public class DataInitializer implements CommandLineRunner {
                 rolesDto1,
                 "https://vlad5.com/image.jpg",
                 LocalDate.now(),
-                LocalDate.now(),
-                offerDto1
+                LocalDate.now()
         );
 
         UserDto userDto2 = new UserDto(
@@ -123,29 +93,46 @@ public class DataInitializer implements CommandLineRunner {
                 rolesDto2,
                 "https://vlad6.com/image.jpg",
                 LocalDate.now(),
-                LocalDate.now(),
-                offerDto2
+                LocalDate.now()
         );
 
+        OfferDto offerDto1 = new OfferDto(
+                "some news",
+                Engine.GASOLINE,
+                "https://vlad3.com/image.jpg",
+                200000,
+                2000,
+                Transmission.MANUAL,
+                2023,
+                LocalDate.now(),
+                LocalDate.now(),
+                modelDto1,
+                userDto1
+                );
 
-        Optional<ModelDto> existingModel = modelService.findByUuid(modelDto1.getUuid());
-        if (existingModel.isPresent()) {
-            // Модель уже существует, обновляем ее
-            modelDto1 = existingModel.get();
-        } else {
-            // Модель не существует, создаем новую
-            modelDto1 = modelService.register(modelDto1);
-        }
+        OfferDto offerDto2 = new OfferDto(
+                "some news",
+                Engine.DIESEL,
+                "https://vlad4.com/image.jpg",
+                10000,
+                3000,
+                Transmission.AUTOMATIC,
+                2022,
+                LocalDate.now(),
+                LocalDate.now(),
+                modelDto2,
+                userDto2
+                );
 
 
-        modelDto1 = modelService.register(modelDto1);
-        modelDto2 = modelService.register(modelDto2);
-
-        userDto1 = userService.register(userDto1);
-        userDto2 = userService.register(userDto2);
+        offerDto1 = offerService.register(offerDto1);
+        offerDto2 = offerService.register(offerDto2);
 
 
-        System.out.println(modelService.getModelsByBrand(brandDto1.getName()));
+
+        System.out.println(offerService.findByModelName(modelDto1.getImageUrl()));
 
     }
 }
+
+

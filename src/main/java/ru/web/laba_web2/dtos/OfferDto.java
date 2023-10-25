@@ -29,12 +29,14 @@ public class OfferDto {
 
     private ModelDto modelDto;
 
+    private UserDto userDto;
+
 
     public OfferDto() {
 
     }
 
-    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, LocalDate created, LocalDate modified, ModelDto modelDto) {
+    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, LocalDate created, LocalDate modified, ModelDto modelDto, UserDto userDto) {
         this.description = description;
         this.engine = engine;
         this.imageUrl = imageUrl;
@@ -45,6 +47,7 @@ public class OfferDto {
         this.created = created;
         this.modified = modified;
         this.modelDto = modelDto;
+        this.userDto = userDto;
     }
 
 }

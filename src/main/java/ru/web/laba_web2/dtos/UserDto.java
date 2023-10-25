@@ -26,13 +26,12 @@ public class UserDto {
 
     private LocalDate modified;
 
-    private OfferDto offer;
 
     public UserDto() {
 
     }
 
-    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, RolesDto role, String imageUrl, LocalDate created, LocalDate modified, OfferDto offer) {
+    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, RolesDto role, String imageUrl, LocalDate created, LocalDate modified) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -42,6 +41,5 @@ public class UserDto {
         this.imageUrl = imageUrl;
         this.created = created;
         this.modified = modified;
-        this.offer = offer;
     }
 }
