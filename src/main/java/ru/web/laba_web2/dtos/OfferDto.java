@@ -1,12 +1,15 @@
 package ru.web.laba_web2.dtos;
 
 import lombok.Data;
+import ru.web.laba_web2.constants.Engine;
+import ru.web.laba_web2.constants.Transmission;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 public class OfferDto {
-    private Long uuid;
+    private UUID uuid;
     private String description;
     private Engine engine;
 
@@ -24,12 +27,14 @@ public class OfferDto {
 
     private LocalDate modified;
 
+    private ModelDto modelDto;
+
 
     public OfferDto() {
 
     }
 
-    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, LocalDate created, LocalDate modified) {
+    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, LocalDate created, LocalDate modified, ModelDto modelDto) {
         this.description = description;
         this.engine = engine;
         this.imageUrl = imageUrl;
@@ -39,6 +44,7 @@ public class OfferDto {
         this.year = year;
         this.created = created;
         this.modified = modified;
+        this.modelDto = modelDto;
     }
 
 }

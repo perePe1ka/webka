@@ -9,19 +9,18 @@ import java.util.Optional;
 import java.util.UUID;
 
 
-public interface ModelService<Long> {
-
+public interface ModelService<UUID> {
+    List<ModelDto> getModelsByBrand(String brandName);
     ModelDto register(ModelDto modelDto);
 
     void delete(ModelDto modelDto);
 
-    void deleteByUuid(Long uuid);
+    void deleteByUuid(UUID uuid);
 
-    void transfer(ModelDto modelDto, BrandDto brandDto, OfferDto offerDto);
+    void transfer(ModelDto modelDto, BrandDto brandDto);
 
-    Optional<ModelDto> findByUuid(Long uuid);
+    Optional<ModelDto> findByUuid(UUID uuid);
 
     List<ModelDto> getAll();
 
-    List<ModelDto> findByModel(String brand);
 }

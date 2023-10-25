@@ -19,7 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService<Long> {
+public class UserServiceImpl implements UserService<UUID> {
     @Autowired
     private ModelMapper modelMapper;
 
@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService<Long> {
     }
 
     @Override
-    public void deleteByUuid(Long uuid) {
+    public void deleteByUuid(UUID uuid) {
         userRepository.deleteByUuid(uuid);
     }
 
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService<Long> {
     }
 
     @Override
-    public Optional<UserDto> findByUuid(Long uuid) {
+    public Optional<UserDto> findByUuid(UUID uuid) {
         return Optional.ofNullable(modelMapper.map(userRepository.findByUuid(uuid), UserDto.class));
     }
 

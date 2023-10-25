@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface UserService<Long> {
+public interface UserService<UUID> {
     UserDto register(UserDto userDto);
 
     void delete(UserDto userDto);
 
-    void deleteByUuid(Long uuid);
+    void deleteByUuid(UUID uuid);
 
     void transfer(UserDto userDto, RolesDto rolesDto, OfferDto offerDto);
 
-    Optional<UserDto> findByUuid(Long uuid);
+    Optional<UserDto> findByUuid(UUID uuid);
 
     List<UserDto> getAll();
 }

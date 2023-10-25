@@ -7,7 +7,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand, Long> {
-    Optional<Brand> findByUuid(Long uuid);
+public interface BrandRepository extends JpaRepository<Brand, UUID> {
+    Optional<Brand> findByUuid(UUID uuid);
+
+    void deleteByUuid(UUID uuid);
 
 }

@@ -14,11 +14,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 public class Brand extends BaseEntity{
-    @Column(name = "name", length = 30, nullable = false)
+    @Column(name = "name", length = 255, nullable = false)
     private String name; //наименование бренда
-    @Column(name = "created", nullable = false, columnDefinition = "DATE")
+    @Column(name = "created", columnDefinition = "DATE")
     private LocalDate created; //дата и время
-    @Column(name = "modified", nullable = false, columnDefinition = "DATE")
+    @Column(name = "modified", columnDefinition = "DATE")
     private LocalDate modified; //дата и время
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand", cascade = CascadeType.REMOVE)

@@ -3,8 +3,9 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import ru.web.laba_web2.dtos.Engine;
-import ru.web.laba_web2.dtos.Transmission;
+import org.hibernate.annotations.Cascade;
+import ru.web.laba_web2.constants.Engine;
+import ru.web.laba_web2.constants.Transmission;
 import java.time.LocalDate;
 import java.util.Set;
 
@@ -13,11 +14,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 public class Offer extends BaseEntity{
-    @Column(name = "description", length = 30, nullable = false)
+    @Column(name = "description", length = 255, nullable = false)
     private String description;
     @Column(name = "engine", nullable = false)
     private Engine engine;
-    @Column(name = "imageUrl")
+    @Column(name = "imageUrl", length = 255)
     private String imageUrl;
     @Column(name = "milleage", nullable = false)
     private int milleage;
@@ -27,15 +28,20 @@ public class Offer extends BaseEntity{
     private Transmission transmission;
     @Column(name = "year", nullable = false)
     private int year;
-    @Column(name = "created", nullable = false, columnDefinition = "DATE")
+    @Column(name = "created", columnDefinition = "DATE")
     private LocalDate created;
-    @Column(name = "modified", nullable = false, columnDefinition = "DATE")
+    @Column(name = "modified", columnDefinition = "DATE")
     private LocalDate modified;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "offer", cascade = CascadeType.REMOVE)
-    private Set<Model> model;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "offer", cascade = CascadeType.REMOVE)
-    private Set<User> seller;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "model_uuid", referencedColumnName = "uuid", nullable=false)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private Model model;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_uuid", referencedColumnName = "uuid", nullable=false)
+    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    private User user;
 
     protected Offer() {
 

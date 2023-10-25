@@ -3,33 +3,30 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.hibernate.annotations.Cascade;
-import ru.web.laba_web2.dtos.Category;
+import ru.web.laba_web2.constants.Category;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "model")
 @AllArgsConstructor
 @Data
 public class Model extends BaseEntity{
-    @Column(name = "name", length = 30, nullable = false)
+    @Column(name = "name", length = 255, nullable = false)
     private String name; //имя модели
     @Column(name = "category", nullable = false)
     private Category category;
-    @Column(name = "imageUrl", length = 60)
+    @Column(name = "imageUrl", length = 512)
     private String imageUrl; //ссылка на юрл
     @Column(name = "startYear", nullable = false)
     private int startYear;
     @Column(name = "endYear", nullable = false)
     private int endYear;
-    @Column(name = "created", nullable = false, columnDefinition = "DATE")
+    @Column(name = "created", columnDefinition = "DATE")
     private LocalDate created;
-    @Column(name = "modified", nullable = false, columnDefinition = "DATE")
+    @Column(name = "modified", columnDefinition = "DATE")
     private LocalDate modified;
 
     @ManyToOne(optional = false)
@@ -37,10 +34,8 @@ public class Model extends BaseEntity{
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Brand brand;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "offer_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Offer offer;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "model", cascade = CascadeType.REMOVE)
+    private Set<Offer> offers;
 
     protected Model() {
 

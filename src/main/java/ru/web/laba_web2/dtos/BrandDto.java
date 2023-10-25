@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 public class BrandDto {
-    private Long uuid;
+    private UUID uuid;
     private String name; //наименование бренда
 
     private LocalDate created; //дата и время

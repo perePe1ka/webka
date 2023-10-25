@@ -10,6 +10,7 @@ import org.springframework.cglib.core.Local;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -30,17 +31,16 @@ public class User extends BaseEntity{
     @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable=false)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private Roles role;
-    @Column(name = "imageUrl", length = 60)
+    @Column(name = "imageUrl", length = 255)
     private String imageUrl;
-    @Column(name = "created", nullable = false, columnDefinition = "DATE")
+    @Column(name = "created", columnDefinition = "DATE")
     private LocalDate created;
-    @Column(name = "modified", nullable = false, columnDefinition = "DATE")
+    @Column(name = "modified", columnDefinition = "DATE")
     private LocalDate modified;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "offer_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private Offer offer;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "users", cascade = CascadeType.REMOVE)
+    private Set<Offer> offers;
+
 
     protected User () {
     }

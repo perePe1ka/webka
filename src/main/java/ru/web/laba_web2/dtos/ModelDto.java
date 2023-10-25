@@ -1,12 +1,14 @@
 package ru.web.laba_web2.dtos;
 
 import lombok.Data;
+import ru.web.laba_web2.constants.Category;
+
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 public class ModelDto {
-    private Long uuid;
+    private UUID uuid;
     private String name; //имя модели
 
     private Category category;
@@ -22,13 +24,12 @@ public class ModelDto {
     private LocalDate modified;
     private BrandDto brand;
 
-    private OfferDto offer;
 
     public ModelDto() {
 
     }
 
-    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, LocalDate created, LocalDate modified, BrandDto brand, OfferDto offer) {
+    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, LocalDate created, LocalDate modified, BrandDto brand) {
         this.name = name;
         this.category = category;
         this.imageUrl = imageUrl;
@@ -37,6 +38,5 @@ public class ModelDto {
         this.created = created;
         this.modified = modified;
         this.brand = brand;
-        this.offer = offer;
     }
 }

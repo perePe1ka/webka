@@ -3,8 +3,7 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.hibernate.annotations.Cascade;
-import ru.web.laba_web2.dtos.Role;
+import ru.web.laba_web2.constants.Role;
 
 import java.util.Set;
 

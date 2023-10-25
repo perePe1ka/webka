@@ -7,15 +7,15 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "uuid", nullable = false)
-    protected Long uuid;
+    protected UUID uuid;
 
-    public Long getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(Long uuid) {
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 }
