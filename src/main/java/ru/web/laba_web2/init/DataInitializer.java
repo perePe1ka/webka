@@ -127,8 +127,7 @@ public class DataInitializer implements CommandLineRunner {
         offerDto2 = offerService.register(offerDto2);
 
 
-        System.out.println(offerService.getModelsByOffer(modelDto2.getName()));
-
+        System.out.println(offerService.getAllAdmins());
     }
 }
 

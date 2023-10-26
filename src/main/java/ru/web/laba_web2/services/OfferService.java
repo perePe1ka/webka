@@ -18,6 +18,6 @@ public interface OfferService<UUID> {
 
     List<OfferDto> getAll();
 
+    List<UserDto> getAllAdmins();
 
-    List<OfferDto> getModelsByOffer(String offerName);
 }

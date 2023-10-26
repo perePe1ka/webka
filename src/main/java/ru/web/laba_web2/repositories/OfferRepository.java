@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Repository
 public interface OfferRepository extends JpaRepository<Offer, UUID> {
-    List<Offer> findByModelName(String modelName);
     Optional<Offer> findByUuid(UUID uuid);
     void deleteByUuid(UUID uuid);
+
 }

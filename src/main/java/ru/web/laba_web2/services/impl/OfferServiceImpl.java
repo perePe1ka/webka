@@ -3,6 +3,7 @@ package ru.web.laba_web2.services.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.dtos.ModelDto;
 import ru.web.laba_web2.dtos.OfferDto;
 import ru.web.laba_web2.dtos.UserDto;
@@ -73,10 +74,9 @@ public class OfferServiceImpl implements OfferService<UUID> {
     }
 
     @Override
-    public List<OfferDto> getModelsByOffer(String modelName) {
-        List<Offer> offers = offerRepository.findByModelName(modelName);
-        return offers.stream()
-                .map(offer -> modelMapper.map(offer, OfferDto.class))
-                .collect(Collectors.toList());
+    public List<UserDto> getAllAdmins() {
+        List<User> admins = userRepository.findAllByRoleRole(Role.ADMIN);
+        return admins.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
+
 }
