@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Repository
 public interface ModelRepository extends JpaRepository<Model, UUID> {
-
     Optional<Model> findByUuid(UUID uuid);
 
     void deleteByUuid(UUID uuid);

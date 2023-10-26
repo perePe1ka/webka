@@ -8,18 +8,16 @@ import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.constants.Transmission;
 import ru.web.laba_web2.dtos.*;
-import ru.web.laba_web2.services.impl.OfferServiceImpl;
-
+import ru.web.laba_web2.services.OfferService;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Optional;
 
 
 @Component
 public class DataInitializer implements CommandLineRunner {
 
     @Autowired
-    private OfferServiceImpl offerService;
+    private OfferService offerService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -129,8 +127,7 @@ public class DataInitializer implements CommandLineRunner {
         offerDto2 = offerService.register(offerDto2);
 
 
-
-        System.out.println(offerService.findByModelName(modelDto1.getImageUrl()));
+        System.out.println(offerService.getModelsByOffer(modelDto2.getName()));
 
     }
 }

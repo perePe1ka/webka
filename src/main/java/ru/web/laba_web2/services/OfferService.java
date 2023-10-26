@@ -18,5 +18,6 @@ public interface OfferService<UUID> {
 
     List<OfferDto> getAll();
 
-    List<OfferDto> findByModelName(String model);
+
+    List<OfferDto> getModelsByOffer(String offerName);
 }

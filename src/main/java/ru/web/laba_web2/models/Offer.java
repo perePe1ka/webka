@@ -41,7 +41,7 @@ public class Offer extends BaseEntity{
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid", nullable=false)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
-    private User user;
+    private User seller;
 
     protected Offer() {
 

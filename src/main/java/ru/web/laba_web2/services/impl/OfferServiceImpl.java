@@ -58,8 +58,8 @@ public class OfferServiceImpl implements OfferService<UUID> {
         Model model = modelRepository.findByUuid(modelDto.getUuid()).get();
         User user = userRepository.findByUuid(userDto.getUuid()).get();
         offer.setModel(model);
-        offer.setUser(user);
-        userRepository.save(user);
+        offer.setSeller(user);
+        offerRepository.save(offer);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class OfferServiceImpl implements OfferService<UUID> {
     }
 
     @Override
-    public List<OfferDto> findByModelName(String modelName) {
+    public List<OfferDto> getModelsByOffer(String modelName) {
         List<Offer> offers = offerRepository.findByModelName(modelName);
         return offers.stream()
                 .map(offer -> modelMapper.map(offer, OfferDto.class))
