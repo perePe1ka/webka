@@ -3,6 +3,9 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 
 import java.time.LocalDate;
@@ -11,20 +14,32 @@ import java.util.Set;
 
 @Entity
 @Table(name = "brand")
-@AllArgsConstructor
-@Data
+@EntityListeners(AuditingEntityListener.class)
 public class Brand extends BaseEntity{
-    @Column(name = "name", length = 255, nullable = false)
-    private String name; //наименование бренда
-    @Column(name = "created", columnDefinition = "DATE")
-    private LocalDate created; //дата и время
-    @Column(name = "modified", columnDefinition = "DATE")
-    private LocalDate modified; //дата и время
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "brand", cascade = CascadeType.REMOVE)
+    private String name; //наименование бренда
+
+
     private Set<Model> model;
 
-    protected Brand() {
+    public Brand() {
 
+    }
+    @Column(name = "name", length = 255, nullable = false)
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "brand", cascade = CascadeType.REMOVE)
+    public Set<Model> getModel() {
+        return model;
+    }
+
+    public void setModel(Set<Model> model) {
+        this.model = model;
     }
 }

@@ -1,13 +1,13 @@
 package ru.web.laba_web2.constants;
 
 public enum Engine{
-        GASOLINE("Gasoline"),
-    DIESEL("Diesel"),
-    ELECTRIC("Electric"),
-    HYBRID("Hybrid");
+        GASOLINE(0),
+    DIESEL(1),
+    ELECTRIC(2),
+    HYBRID(3);
 
-    private String name;
-         Engine(String name) {
+    private int name;
+         Engine(int name) {
              this.name = name;
          }
     }

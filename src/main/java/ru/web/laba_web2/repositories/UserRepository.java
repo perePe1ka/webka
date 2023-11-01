@@ -10,10 +10,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
-    Optional<User> findByUuid(UUID uuid);
+public interface UserRepository extends JpaRepository<User, String> {
+    Optional<User> findByUuid(String uuid);
 
-    void deleteByUuid(UUID uuid);
+    void deleteByUuid(String uuid);
 
     List<User> findAllByRoleRole(Role role);
 }

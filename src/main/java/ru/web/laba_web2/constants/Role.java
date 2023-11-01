@@ -1,12 +1,12 @@
 package ru.web.laba_web2.constants;
 
 public enum Role{
-        USER("User"),
-    ADMIN("Admin");
+        USER(0),
+    ADMIN(1);
 
-    private String name;
+    private int name;
 
-        Role(String name) {
+        Role(int name) {
             this.name = name;
         }
     }

@@ -1,23 +1,26 @@
 package ru.web.laba_web2.services;
 
-import ru.web.laba_web2.dtos.ModelDto;
-import ru.web.laba_web2.dtos.OfferDto;
-import ru.web.laba_web2.dtos.UserDto;
+import ru.web.laba_web2.services.dtos.ModelDto;
+import ru.web.laba_web2.services.dtos.OfferDto;
+import ru.web.laba_web2.services.dtos.UserDto;
+import ru.web.laba_web2.models.Offer;
+
 import java.util.List;
 import java.util.Optional;
-public interface OfferService<UUID> {
+public interface OfferService<String> {
     OfferDto register(OfferDto offerDto);
+
+    Offer create(OfferDto offerDto);
 
     void delete(OfferDto offerDto);
 
-    void deleteByUuid(UUID uuid);
+    void deleteByUuid(String uuid);
 
     void transfer(OfferDto offerDto, ModelDto modelDto, UserDto userDto);
 
-    Optional<OfferDto> findByUuid(UUID uuid);
+    Optional<OfferDto> findByUuid(String uuid);
 
     List<OfferDto> getAll();
 
     List<UserDto> getAllAdmins();
-
 }

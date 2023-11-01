@@ -9,8 +9,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface OfferRepository extends JpaRepository<Offer, UUID> {
-    Optional<Offer> findByUuid(UUID uuid);
-    void deleteByUuid(UUID uuid);
+public interface OfferRepository extends JpaRepository<Offer, String> {
+    Optional<Offer> findByUuid(String uuid);
+    void deleteByUuid(String uuid);
 
 }

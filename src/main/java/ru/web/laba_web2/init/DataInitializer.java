@@ -7,17 +7,20 @@ import ru.web.laba_web2.constants.Category;
 import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.constants.Transmission;
-import ru.web.laba_web2.dtos.*;
 import ru.web.laba_web2.services.OfferService;
+import ru.web.laba_web2.services.dtos.*;
+
 import java.io.IOException;
-import java.time.LocalDate;
 
 
 @Component
 public class DataInitializer implements CommandLineRunner {
 
+    private final OfferService offerService;
     @Autowired
-    private OfferService offerService;
+    public DataInitializer(OfferService offerService) {
+        this.offerService = offerService;
+    }
 
     @Override
     public void run(String... args) throws Exception {
@@ -26,18 +29,12 @@ public class DataInitializer implements CommandLineRunner {
 
     private void seedData() throws IOException {
 
-
-
         BrandDto brandDto1 = new BrandDto(
-                "KiaBrand",
-                LocalDate.now(),
-                LocalDate.now()
+                "KiaBrand"
         );
 
         BrandDto brandDto2 = new BrandDto(
-                "HyndaiBrand",
-                LocalDate.now(),
-                LocalDate.now()
+                "HyndaiBrand"
         );
 
         ModelDto modelDto1 = new ModelDto(
@@ -46,8 +43,6 @@ public class DataInitializer implements CommandLineRunner {
                 "https://vlad1.com/image.jpg",
                 2000,
                 2005,
-                LocalDate.now(),
-                LocalDate.now(),
                 brandDto1
         );
 
@@ -57,8 +52,6 @@ public class DataInitializer implements CommandLineRunner {
                 "https://vlad2.com/image.jpg",
                 2005,
                 2010,
-                LocalDate.now(),
-                LocalDate.now(),
                 brandDto2
         );
 
@@ -77,9 +70,7 @@ public class DataInitializer implements CommandLineRunner {
                 "Михалков",
                 true,
                 rolesDto1,
-                "https://vlad5.com/image.jpg",
-                LocalDate.now(),
-                LocalDate.now()
+                "https://vlad5.com/image.jpg"
         );
 
         UserDto userDto2 = new UserDto(
@@ -89,9 +80,7 @@ public class DataInitializer implements CommandLineRunner {
                 "Усков",
                 true,
                 rolesDto2,
-                "https://vlad6.com/image.jpg",
-                LocalDate.now(),
-                LocalDate.now()
+                "https://vlad6.com/image.jpg"
         );
 
         OfferDto offerDto1 = new OfferDto(
@@ -102,8 +91,6 @@ public class DataInitializer implements CommandLineRunner {
                 2000,
                 Transmission.MANUAL,
                 2023,
-                LocalDate.now(),
-                LocalDate.now(),
                 modelDto1,
                 userDto1
                 );
@@ -116,8 +103,6 @@ public class DataInitializer implements CommandLineRunner {
                 3000,
                 Transmission.AUTOMATIC,
                 2022,
-                LocalDate.now(),
-                LocalDate.now(),
                 modelDto2,
                 userDto2
                 );

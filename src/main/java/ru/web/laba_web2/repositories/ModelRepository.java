@@ -9,10 +9,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ModelRepository extends JpaRepository<Model, UUID> {
-    Optional<Model> findByUuid(UUID uuid);
+public interface ModelRepository extends JpaRepository<Model, String> {
+    Optional<Model> findByUuid(String uuid);
 
-    void deleteByUuid(UUID uuid);
+    void deleteByUuid(String uuid);
 
 
 }

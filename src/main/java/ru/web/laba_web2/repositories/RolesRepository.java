@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface RolesRepository extends JpaRepository<Roles, UUID> {
-    Optional<Roles> findByUuid(UUID uuid);
-    void deleteByUuid(UUID uuid);
+public interface RolesRepository extends JpaRepository<Roles, String> {
+    Optional<Roles> findByUuid(String uuid);
+    void deleteByUuid(String uuid);
 }

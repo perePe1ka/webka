@@ -4,9 +4,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.constants.Role;
-import ru.web.laba_web2.dtos.ModelDto;
-import ru.web.laba_web2.dtos.OfferDto;
-import ru.web.laba_web2.dtos.UserDto;
+import ru.web.laba_web2.services.dtos.ModelDto;
+import ru.web.laba_web2.services.dtos.OfferDto;
+import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.models.User;
@@ -21,18 +21,19 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-public class OfferServiceImpl implements OfferService<UUID> {
-    @Autowired
+public class OfferServiceImpl implements OfferService<String> {
     private ModelMapper modelMapper;
-
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private ModelRepository modelRepository;
-
-    @Autowired
     private OfferRepository offerRepository;
+    @Autowired
+    public OfferServiceImpl(ModelMapper modelMapper, UserRepository userRepository, ModelRepository modelRepository, OfferRepository offerRepository) {
+        this.modelMapper = modelMapper;
+        this.userRepository = userRepository;
+        this.modelRepository = modelRepository;
+        this.offerRepository = offerRepository;
+    }
+
     @Override
     public OfferDto register(OfferDto offerDto) {
         Offer offer = modelMapper.map(offerDto, Offer.class);
@@ -44,12 +45,18 @@ public class OfferServiceImpl implements OfferService<UUID> {
     }
 
     @Override
+    public Offer create(OfferDto offerDto) {
+        Offer offer = modelMapper.map(offerDto, Offer.class);
+        return offerRepository.save(offer);
+    }
+
+    @Override
     public void delete(OfferDto offerDto) {
         offerRepository.deleteByUuid(offerDto.getUuid());
     }
 
     @Override
-    public void deleteByUuid(UUID uuid) {
+    public void deleteByUuid(String uuid) {
         offerRepository.deleteByUuid(uuid);
     }
 
@@ -64,7 +71,7 @@ public class OfferServiceImpl implements OfferService<UUID> {
     }
 
     @Override
-    public Optional<OfferDto> findByUuid(UUID uuid) {
+    public Optional<OfferDto> findByUuid(String uuid) {
         return Optional.ofNullable(modelMapper.map(offerRepository.findByUuid(uuid), OfferDto.class));
     }
 

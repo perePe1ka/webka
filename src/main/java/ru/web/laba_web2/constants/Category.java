@@ -1,14 +1,14 @@
 package ru.web.laba_web2.constants;
 
 public enum Category{
-        CAR("Car"),
-    BUS("Bus"),
-    TRUCK("Truck"),
-    MOTORCYCLE("Motorcycle");
+    CAR(0),
+    BUS(1),
+    TRUCK(2),
+    MOTORCYCLE(3);
 
-    private String name;
+    private int name;
 
-        Category(String name) {
+        Category(int name) {
             this.name = name;
         }
     }
