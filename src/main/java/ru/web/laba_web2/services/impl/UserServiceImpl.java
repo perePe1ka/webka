@@ -13,18 +13,25 @@ import ru.web.laba_web2.repositories.UserRepository;
 import ru.web.laba_web2.services.UserService;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService<String> {
     private final ModelMapper modelMapper;
-    private final RolesRepository rolesRepository;
-    private final UserRepository userRepository;
+    private RolesRepository rolesRepository;
+    private UserRepository userRepository;
     @Autowired
-    public UserServiceImpl(ModelMapper modelMapper, RolesRepository rolesRepository, UserRepository userRepository) {
+    public UserServiceImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setRolesRepository(RolesRepository rolesRepository) {
         this.rolesRepository = rolesRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -42,11 +49,6 @@ public class UserServiceImpl implements UserService<String> {
             user.setRole(roles);
         }
         return modelMapper.map(userRepository.saveAndFlush(user), UserDto.class);
-    }
-
-    @Override
-    public void delete(UserDto userDto) {
-        userRepository.deleteByUuid(userDto.getUuid());
     }
 
     @Override
@@ -70,5 +72,11 @@ public class UserServiceImpl implements UserService<String> {
     @Override
     public List<UserDto> getAll() {
         return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void editUser(UserDto userDto) {
+        User user = modelMapper.map(userDto, User.class);
+        userRepository.saveAndFlush(user);
     }
 }

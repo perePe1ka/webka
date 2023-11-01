@@ -9,11 +9,11 @@ import java.util.Optional;
 public interface BrandService<String>{
     Brand create(BrandDto brandDto);
 
-    void delete(BrandDto brandDto);
-
     void deleteByUuid(String uuid);
 
     Optional<BrandDto> findByUuid(String uuid);
 
     List<BrandDto> getAll();
+
+    void editBrand(BrandDto brandDto);
 }

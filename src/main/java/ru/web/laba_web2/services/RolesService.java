@@ -8,12 +8,11 @@ import java.util.Optional;
 
 public interface RolesService<String> {
     Roles create(RolesDto rolesDto);
-
-    void delete(RolesDto rolesDto);
-
     void deleteByUuid(String uuid);
 
     Optional<RolesDto> findByUuid(String uuid);
 
     List<RolesDto> getAll();
+
+    void editRoles(RolesDto rolesDto);
 }

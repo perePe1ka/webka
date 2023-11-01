@@ -18,7 +18,7 @@ import java.util.Set;
 public class Model extends BaseEntity{
 
     private String name; //имя модели
-
+    @Enumerated(EnumType.STRING)
     private Category category;
 
     private String imageUrl; //ссылка на юрл
@@ -27,9 +27,7 @@ public class Model extends BaseEntity{
 
     private int endYear;
 
-
     private Brand brand;
-
 
     private Set<Offer> offers;
 

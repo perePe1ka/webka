@@ -13,7 +13,6 @@ public interface UserService<String> {
 
     UserDto register(UserDto userDto);
 
-    void delete(UserDto userDto);
 
     void deleteByUuid(String uuid);
 
@@ -22,4 +21,6 @@ public interface UserService<String> {
     Optional<UserDto> findByUuid(String uuid);
 
     List<UserDto> getAll();
+
+    void editUser(UserDto userDto);
 }

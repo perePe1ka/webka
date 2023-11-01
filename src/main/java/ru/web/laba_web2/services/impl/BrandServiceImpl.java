@@ -8,20 +8,24 @@ import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.services.BrandService;
 
+
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class BrandServiceImpl implements BrandService<String> {
 
     private final ModelMapper modelMapper;
-    private final BrandRepository brandRepository;
+    private BrandRepository brandRepository;
 
     @Autowired
-    public BrandServiceImpl(ModelMapper modelMapper, BrandRepository brandRepository) {
+    public BrandServiceImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setBrandRepository(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
     }
 
@@ -29,11 +33,6 @@ public class BrandServiceImpl implements BrandService<String> {
     public Brand create(BrandDto brandDto) {
         Brand brand = modelMapper.map(brandDto, Brand.class);
         return brandRepository.saveAndFlush(brand);
-    }
-
-    @Override
-    public void delete(BrandDto brandDto) {
-        brandRepository.deleteByUuid(brandDto.getUuid());
     }
 
     @Override
@@ -50,6 +49,12 @@ public class BrandServiceImpl implements BrandService<String> {
     @Override
     public List<BrandDto> getAll() {
         return brandRepository.findAll().stream().map((brand) -> modelMapper.map(brand, BrandDto.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void editBrand(BrandDto brandDto) {
+        Brand brand = modelMapper.map(brandDto, Brand.class);
+        brandRepository.saveAndFlush(brand);
     }
 
 }

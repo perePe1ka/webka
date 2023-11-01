@@ -12,7 +12,7 @@ import java.util.Set;
 @Table(name = "roles")
 @EntityListeners(AuditingEntityListener.class)
 public class Roles extends BaseEntity{
-
+    @Enumerated(EnumType.STRING)
     private Role role;
 
 

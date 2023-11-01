@@ -1,5 +1,6 @@
 package ru.web.laba_web2.services;
 
+import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.models.Model;
@@ -12,8 +13,6 @@ public interface ModelService<String> {
 
     Model create(ModelDto modelDto);
 
-    void delete(ModelDto modelDto);
-
     void deleteByUuid(String uuid);
 
     void transfer(ModelDto modelDto, BrandDto brandDto);
@@ -22,4 +21,5 @@ public interface ModelService<String> {
 
     List<ModelDto> getAll();
 
+    void editModel(ModelDto modelDto);
 }

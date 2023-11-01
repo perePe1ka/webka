@@ -17,20 +17,31 @@ import ru.web.laba_web2.services.OfferService;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class OfferServiceImpl implements OfferService<String> {
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
     private UserRepository userRepository;
     private ModelRepository modelRepository;
     private OfferRepository offerRepository;
     @Autowired
-    public OfferServiceImpl(ModelMapper modelMapper, UserRepository userRepository, ModelRepository modelRepository, OfferRepository offerRepository) {
+    public OfferServiceImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
-        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
+    }
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setOfferRepository(OfferRepository offerRepository) {
         this.offerRepository = offerRepository;
     }
 
@@ -50,10 +61,6 @@ public class OfferServiceImpl implements OfferService<String> {
         return offerRepository.save(offer);
     }
 
-    @Override
-    public void delete(OfferDto offerDto) {
-        offerRepository.deleteByUuid(offerDto.getUuid());
-    }
 
     @Override
     public void deleteByUuid(String uuid) {
@@ -86,4 +93,9 @@ public class OfferServiceImpl implements OfferService<String> {
         return admins.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
+    @Override
+    public void editOffer(OfferDto offerDto) {
+        Offer offer = modelMapper.map(offerDto, Offer.class);
+        offerRepository.saveAndFlush(offer);
+    }
 }

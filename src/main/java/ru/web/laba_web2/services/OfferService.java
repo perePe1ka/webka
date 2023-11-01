@@ -12,8 +12,6 @@ public interface OfferService<String> {
 
     Offer create(OfferDto offerDto);
 
-    void delete(OfferDto offerDto);
-
     void deleteByUuid(String uuid);
 
     void transfer(OfferDto offerDto, ModelDto modelDto, UserDto userDto);
@@ -23,4 +21,6 @@ public interface OfferService<String> {
     List<OfferDto> getAll();
 
     List<UserDto> getAllAdmins();
+
+    void editOffer(OfferDto offerDto);
 }

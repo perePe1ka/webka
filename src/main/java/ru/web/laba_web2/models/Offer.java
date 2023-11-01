@@ -18,7 +18,7 @@ import java.util.Set;
 public class Offer extends BaseEntity{
 
     private String description;
-
+    @Enumerated(EnumType.STRING)
     private Engine engine;
 
     private String imageUrl;
@@ -26,7 +26,7 @@ public class Offer extends BaseEntity{
     private int milleage;
 
     private int price;
-
+    @Enumerated(EnumType.STRING)
     private Transmission transmission;
 
     private int year;

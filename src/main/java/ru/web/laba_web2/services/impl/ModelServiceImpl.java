@@ -1,5 +1,6 @@
 package ru.web.laba_web2.services.impl;
 
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,20 +11,28 @@ import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.repositories.ModelRepository;
 import ru.web.laba_web2.services.ModelService;
+
+
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class ModelServiceImpl implements ModelService<String> {
     private final ModelMapper modelMapper;
-    private final BrandRepository brandRepository;
-    private final ModelRepository modelRepository;
+    private BrandRepository brandRepository;
+    private ModelRepository modelRepository;
     @Autowired
-    public ModelServiceImpl(ModelMapper modelMapper, BrandRepository brandRepository, ModelRepository modelRepository) {
+    public ModelServiceImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
+    }
+
+    @Autowired
+    public void setBrandRepository(BrandRepository brandRepository) {
         this.brandRepository = brandRepository;
+    }
+
+    @Autowired void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
     }
 
@@ -41,11 +50,6 @@ public class ModelServiceImpl implements ModelService<String> {
     public Model create(ModelDto modelDto) {
         Model model = modelMapper.map(modelDto, Model.class);
         return modelRepository.saveAndFlush(model);
-    }
-
-    @Override
-    public void delete(ModelDto modelDto) {
-        modelRepository.deleteByUuid(modelDto.getUuid());
     }
 
     @Override
@@ -71,4 +75,9 @@ public class ModelServiceImpl implements ModelService<String> {
         return modelRepository.findAll().stream().map((model) -> modelMapper.map(model, ModelDto.class)).collect(Collectors.toList());
     }
 
+    @Override
+    public void editModel(ModelDto modelDto) {
+        Model model = modelMapper.map(modelDto, Model.class);
+        modelRepository.saveAndFlush(model);
+    }
 }
