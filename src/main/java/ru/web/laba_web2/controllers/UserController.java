@@ -4,8 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.UserService;
 import ru.web.laba_web2.services.dtos.UserDto;
 
@@ -13,14 +15,6 @@ import ru.web.laba_web2.services.dtos.UserDto;
 @RequestMapping("/")
 public class UserController {
     private UserService userService;
-
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public UserController(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -34,15 +28,23 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute UserDto userDto) {
-        userService.register(userDto);
-        return "redirect:/users";
+    public ModelAndView registerUser(@ModelAttribute UserDto userDto, BindingResult result, ModelAndView modelAndView) {
+        if (result.hasErrors()) {
+            modelAndView.setViewName("error");
+        } else {
+            userService.register(userDto);
+            modelAndView.setViewName("redirect:/users");
+        }
+
+        return modelAndView;
     }
 
     @DeleteMapping("/users/delete/{uuid}")
-    public String deleteUser(@PathVariable("uuid") String uuid) {
+    public ModelAndView deleteUser(@PathVariable("uuid") String uuid, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         userService.deleteByUuid(uuid);
-        return "redirect:/users";
+        redirectAttributes.addFlashAttribute("completeDelete", "Пользователь был удалён");
+        modelAndView.setViewName("redirect:/users");
+        return modelAndView;
     }
 
     @GetMapping("/users/edit/{uuid}")

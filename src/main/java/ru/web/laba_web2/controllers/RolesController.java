@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 ;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.RolesService;
 import ru.web.laba_web2.services.dtos.RolesDto;
 
@@ -15,12 +17,6 @@ import ru.web.laba_web2.services.dtos.RolesDto;
 public class RolesController {
 
     private RolesService rolesService;
-
-    private final ModelMapper modelMapper;
-    @Autowired
-    public RolesController(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     @Autowired
     public void setRolesService(RolesService rolesService) {
@@ -35,15 +31,23 @@ public class RolesController {
     }
 
     @PostMapping("/register")
-    public String registerRole(@ModelAttribute RolesDto rolesDto) {
-        rolesService.register(rolesDto);
-        return "redirect:/roles";
+    public ModelAndView registerRole(@ModelAttribute RolesDto rolesDto, BindingResult result, ModelAndView modelAndView) {
+        if (result.hasErrors()) {
+            modelAndView.setViewName("error");
+        } else {
+            rolesService.register(rolesDto);
+            modelAndView.setViewName("redirect:/roles");
+        }
+
+        return modelAndView;
     }
 
     @DeleteMapping("/roles/delete/{uuid}")
-    public String deleteRoles(@PathVariable("uuid") String uuid) {
+    public ModelAndView deleteRoles(@PathVariable("uuid") String uuid, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         rolesService.deleteByUuid(uuid);
-        return "redirect:/roles";
+        redirectAttributes.addFlashAttribute("completeDelete", "Роль была удалена");
+        modelAndView.setViewName("redirect:/roles");
+        return modelAndView;
     }
 
     @GetMapping("/roles/edit/{uuid}")

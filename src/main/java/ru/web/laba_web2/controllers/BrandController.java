@@ -4,8 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
 
@@ -13,14 +15,6 @@ import ru.web.laba_web2.services.impl.BrandServiceImpl;
 @Controller
 public class BrandController {
     private BrandServiceImpl brandService;
-
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public BrandController(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     @Autowired
     public void setBrandService(BrandServiceImpl brandService) {
         this.brandService = brandService;
@@ -35,15 +29,22 @@ public class BrandController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute BrandDto brandDto) {
-        brandService.register(brandDto);
-        return "redirect:/brands";
+    public ModelAndView registerBrand(@ModelAttribute BrandDto brandDto, BindingResult result, ModelAndView modelAndView) {
+        if (result.hasErrors()) {
+            modelAndView.setViewName("error");
+        } else {
+            brandService.register(brandDto);
+            modelAndView.setViewName("redirect:/brands");
+        }
+        return modelAndView;
     }
 
     @DeleteMapping("/brands/delete/{uuid}")
-    public String deleteBrand(@PathVariable("uuid") String uuid) {
+    public ModelAndView deleteBrand(@PathVariable("uuid") String uuid, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         brandService.deleteByUuid(uuid);
-        return "redirect:/brands";
+        redirectAttributes.addFlashAttribute("completeDelete", "Бренд был удалён");
+        modelAndView.setViewName("redirect:/brands");
+        return modelAndView;
     }
 
     @GetMapping("/brands/edit/{uuid}")

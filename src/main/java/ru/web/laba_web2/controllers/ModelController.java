@@ -2,10 +2,13 @@ package ru.web.laba_web2.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.dtos.ModelDto;
 
@@ -14,13 +17,6 @@ import ru.web.laba_web2.services.dtos.ModelDto;
 @RequestMapping("/")
 public class ModelController {
     private ModelService modelService;
-
-    private final ModelMapper modelMapper;
-
-    @Autowired
-    public ModelController(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
 
     @Autowired
     public void setModelService(ModelService modelService) {
@@ -35,15 +31,23 @@ public class ModelController {
     }
 
     @PostMapping("/register")
-    public String registerModel(@ModelAttribute ModelDto modelDto) {
-        modelService.register(modelDto);
-        return "redirect:/models";
+    public ModelAndView registerModel(@ModelAttribute ModelDto modelDto, BindingResult result, ModelAndView modelAndView) {
+        if (result.hasErrors()) {
+            modelAndView.setViewName("error");
+        } else {
+            modelService.register(modelDto);
+            modelAndView.setViewName("redirect:/models");
+        }
+
+        return modelAndView;
     }
 
     @DeleteMapping("/models/delete/{uuid}")
-    public String deleteModel(@PathVariable("uuid") String uuid) {
+    public ModelAndView deleteModel(@PathVariable("uuid") String uuid, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         modelService.deleteByUuid(uuid);
-        return "redirect:/models";
+        redirectAttributes.addFlashAttribute("completeDelete", "Модель была удалена");
+        modelAndView.setViewName("redirect:/models");
+        return modelAndView;
     }
 
     @GetMapping("/models/edit/{uuid}")
@@ -67,6 +71,15 @@ public class ModelController {
 //    @PostMapping("/models")
 //    public String createModel(@ModelAttribute ModelDto modelDto) {
 //        modelService.create(modelDto);
+//        return "redirect:/models";
+//    }
+
+//    @PostMapping("/register")
+//    public String registerModel(@ModelAttribute ModelDto modelDto, BindingResult result) {
+//        if (result.hasErrors()) {
+//            return "error";
+//        }
+//        modelService.register(modelDto);
 //        return "redirect:/models";
 //    }
 

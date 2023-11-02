@@ -4,8 +4,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.OfferService;
 import ru.web.laba_web2.services.dtos.OfferDto;
 
@@ -14,13 +16,6 @@ import ru.web.laba_web2.services.dtos.OfferDto;
 @RequestMapping("/")
 public class OfferController {
     private OfferService offerService;
-
-    private final ModelMapper modelMapper;
-    @Autowired
-    public OfferController(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     @Autowired
     public void setOfferService(OfferService offerService) {
         this.offerService = offerService;
@@ -34,15 +29,23 @@ public class OfferController {
     }
 
     @PostMapping("/register")
-    public String registerOffer(@ModelAttribute OfferDto offerDto) {
-        offerService.register(offerDto);
-        return "redirect:/offers";
+    public ModelAndView registerOffer(@ModelAttribute OfferDto offerDto, BindingResult result, ModelAndView modelAndView) {
+        if (result.hasErrors()) {
+            modelAndView.setViewName("error");
+        } else {
+            offerService.register(offerDto);
+            modelAndView.setViewName("redirect:/offers");
+        }
+
+        return modelAndView;
     }
 
     @DeleteMapping("/models/delete/{uuid}")
-    public String deleteOffer(@PathVariable("uuid") String uuid) {
+    public ModelAndView deleteOffer(@PathVariable("uuid") String uuid, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         offerService.deleteByUuid(uuid);
-        return "redirect:/offers";
+        redirectAttributes.addFlashAttribute("completeDelete", "Оффер был удалён");
+        modelAndView.setViewName("redirect:/offers");
+        return modelAndView;
     }
 
     @GetMapping("/models/edit/{uuid}")
