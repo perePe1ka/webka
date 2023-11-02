@@ -1,16 +1,15 @@
 package ru.web.laba_web2.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.dtos.ModelDto;
+
+import java.util.List;
 
 
 @Controller
@@ -51,15 +50,23 @@ public class ModelController {
     }
 
     @GetMapping("/models/edit/{uuid}")
-    public String editModelForm(@PathVariable("uuid") String uuid, Model model) {
-        modelService.findByUuid(uuid).ifPresent(modelDto -> model.addAttribute("modelDto", modelDto));
-        return "modelPage";
+    public ModelAndView editModelForm(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
+        modelAndView.addObject("models", modelService.findByUuid(uuid));
+        modelAndView.setViewName("modelPage");
+        return modelAndView;
     }
 
     @PutMapping("/models/edit/{uuid}")
-    public String editModel(@ModelAttribute ModelDto modelDto) {
+    public ModelAndView editModel(@ModelAttribute ModelDto modelDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         modelService.editModel(modelDto);
-        return "redirect:/models";
+        redirectAttributes.addFlashAttribute("editComplete", "Модель успешно изменена");
+        modelAndView.setViewName("redirect:/models");
+        return modelAndView;
+    }
+
+    @GetMapping("/sortedByYear")
+    public List<ModelDto> getModelsSortedByYear() {
+        return modelService.getModelsSortedByYear();
     }
 
 //    @GetMapping("/models")

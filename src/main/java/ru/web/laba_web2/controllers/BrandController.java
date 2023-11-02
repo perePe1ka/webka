@@ -1,9 +1,7 @@
 package ru.web.laba_web2.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -48,15 +46,18 @@ public class BrandController {
     }
 
     @GetMapping("/brands/edit/{uuid}")
-    public String editBrandForm(@PathVariable("uuid") String uuid, Model model) {
-        brandService.findByUuid(uuid).ifPresent(brandDto -> model.addAttribute("brandDto", brandDto));
-        return "brandPage";
+    public ModelAndView editBrandForm(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
+        modelAndView.addObject("brands", brandService.findByUuid(uuid));
+        modelAndView.setViewName("brandPage");
+        return modelAndView;
     }
 
     @PutMapping("/brands/edit/{uuid}")
-    public String editBrand(@ModelAttribute BrandDto brandDto) {
+    public ModelAndView editBrand(@ModelAttribute BrandDto brandDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         brandService.editBrand(brandDto);
-        return "redirect:/brands";
+        redirectAttributes.addFlashAttribute("editComplete", "Бренд успешно изменён");
+        modelAndView.setViewName("redirect:/brands");
+        return modelAndView;
     }
 
 //    @GetMapping("/brands")

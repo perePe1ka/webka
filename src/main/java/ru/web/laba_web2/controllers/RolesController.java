@@ -1,10 +1,7 @@
 package ru.web.laba_web2.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,15 +48,18 @@ public class RolesController {
     }
 
     @GetMapping("/roles/edit/{uuid}")
-    public String editRolesForm(@PathVariable("uuid") String uuid, Model model) {
-        rolesService.findByUuid(uuid).ifPresent(rolesDto -> model.addAttribute("rolesDto", rolesDto));
-        return "rolesPages";
+    public ModelAndView editRolesForm(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
+        modelAndView.addObject("roles", rolesService.findByUuid(uuid));
+        modelAndView.setViewName("rolesPages");
+        return modelAndView;
     }
 
     @PutMapping("/roles/edit/{uuid}")
-    public String editRoles(@ModelAttribute RolesDto rolesDto) {
+    public ModelAndView editRoles(@ModelAttribute RolesDto rolesDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         rolesService.editRoles(rolesDto);
-        return "redirect:/roles";
+        redirectAttributes.addFlashAttribute("editComplete", "Роль успешно изменена");
+        modelAndView.setViewName("redirect:/roles");
+        return modelAndView;
     }
 
 //    @GetMapping("/roles")

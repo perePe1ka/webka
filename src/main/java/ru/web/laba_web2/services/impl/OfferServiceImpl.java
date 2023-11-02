@@ -92,6 +92,13 @@ public class OfferServiceImpl implements OfferService<String> {
         Offer offer = modelMapper.map(offerDto, Offer.class);
         offerRepository.saveAndFlush(offer);
     }
+    @Override
+    public int calculateTotalPrice() {
+        List<Offer> offers = offerRepository.findAll();
+        int totalPrice = offers.stream().mapToInt(Offer::getPrice).sum();
+        return totalPrice;
+    }
+
 
 
 //    @Override

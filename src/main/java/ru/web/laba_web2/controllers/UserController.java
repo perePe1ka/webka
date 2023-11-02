@@ -1,15 +1,14 @@
 package ru.web.laba_web2.controllers;
 
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.UserService;
 import ru.web.laba_web2.services.dtos.UserDto;
+
 
 @Controller
 @RequestMapping("/")
@@ -48,16 +47,20 @@ public class UserController {
     }
 
     @GetMapping("/users/edit/{uuid}")
-    public String editUserForm(@PathVariable("uuid") String uuid, Model model) {
-        userService.findByUuid(uuid).ifPresent(userDto -> model.addAttribute("userDto", userDto));
-        return "userPages";
+    public ModelAndView editUserForm(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
+        modelAndView.addObject("users", userService.findByUuid(uuid));
+        modelAndView.setViewName("userPages");
+        return modelAndView;
     }
 
     @PutMapping("/users/edit/{uuid}")
-    public String editRoles(@ModelAttribute UserDto userDto) {
+    public ModelAndView editRoles(@ModelAttribute UserDto userDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         userService.editUser(userDto);
-        return "redirect:/users";
+        redirectAttributes.addFlashAttribute("editComplete", "Юзер успешно изменён");
+        modelAndView.setViewName("redirect:/users");
+        return modelAndView;
     }
+
 
 //    @GetMapping("/users")
 //    public String getAllUsers(Model model) {

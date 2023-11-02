@@ -22,4 +22,6 @@ public interface OfferService<String> {
     List<UserDto> getAllAdmins();
 
     void editOffer(OfferDto offerDto);
+
+    int calculateTotalPrice();
 }

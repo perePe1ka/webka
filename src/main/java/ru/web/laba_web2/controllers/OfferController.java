@@ -3,19 +3,28 @@ package ru.web.laba_web2.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.OfferService;
 import ru.web.laba_web2.services.dtos.OfferDto;
+import ru.web.laba_web2.services.dtos.UserDto;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
 @RequestMapping("/")
 public class OfferController {
     private OfferService offerService;
+
+    private ModelMapper modelMapper;
+    @Autowired
+    public OfferController(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
     @Autowired
     public void setOfferService(OfferService offerService) {
         this.offerService = offerService;
@@ -49,16 +58,36 @@ public class OfferController {
     }
 
     @GetMapping("/models/edit/{uuid}")
-    public String editOfferForm(@PathVariable("uuid") String uuid, Model model) {
-        offerService.findByUuid(uuid).ifPresent(offerDto -> model.addAttribute("offerDto", offerDto));
-        return "offerPage";
+    public ModelAndView editOfferForm(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
+        modelAndView.addObject("offers", offerService.findByUuid(uuid));
+        modelAndView.setViewName("offerPage");
+        return modelAndView;
     }
 
     @PutMapping("/models/edit/{uuid}")
-    public String editOffer(@ModelAttribute OfferDto offerDto) {
+    public ModelAndView editOffer(@ModelAttribute OfferDto offerDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         offerService.editOffer(offerDto);
-        return "redirect:/offers";
+        redirectAttributes.addFlashAttribute("editComplete", "Оффер успешно изменён");
+        modelAndView.setViewName("redirect:/offers");
+        return modelAndView;
     }
+
+    @GetMapping("/admins")
+    public ModelAndView getAllAdmins(ModelAndView modelAndView) {
+        List<UserDto> adminDtos = (List<UserDto>) offerService.getAllAdmins()
+                .stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+        modelAndView.addObject("admins", adminDtos);
+        modelAndView.setViewName("admins");
+        return modelAndView;
+    }
+
+    @GetMapping("/totalPrice")
+    public int calculateTotalPrice() {
+        return offerService.calculateTotalPrice();
+    }
+
 
 //    @GetMapping("/offers")
 //    public String getAllPages(Model model) {

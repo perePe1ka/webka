@@ -11,6 +11,7 @@ import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.repositories.ModelRepository;
 import ru.web.laba_web2.services.ModelService;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,6 +73,16 @@ public class ModelServiceImpl implements ModelService<String> {
     public void editModel(ModelDto modelDto) {
         Model model = modelMapper.map(modelDto, Model.class);
         modelRepository.saveAndFlush(model);
+    }
+
+    @Override
+    public List<ModelDto> getModelsSortedByYear() {
+        List<Model> models = modelRepository.findAll();
+        models.sort(Comparator.comparingInt(Model::getStartYear));
+
+        return models.stream()
+                .map(model -> modelMapper.map(model, ModelDto.class))
+                .collect(Collectors.toList());
     }
 
 

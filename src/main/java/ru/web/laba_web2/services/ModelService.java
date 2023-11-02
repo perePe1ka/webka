@@ -20,4 +20,6 @@ public interface ModelService<String> {
     List<ModelDto> getAll();
 
     void editModel(ModelDto modelDto);
+
+    List<ModelDto> getModelsSortedByYear();
 }
