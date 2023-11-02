@@ -36,12 +36,6 @@ public class UserServiceImpl implements UserService<String> {
     }
 
     @Override
-    public User create(UserDto userDto) {
-        User user = modelMapper.map(userDto, User.class);
-        return userRepository.saveAndFlush(user);
-    }
-
-    @Override
     public UserDto register(UserDto userDto) {
         User user = modelMapper.map(userDto, User.class);
         if (userDto.getRole().getUuid() != null) {
@@ -79,4 +73,11 @@ public class UserServiceImpl implements UserService<String> {
         User user = modelMapper.map(userDto, User.class);
         userRepository.saveAndFlush(user);
     }
+
+
+//    @Override
+//    public User create(UserDto userDto) {
+//        User user = modelMapper.map(userDto, User.class);
+//        return userRepository.saveAndFlush(user);
+//    }
 }

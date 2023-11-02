@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.web.laba_web2.services.OfferService;
 import ru.web.laba_web2.services.dtos.OfferDto;
 
@@ -26,18 +27,19 @@ public class OfferController {
     }
 
     @GetMapping("/offers")
-    public String getAllPages(Model model) {
-        model.addAttribute("offers", offerService.getAll());
-        return "offerPage";
+    public ModelAndView getAllPages(ModelAndView modelAndView) {
+        modelAndView.addObject("offers", offerService.getAll());
+        modelAndView.setViewName("offerPage");
+        return modelAndView;
     }
 
-    @PostMapping("/models")
-    public String createOffer(@ModelAttribute OfferDto offerDto) {
-        offerService.create(offerDto);
+    @PostMapping("/register")
+    public String registerOffer(@ModelAttribute OfferDto offerDto) {
+        offerService.register(offerDto);
         return "redirect:/offers";
     }
 
-    @GetMapping("/models/delete/{uuid}")
+    @DeleteMapping("/models/delete/{uuid}")
     public String deleteOffer(@PathVariable("uuid") String uuid) {
         offerService.deleteByUuid(uuid);
         return "redirect:/offers";
@@ -49,9 +51,21 @@ public class OfferController {
         return "offerPage";
     }
 
-    @PostMapping("/models/edit/{uuid}")
+    @PutMapping("/models/edit/{uuid}")
     public String editOffer(@ModelAttribute OfferDto offerDto) {
         offerService.editOffer(offerDto);
         return "redirect:/offers";
     }
+
+//    @GetMapping("/offers")
+//    public String getAllPages(Model model) {
+//        model.addAttribute("offers", offerService.getAll());
+//        return "offerPage";
+//    }
+//
+//    @PostMapping("/offers")
+//    public String createOffer(@ModelAttribute OfferDto offerDto) {
+//        offerService.create(offerDto);
+//        return "redirect:/offers";
+//    }
 }

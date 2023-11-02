@@ -1,11 +1,8 @@
 package ru.web.laba_web2.services.dtos;
 
 import jakarta.validation.constraints.DecimalMin;
-import lombok.Data;
 import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Transmission;
-
-import java.util.UUID;
 
 
 public class OfferDto {

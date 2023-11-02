@@ -3,7 +3,6 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
-import java.util.UUID;
 
 @MappedSuperclass
 public abstract class BaseEntity {

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.dtos.ModelDto;
 
@@ -27,18 +28,19 @@ public class ModelController {
     }
 
     @GetMapping("/models")
-    public String getAllModels(Model model) {
-        model.addAttribute("models", modelService.getAll());
-        return "modelPage";
+    public ModelAndView getAllModels(ModelAndView modelAndView) {
+        modelAndView.addObject("models", modelService.getAll());
+        modelAndView.setViewName("modelPage");
+        return modelAndView;
     }
 
-    @PostMapping("/models")
-    public String createModel(@ModelAttribute ModelDto modelDto) {
-        modelService.create(modelDto);
+    @PostMapping("/register")
+    public String registerModel(@ModelAttribute ModelDto modelDto) {
+        modelService.register(modelDto);
         return "redirect:/models";
     }
 
-    @GetMapping("/models/delete/{uuid}")
+    @DeleteMapping("/models/delete/{uuid}")
     public String deleteModel(@PathVariable("uuid") String uuid) {
         modelService.deleteByUuid(uuid);
         return "redirect:/models";
@@ -50,10 +52,22 @@ public class ModelController {
         return "modelPage";
     }
 
-    @PostMapping("/models/edit/{uuid}")
+    @PutMapping("/models/edit/{uuid}")
     public String editModel(@ModelAttribute ModelDto modelDto) {
         modelService.editModel(modelDto);
         return "redirect:/models";
     }
+
+//    @GetMapping("/models")
+//    public String getAllModels(Model model) {
+//        model.addAttribute("models", modelService.getAll());
+//        return "modelPage";
+//    }
+
+//    @PostMapping("/models")
+//    public String createModel(@ModelAttribute ModelDto modelDto) {
+//        modelService.create(modelDto);
+//        return "redirect:/models";
+//    }
 
 }

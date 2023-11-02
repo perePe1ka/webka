@@ -52,13 +52,7 @@ public class OfferServiceImpl implements OfferService<String> {
             Model model = modelRepository.findByUuid(offerDto.getModelDto().getUuid()).get();
             offer.setModel(model);
         }
-        return modelMapper.map(offerRepository.save(offer), OfferDto.class);
-    }
-
-    @Override
-    public Offer create(OfferDto offerDto) {
-        Offer offer = modelMapper.map(offerDto, Offer.class);
-        return offerRepository.save(offer);
+        return modelMapper.map(offerRepository.saveAndFlush(offer), OfferDto.class);
     }
 
 
@@ -98,4 +92,11 @@ public class OfferServiceImpl implements OfferService<String> {
         Offer offer = modelMapper.map(offerDto, Offer.class);
         offerRepository.saveAndFlush(offer);
     }
+
+
+//    @Override
+//    public Offer create(OfferDto offerDto) {
+//        Offer offer = modelMapper.map(offerDto, Offer.class);
+//        return offerRepository.save(offer);
+//    }
 }

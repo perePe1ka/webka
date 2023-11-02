@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import ru.web.laba_web2.services.RolesService;
 import ru.web.laba_web2.services.dtos.RolesDto;
 
@@ -27,18 +28,19 @@ public class RolesController {
     }
 
     @GetMapping("/roles")
-    public String getAllRoles(Model model) {
-        model.addAttribute("roles", rolesService.getAll());
-        return "rolesPages";
+    public ModelAndView getAllRoles(ModelAndView modelAndView) {
+        modelAndView.addObject("roles", rolesService.getAll());
+        modelAndView.setViewName("rolesPage");
+        return modelAndView;
     }
 
-    @PostMapping("/roles")
-    public String createRoles(@ModelAttribute RolesDto rolesDto) {
-        rolesService.create(rolesDto);
+    @PostMapping("/register")
+    public String registerRole(@ModelAttribute RolesDto rolesDto) {
+        rolesService.register(rolesDto);
         return "redirect:/roles";
     }
 
-    @GetMapping("/roles/delete/{uuid}")
+    @DeleteMapping("/roles/delete/{uuid}")
     public String deleteRoles(@PathVariable("uuid") String uuid) {
         rolesService.deleteByUuid(uuid);
         return "redirect:/roles";
@@ -50,9 +52,21 @@ public class RolesController {
         return "rolesPages";
     }
 
-    @PostMapping("/roles/edit/{uuid}")
+    @PutMapping("/roles/edit/{uuid}")
     public String editRoles(@ModelAttribute RolesDto rolesDto) {
         rolesService.editRoles(rolesDto);
         return "redirect:/roles";
     }
+
+//    @GetMapping("/roles")
+//    public String getAllRoles(Model model) {
+//        model.addAttribute("roles", rolesService.getAll());
+//        return "rolesPages";
+//    }
+//
+//    @PostMapping("/roles")
+//    public String createRoles(@ModelAttribute RolesDto rolesDto) {
+//        rolesService.create(rolesDto);
+//        return "redirect:/roles";
+//    }
 }

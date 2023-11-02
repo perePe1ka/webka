@@ -1,6 +1,5 @@
 package ru.web.laba_web2.services.impl;
 
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.repositories.ModelRepository;
 import ru.web.laba_web2.services.ModelService;
-
 
 import java.util.List;
 import java.util.Optional;
@@ -46,11 +44,6 @@ public class ModelServiceImpl implements ModelService<String> {
         return modelMapper.map(modelRepository.saveAndFlush(model), ModelDto.class);
     }
 
-    @Override
-    public Model create(ModelDto modelDto) {
-        Model model = modelMapper.map(modelDto, Model.class);
-        return modelRepository.saveAndFlush(model);
-    }
 
     @Override
     public void deleteByUuid(String uuid) {
@@ -80,4 +73,11 @@ public class ModelServiceImpl implements ModelService<String> {
         Model model = modelMapper.map(modelDto, Model.class);
         modelRepository.saveAndFlush(model);
     }
+
+
+//    @Override
+//    public Model create(ModelDto modelDto) {
+//        Model model = modelMapper.map(modelDto, Model.class);
+//        return modelRepository.saveAndFlush(model);
+//    }
 }

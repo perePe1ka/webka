@@ -1,20 +1,12 @@
 package ru.web.laba_web2.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.hibernate.annotations.Cascade;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import ru.web.laba_web2.constants.Category;
-import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
 @Table(name = "model")
-@EntityListeners(AuditingEntityListener.class)
 public class Model extends BaseEntity{
 
     private String name; //имя модели

@@ -26,13 +26,11 @@ public class RolesServiceImpl implements RolesService<String> {
         this.rolesRepository = rolesRepository;
     }
 
-
     @Override
-    public Roles create(RolesDto rolesDto) {
+    public RolesDto register(RolesDto rolesDto) {
         Roles roles = modelMapper.map(rolesDto, Roles.class);
-        return rolesRepository.saveAndFlush(roles);
+        return modelMapper.map(rolesRepository.saveAndFlush(roles), RolesDto.class);
     }
-
 
     @Override
     public void deleteByUuid(String uuid) {
@@ -54,4 +52,10 @@ public class RolesServiceImpl implements RolesService<String> {
         Roles roles = modelMapper.map(rolesDto, Roles.class);
         rolesRepository.saveAndFlush(roles);
     }
+
+//    @Override
+//    public Roles create(RolesDto rolesDto) {
+//        Roles roles = modelMapper.map(rolesDto, Roles.class);
+//        return rolesRepository.saveAndFlush(roles);
+//    }
 }

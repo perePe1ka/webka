@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 @EntityListeners(AuditingEntityListener.class)
-public class TimeClass extends BaseEntity{
+public abstract class TimeClass extends BaseEntity{
     public LocalDate modified;
 
     public LocalDate created;

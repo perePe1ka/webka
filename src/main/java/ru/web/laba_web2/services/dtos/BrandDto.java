@@ -2,11 +2,7 @@ package ru.web.laba_web2.services.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
 import org.hibernate.validator.constraints.Length;
-
-import java.time.LocalDate;
-import java.util.UUID;
 
 
 public class BrandDto {

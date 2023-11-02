@@ -8,7 +8,6 @@ import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.services.BrandService;
 
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,10 +29,11 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
-    public Brand create(BrandDto brandDto) {
+    public BrandDto register(BrandDto brandDto) {
         Brand brand = modelMapper.map(brandDto, Brand.class);
-        return brandRepository.saveAndFlush(brand);
+        return modelMapper.map(brandRepository.saveAndFlush(brand), BrandDto.class);
     }
+
 
     @Override
     public void deleteByUuid(String uuid) {
@@ -57,4 +57,10 @@ public class BrandServiceImpl implements BrandService<String> {
         brandRepository.saveAndFlush(brand);
     }
 
+
+//    @Override
+//    public Brand create(BrandDto brandDto) {
+//        Brand brand = modelMapper.map(brandDto, Brand.class);
+//        return brandRepository.saveAndFlush(brand);
+//    }
 }
