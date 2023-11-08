@@ -53,25 +53,6 @@ public class BrandServiceImpl implements BrandService<String> {
         }
     }
 
-    public void addBrand(String brandName) {
-        BrandDto brandDto = new BrandDto();
-        brandDto.setName(brandName);
-
-        if (!this.validationUtil.isValid(brandDto)) {
-
-            this.validationUtil
-                    .violations(brandDto)
-                    .stream()
-                    .map(ConstraintViolation::getMessage)
-                    .forEach(System.out::println);
-        } else {
-            this.brandRepository
-                    .saveAndFlush(this.modelMapper
-                            .map(brandDto, Brand.class));
-
-        }
-    }
-
 
     @Override
     public void deleteByUuid(String uuid) {
@@ -91,14 +72,25 @@ public class BrandServiceImpl implements BrandService<String> {
 
     @Override
     public void editBrand(BrandDto brandDto) {
-        Brand brand = modelMapper.map(brandDto, Brand.class);
-        brandRepository.saveAndFlush(brand);
+        if (!this.validationUtil.isValid(brandDto)) {
+            this.validationUtil
+                    .violations(brandDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+        } else {
+            try {
+                Brand brand = modelMapper.map(brandDto, Brand.class);
+                brandRepository.saveAndFlush(brand);
+            } catch (Exception e) {
+                System.out.println("Что-то пошло не так");
+            }
+        }
     }
+
 
     @Override
     public Brand findByName(String name) {
         return this.brandRepository.findByName(name);
     }
-
-
 }

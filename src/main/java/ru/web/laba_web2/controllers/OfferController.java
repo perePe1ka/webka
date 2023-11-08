@@ -2,16 +2,13 @@ package ru.web.laba_web2.controllers;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.web.laba_web2.controllers.exceptions.BrandNotFoundException;
 import ru.web.laba_web2.controllers.exceptions.OfferNotFoundException;
 import ru.web.laba_web2.services.OfferService;
-import ru.web.laba_web2.services.dtos.BrandDto;
+import ru.web.laba_web2.services.UserService;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 
@@ -29,61 +26,58 @@ public class OfferController {
     private ModelAndView modelAndView;
 
     private RedirectAttributes redirectAttributes;
+
     @Autowired
     public OfferController(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
     }
+
     @Autowired
     public void setOfferService(OfferService offerService) {
         this.offerService = offerService;
     }
 
     @GetMapping("/offers")
-    ResponseEntity<List<OfferDto>> getAll() {
-        modelAndView.addObject("offers", offerService.getAll());
+    List<OfferDto> getAll(ModelAndView modelAndView) {
         modelAndView.setViewName("offerPage");
-        return ResponseEntity.ok((List<OfferDto>) modelAndView);
+        modelAndView.addObject("offers", offerService.getAll());
+        return (List<OfferDto>) modelAndView;
     }
 
     @PostMapping("/register")
-    ResponseEntity<?> registerOffer(@ModelAttribute OfferDto newOffer) {
-        offerService.register(newOffer);
+    ModelAndView registerOffer(@ModelAttribute OfferDto offerDto, ModelAndView modelAndView) {
+        offerService.register(offerDto);
         modelAndView.setViewName("redirect:/offers");
-        redirectAttributes.addFlashAttribute("addComplete", "Оффер успешно добавлен");
-        return ResponseEntity.ok().build();
+        return modelAndView;
     }
 
     @DeleteMapping("/offers/{uuid}")
-    void deleteOffer(@PathVariable("uuid") String uuid) {
+    ModelAndView deleteOffer(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
         offerService.deleteByUuid(uuid);
-        redirectAttributes.addFlashAttribute("deleteComplete", "Оффер успешно удалён");
         modelAndView.setViewName("redirect:/offers");
+        return modelAndView;
     }
 
     @GetMapping("/offers/(uuid)")
-    OfferDto getOne(@PathVariable("uuid") String uuid) throws Throwable  {
+    OfferDto getOne(@PathVariable("uuid") String uuid) throws Throwable {
         return (OfferDto) offerService.findByUuid(uuid)
                 .orElseThrow(() -> new OfferNotFoundException(uuid));
     }
 
     @PutMapping("/offers/{uuid}")
-    ResponseEntity<?> editOffer(@ModelAttribute OfferDto offerDto) {
+    ModelAndView editOffer(@ModelAttribute OfferDto offerDto, ModelAndView modelAndView) {
         offerService.editOffer(offerDto);
-        redirectAttributes.addFlashAttribute("editComplete", "Бренд успешно изменён");
         modelAndView.setViewName("redirect:/offers");
-        return ResponseEntity.ok().build();
+        return modelAndView;
     }
 
     @GetMapping("/admins")
     ModelAndView getAllAdmins() {
-        List<UserDto> adminDtos = (List<UserDto>) offerService.getAllAdmins()
-                .stream()
-                .map(user -> modelMapper.map(user, UserDto.class))
-                .collect(Collectors.toList());
-        modelAndView.addObject("admins", adminDtos);
-        modelAndView.setViewName("admins");
+        modelAndView.addObject("admins", offerService.getAllAdmins());
+        modelAndView.setViewName("redirect:/offers");
         return modelAndView;
     }
+
 
     @GetMapping("/totalPrice")
     int calculateTotalPrice() {

@@ -6,10 +6,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 @RequestMapping
 public class MainController {
-    private ModelAndView modelAndView;
     @GetMapping("/")
     public ModelAndView mainPage() {
-        modelAndView.setViewName("mainPage");
-        return modelAndView;
+        ModelAndView mav = new ModelAndView();
+        mav.setViewName("mainPage");
+        return mav;
     }
 }

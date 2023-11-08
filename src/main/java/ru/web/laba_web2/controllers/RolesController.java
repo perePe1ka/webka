@@ -1,7 +1,6 @@
 package ru.web.laba_web2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,25 +27,25 @@ public class RolesController {
     }
 
     @GetMapping("/roles")
-    ResponseEntity<List<RolesDto>> getAll() {
+    List<RolesDto> getAll(ModelAndView modelAndView) {
+        modelAndView.setViewName("rolePage");
         modelAndView.addObject("roles", rolesService.getAll());
-        modelAndView.setViewName("rolesPage");
-        return ResponseEntity.ok((List<RolesDto>) modelAndView);
+        return (List<RolesDto>) modelAndView;
     }
 
+
     @PostMapping("/register")
-    ResponseEntity<?> registerRole(@ModelAttribute RolesDto newRole) {
+    ModelAndView registerRole(@ModelAttribute RolesDto newRole, ModelAndView modelAndView) {
         rolesService.register(newRole);
         modelAndView.setViewName("redirect:/roles");
-        redirectAttributes.addFlashAttribute("addComplete", "Роль успешно добавлен");
-        return ResponseEntity.ok().build();
+        return modelAndView;
     }
 
     @DeleteMapping("/roles/{uuid}")
-    void deleteRole(@PathVariable("uuid") String uuid) {
+    ModelAndView deleteRole(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
         rolesService.deleteByUuid(uuid);
-        redirectAttributes.addFlashAttribute("deleteComplete", "Роль успешно удалён");
         modelAndView.setViewName("redirect:/roles");
+        return modelAndView;
     }
 
     @GetMapping("/roles/(uuid)")
@@ -56,11 +55,10 @@ public class RolesController {
     }
 
     @PutMapping("/roles/{uuid}")
-    ResponseEntity<?> editRole(@ModelAttribute RolesDto rolesDto) {
+    ModelAndView editRole(@ModelAttribute RolesDto rolesDto, ModelAndView modelAndView) {
         rolesService.editRoles(rolesDto);
-        redirectAttributes.addFlashAttribute("editComplete", "Роль успешно изменён");
         modelAndView.setViewName("redirect:/roles");
-        return ResponseEntity.ok().build();
+        return modelAndView;
     }
 
 //    @GetMapping("/roles")

@@ -1,18 +1,11 @@
 package ru.web.laba_web2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.web.laba_web2.controllers.exceptions.BrandNotFoundException;
 import ru.web.laba_web2.controllers.exceptions.UserNotFoundException;
-import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.UserService;
-import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 
 import java.util.List;
@@ -23,7 +16,7 @@ import java.util.List;
 public class UserController {
     private UserService userService;
 
-//    private ModelAndView modelAndView;
+    //    private ModelAndView modelAndView;
 //
 //    private RedirectAttributes redirectAttributes;
     @Autowired
@@ -31,26 +24,26 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/users")
-    ModelAndView getAll(ModelAndView modelAndView) {
-        List<UserDto> userDtoList = userService.getAll();
+    @GetMapping("/offers")
+    List<UserDto> getAll(ModelAndView modelAndView) {
         modelAndView.setViewName("userPage");
-        modelAndView.addObject("users", userDtoList);
-        return modelAndView;
+        modelAndView.addObject("users", userService.getAll());
+        return (List<UserDto>) modelAndView;
     }
 
     @PostMapping("/register")
-    ResponseEntity<?> registerUser(@ModelAttribute UserDto newUser, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
+    ModelAndView registerUser(@ModelAttribute UserDto newUser, ModelAndView modelAndView) {
         userService.register(newUser);
-        modelAndView.setViewName("redirect:/users");
-        redirectAttributes.addFlashAttribute("addComplete", "Пользователь успешно добавлен");
-        return ResponseEntity.ok().build();
+        modelAndView.setViewName("redirect:/offers");
+        return modelAndView;
     }
 
+
     @DeleteMapping("/users/{uuid}")
-    String deleteUser(@PathVariable("uuid") String uuid) {
+    ModelAndView deleteUser(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
         userService.deleteByUuid(uuid);
-        return "redirect:/users";
+        modelAndView.setViewName("redirect:/offers");
+        return modelAndView;
     }
 
     @GetMapping("/users/{uuid}")
@@ -58,14 +51,13 @@ public class UserController {
         return (UserDto) userService.findByUuid(uuid)
                 .orElseThrow(() -> new UserNotFoundException(uuid));
     }
-
     @PutMapping("/users/{uuid}")
-    ResponseEntity<?> editUser(@ModelAttribute UserDto userDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
+    ModelAndView editUser(@ModelAttribute UserDto userDto, ModelAndView modelAndView) {
         userService.editUser(userDto);
-        redirectAttributes.addFlashAttribute("editComplete", "Пользователь успешно изменён");
-        modelAndView.setViewName("redirect:/users");
-        return ResponseEntity.ok().build();
+        modelAndView.setViewName("redirect:/offers");
+        return modelAndView;
     }
+
 //    @GetMapping("/users")
 //    ResponseEntity<List<UserDto>> getAll() {
 //        modelAndView.addObject("users", userService.getAll());
@@ -126,6 +118,26 @@ public class UserController {
 //    public String createUser(UserDto userDto) {
 //        userService.create(userDto);
 //        return "redirect:/users";
+//    }
+
+
+
+
+    //    @PostMapping("/register")
+//    ResponseEntity<?> registerUser(@ModelAttribute UserDto newUser, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
+//        userService.register(newUser);
+//        modelAndView.setViewName("redirect:/users");
+//        redirectAttributes.addFlashAttribute("addComplete", "Пользователь успешно добавлен");
+//        return ResponseEntity.ok().build();
+//    }
+
+
+    //    @PutMapping("/users/{uuid}")
+//    ResponseEntity<?> editUser(@ModelAttribute UserDto userDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
+//        userService.editUser(userDto);
+//        redirectAttributes.addFlashAttribute("editComplete", "Пользователь успешно изменён");
+//        modelAndView.setViewName("redirect:/users");
+//        return ResponseEntity.ok().build();
 //    }
 }
 

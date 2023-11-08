@@ -5,18 +5,18 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.constants.Role;
-import ru.web.laba_web2.services.ModelService;
-import ru.web.laba_web2.services.UserService;
-import ru.web.laba_web2.services.dtos.ModelDto;
-import ru.web.laba_web2.services.dtos.OfferDto;
-import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.repositories.ModelRepository;
 import ru.web.laba_web2.repositories.OfferRepository;
 import ru.web.laba_web2.repositories.UserRepository;
+import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.OfferService;
+import ru.web.laba_web2.services.UserService;
+import ru.web.laba_web2.services.dtos.ModelDto;
+import ru.web.laba_web2.services.dtos.OfferDto;
+import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
 
 import java.util.List;
@@ -33,6 +33,7 @@ public class OfferServiceImpl implements OfferService<String> {
     private ModelService modelService;
 
     private UserService userService;
+
     @Autowired
     public OfferServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.modelMapper = modelMapper;
@@ -43,10 +44,12 @@ public class OfferServiceImpl implements OfferService<String> {
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
+
     @Autowired
     public void setModelService(ModelService modelService) {
         this.modelService = modelService;
     }
+
     @Autowired
     public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
@@ -72,7 +75,7 @@ public class OfferServiceImpl implements OfferService<String> {
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
 
-            throw new IllegalArgumentException("Illegal arguments!");
+            throw new IllegalArgumentException("Что то пошло не так");
         }
 
         Offer offer = this.modelMapper.map(offerDto, Offer.class);
@@ -81,9 +84,6 @@ public class OfferServiceImpl implements OfferService<String> {
 
         this.offerRepository.saveAndFlush(offer);
     }
-
-
-
 
     @Override
     public void deleteByUuid(String uuid) {
@@ -111,16 +111,35 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
-    public List<UserDto> getAllAdmins() {
-        List<User> admins = userRepository.findAllByRoleRole(Role.ADMIN);
-        return admins.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+    public void editOffer(OfferDto offerDto) {
+        if (!this.validationUtil.isValid(offerDto)) {
+            this.validationUtil
+                    .violations(offerDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+        } else {
+            try {
+                Offer offer = modelMapper.map(offerDto, Offer.class);
+                offerRepository.saveAndFlush(offer);
+            } catch (Exception e) {
+                System.out.println("Что-то пошло не так");
+            }
+        }
     }
 
     @Override
-    public void editOffer(OfferDto offerDto) {
-        Offer offer = modelMapper.map(offerDto, Offer.class);
-        offerRepository.saveAndFlush(offer);
+    public List<UserDto> getAllAdmins() {
+        List<User> admins = userRepository.findAllByRoleRole(Role.ADMIN);
+        return mapUsersToUserDtos(admins);
     }
+
+    private List<UserDto> mapUsersToUserDtos(List<User> users) {
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
+    }
+
     @Override
     public int calculateTotalPrice() {
         List<Offer> offers = offerRepository.findAll();

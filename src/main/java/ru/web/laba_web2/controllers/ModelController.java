@@ -1,11 +1,9 @@
 package ru.web.laba_web2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
 import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.dtos.ModelDto;
@@ -18,9 +16,9 @@ import java.util.List;
 public class ModelController {
     private ModelService modelService;
 
-    private ModelAndView modelAndView;
-
-    private RedirectAttributes redirectAttributes;
+//    private ModelAndView modelAndView;
+//
+//    private RedirectAttributes redirectAttributes;
 
     @Autowired
     public void setModelService(ModelService modelService) {
@@ -28,25 +26,24 @@ public class ModelController {
     }
 
     @GetMapping("/models")
-    ResponseEntity<List<ModelDto>> getAll() {
-        modelAndView.addObject("models", modelService.getAll());
+    List<ModelDto> getAll(ModelAndView modelAndView) {
         modelAndView.setViewName("modelPage");
-        return ResponseEntity.ok((List<ModelDto>) modelAndView);
+        modelAndView.addObject("models", modelService.getAll());
+        return (List<ModelDto>) modelAndView;
     }
 
     @PostMapping("/register")
-    ResponseEntity<?> registerModel(@ModelAttribute ModelDto newModel) {
+    ModelAndView registerModel(@ModelAttribute ModelDto newModel, ModelAndView modelAndView) {
         modelService.register(newModel);
         modelAndView.setViewName("redirect:/models");
-        redirectAttributes.addFlashAttribute("addComplete", "Модель успешно добавлен");
-        return ResponseEntity.ok().build();
+        return modelAndView;
     }
 
     @DeleteMapping("/models/{uuid}")
-    void deleteModel(@PathVariable("uuid") String uuid) {
+    ModelAndView deleteModel(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
         modelService.deleteByUuid(uuid);
-        redirectAttributes.addFlashAttribute("deleteComplete", "Модель успешно удалён");
         modelAndView.setViewName("redirect:/models");
+        return modelAndView;
     }
 
     @GetMapping("/models/(uuid)")
@@ -56,12 +53,12 @@ public class ModelController {
     }
 
     @PutMapping("/models/{uuid}")
-    ResponseEntity<?> editModel(@ModelAttribute ModelDto modelDto) {
+    ModelAndView editModel(@ModelAttribute ModelDto modelDto, ModelAndView modelAndView) {
         modelService.editModel(modelDto);
-        redirectAttributes.addFlashAttribute("editComplete", "Бренд успешно изменён");
         modelAndView.setViewName("redirect:/models");
-        return ResponseEntity.ok().build();
+        return modelAndView;
     }
+
     @GetMapping("/sortedByYear")
     List<ModelDto> getModelsSortedByYear() {
         return modelService.getModelsSortedByYear();

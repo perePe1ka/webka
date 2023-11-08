@@ -1,6 +1,5 @@
 package ru.web.laba_web2.services;
 
-import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.RolesDto;

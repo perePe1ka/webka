@@ -108,8 +108,8 @@ public class DataInitializer implements CommandLineRunner {
                 );
 
 
-        offerDto1 = offerService.register(offerDto1);
-        offerDto2 = offerService.register(offerDto2);
+        offerService.register(offerDto1);
+        offerService.register(offerDto2);
 
 
         System.out.println(offerService.getAllAdmins());

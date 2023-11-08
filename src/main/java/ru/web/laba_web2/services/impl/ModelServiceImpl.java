@@ -4,14 +4,14 @@ import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.web.laba_web2.services.BrandService;
-import ru.web.laba_web2.services.dtos.BrandDto;
-import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.repositories.ModelRepository;
+import ru.web.laba_web2.services.BrandService;
 import ru.web.laba_web2.services.ModelService;
+import ru.web.laba_web2.services.dtos.BrandDto;
+import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.utils.ValidationUtil;
 
 import java.util.Comparator;
@@ -26,6 +26,7 @@ public class ModelServiceImpl implements ModelService<String> {
     private ModelRepository modelRepository;
     private ValidationUtil validationUtil;
     private BrandService brandService;
+
     @Autowired
     public ModelServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.modelMapper = modelMapper;
@@ -57,7 +58,7 @@ public class ModelServiceImpl implements ModelService<String> {
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
 
-            throw new IllegalArgumentException("Illegal arguments!");
+            throw new IllegalArgumentException("Что то пошло не так");
         }
 
         Model model = this.modelMapper.map(modelDto, Model.class);
@@ -92,9 +93,22 @@ public class ModelServiceImpl implements ModelService<String> {
 
     @Override
     public void editModel(ModelDto modelDto) {
-        Model model = modelMapper.map(modelDto, Model.class);
-        modelRepository.saveAndFlush(model);
+        if (!this.validationUtil.isValid(modelDto)) {
+            this.validationUtil
+                    .violations(modelDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+        } else {
+            try {
+                Model model = modelMapper.map(modelDto, Model.class);
+                modelRepository.saveAndFlush(model);
+            } catch (Exception e) {
+                System.out.println("Что-то пошло не так");
+            }
+        }
     }
+
 
     @Override
     public List<ModelDto> getModelsSortedByYear() {

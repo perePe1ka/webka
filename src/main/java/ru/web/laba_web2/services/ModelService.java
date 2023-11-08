@@ -1,7 +1,6 @@
 package ru.web.laba_web2.services;
 
 import ru.web.laba_web2.models.Model;
-import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.dtos.ModelDto;
 
@@ -10,8 +9,6 @@ import java.util.Optional;
 
 public interface ModelService<String> {
     void register(ModelDto modelDto);
-
-//    Model create(ModelDto modelDto);
 
     void deleteByUuid(String uuid);
 
