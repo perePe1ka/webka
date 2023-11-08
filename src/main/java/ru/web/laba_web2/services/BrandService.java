@@ -1,14 +1,13 @@
 package ru.web.laba_web2.services;
 
+import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.services.dtos.BrandDto;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BrandService<String>{
-    BrandDto register(BrandDto brandDto);
-
-//    Brand create(BrandDto brandDto);
+    void register(BrandDto brandDto);
 
     void deleteByUuid(String uuid);
 
@@ -17,4 +16,6 @@ public interface BrandService<String>{
     List<BrandDto> getAll();
 
     void editBrand(BrandDto brandDto);
+
+    Brand findByName(String name);
 }

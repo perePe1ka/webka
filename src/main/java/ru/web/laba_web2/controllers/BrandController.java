@@ -1,6 +1,7 @@
 package ru.web.laba_web2.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,48 +20,46 @@ public class BrandController {
     private ModelAndView modelAndView;
 
     private RedirectAttributes redirectAttributes;
+
     @Autowired
     public void setBrandService(BrandServiceImpl brandService) {
         this.brandService = brandService;
     }
 
-
     @GetMapping("/brands")
-    List<BrandDto> getAll() {
+    ResponseEntity<List<BrandDto>> getAll() {
         modelAndView.addObject("brands", brandService.getAll());
         modelAndView.setViewName("brandPage");
-        return (List<BrandDto>) modelAndView;
+        return ResponseEntity.ok((List<BrandDto>) modelAndView);
     }
 
     @PostMapping("/register")
-    BrandDto registerBrand(@ModelAttribute BrandDto newBrand) {
-        return brandService.register(newBrand);
+    ResponseEntity<?> registerBrand(@ModelAttribute BrandDto newBrand) {
+        brandService.register(newBrand);
+        modelAndView.setViewName("redirect:/brands");
+        redirectAttributes.addFlashAttribute("addComplete", "Бренд успешно добавлен");
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/brands/{uuid}")
     void deleteBrand(@PathVariable("uuid") String uuid) {
         brandService.deleteByUuid(uuid);
+        redirectAttributes.addFlashAttribute("deleteComplete", "Бренд успешно удалён");
+        modelAndView.setViewName("redirect:/brands");
     }
 
     @GetMapping("/brands/(uuid)")
     BrandDto getOne(@PathVariable("uuid") String uuid) throws Throwable {
-        return brandService.findByUuid(uuid)
+        return (BrandDto) brandService.findByUuid(uuid)
                 .orElseThrow(() -> new BrandNotFoundException(uuid));
     }
 
-    @GetMapping("/brands/{uuid}")
-    public ModelAndView editBrandForm(@PathVariable("uuid") String uuid) {
-        modelAndView.addObject("brands", brandService.findByUuid(uuid));
-        modelAndView.setViewName("brandPage");
-        return modelAndView;
-    }
-
     @PutMapping("/brands/{uuid}")
-    public ModelAndView editBrand(@ModelAttribute BrandDto brandDto) {
+    ResponseEntity<?> editBrand(@ModelAttribute BrandDto brandDto) {
         brandService.editBrand(brandDto);
         redirectAttributes.addFlashAttribute("editComplete", "Бренд успешно изменён");
         modelAndView.setViewName("redirect:/brands");
-        return modelAndView;
+        return ResponseEntity.ok().build();
     }
 
 //    @GetMapping("/brands")

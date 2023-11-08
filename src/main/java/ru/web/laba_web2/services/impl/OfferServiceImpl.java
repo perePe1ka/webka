@@ -1,9 +1,12 @@
 package ru.web.laba_web2.services.impl;
 
+import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.constants.Role;
+import ru.web.laba_web2.services.ModelService;
+import ru.web.laba_web2.services.UserService;
 import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.UserDto;
@@ -14,6 +17,7 @@ import ru.web.laba_web2.repositories.ModelRepository;
 import ru.web.laba_web2.repositories.OfferRepository;
 import ru.web.laba_web2.repositories.UserRepository;
 import ru.web.laba_web2.services.OfferService;
+import ru.web.laba_web2.utils.ValidationUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,14 +26,27 @@ import java.util.stream.Collectors;
 @Service
 public class OfferServiceImpl implements OfferService<String> {
     private final ModelMapper modelMapper;
+    private final ValidationUtil validationUtil;
     private UserRepository userRepository;
     private ModelRepository modelRepository;
     private OfferRepository offerRepository;
+    private ModelService modelService;
+
+    private UserService userService;
     @Autowired
-    public OfferServiceImpl(ModelMapper modelMapper) {
+    public OfferServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.modelMapper = modelMapper;
+        this.validationUtil = validationUtil;
     }
 
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+    @Autowired
+    public void setModelService(ModelService modelService) {
+        this.modelService = modelService;
+    }
     @Autowired
     public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
@@ -46,14 +63,26 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
-    public OfferDto register(OfferDto offerDto) {
-        Offer offer = modelMapper.map(offerDto, Offer.class);
-        if (offer.getModel().getUuid() != null) {
-            Model model = modelRepository.findByUuid(offerDto.getModelDto().getUuid()).get();
-            offer.setModel(model);
+    public void register(OfferDto offerDto) {
+        if (!this.validationUtil.isValid(offerDto)) {
+
+            this.validationUtil
+                    .violations(offerDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+
+            throw new IllegalArgumentException("Illegal arguments!");
         }
-        return modelMapper.map(offerRepository.saveAndFlush(offer), OfferDto.class);
+
+        Offer offer = this.modelMapper.map(offerDto, Offer.class);
+        offer.setModel(modelService.findByName(offerDto.getModelDto()));
+        offer.setSeller(userService.findByUsername(offerDto.getSeller()));
+
+        this.offerRepository.saveAndFlush(offer);
     }
+
+
 
 
     @Override
@@ -99,11 +128,4 @@ public class OfferServiceImpl implements OfferService<String> {
         return totalPrice;
     }
 
-
-
-//    @Override
-//    public Offer create(OfferDto offerDto) {
-//        Offer offer = modelMapper.map(offerDto, Offer.class);
-//        return offerRepository.save(offer);
-//    }
 }

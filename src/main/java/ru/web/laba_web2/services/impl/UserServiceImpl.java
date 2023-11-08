@@ -3,6 +3,7 @@ package ru.web.laba_web2.services.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.web.laba_web2.services.RolesService;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.RolesDto;
 import ru.web.laba_web2.services.dtos.UserDto;
@@ -11,6 +12,9 @@ import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.repositories.RolesRepository;
 import ru.web.laba_web2.repositories.UserRepository;
 import ru.web.laba_web2.services.UserService;
+import ru.web.laba_web2.utils.ValidationUtil;
+import jakarta.validation.ConstraintViolation;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,9 +24,13 @@ public class UserServiceImpl implements UserService<String> {
     private final ModelMapper modelMapper;
     private RolesRepository rolesRepository;
     private UserRepository userRepository;
+    private ValidationUtil validationUtil;
+    private RolesService rolesService;
+
     @Autowired
-    public UserServiceImpl(ModelMapper modelMapper) {
+    public UserServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.modelMapper = modelMapper;
+        this.validationUtil = validationUtil;
     }
 
     @Autowired
@@ -35,14 +43,26 @@ public class UserServiceImpl implements UserService<String> {
         this.userRepository = userRepository;
     }
 
+    @Autowired
+    public void setRolesService(RolesService rolesService) {
+        this.rolesService = rolesService;
+    }
+
     @Override
-    public UserDto register(UserDto userDto) {
-        User user = modelMapper.map(userDto, User.class);
-        if (userDto.getRole().getUuid() != null) {
-            Roles roles = rolesRepository.findByUuid(userDto.getRole().getUuid()).get();
-            user.setRole(roles);
+    public void register(UserDto userDto) {
+        if (!this.validationUtil.isValid(userDto)) {
+            this.validationUtil
+                    .violations(userDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+
+            throw new IllegalArgumentException("Invalid UserDto");
         }
-        return modelMapper.map(userRepository.saveAndFlush(user), UserDto.class);
+        User user = this.modelMapper.map(userDto, User.class);
+        user.setRole(rolesService.findByRole(userDto.getRole()));
+
+        this.userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -74,11 +94,9 @@ public class UserServiceImpl implements UserService<String> {
         userRepository.saveAndFlush(user);
     }
 
+    @Override
+    public User findByUsername(String userName) {
+        return this.userRepository.findByUsername(userName);
+    }
 
-
-//    @Override
-//    public User create(UserDto userDto) {
-//        User user = modelMapper.map(userDto, User.class);
-//        return userRepository.saveAndFlush(user);
-//    }
 }

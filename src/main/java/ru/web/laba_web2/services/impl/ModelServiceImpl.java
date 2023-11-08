@@ -1,8 +1,10 @@
 package ru.web.laba_web2.services.impl;
 
+import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.web.laba_web2.services.BrandService;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.models.Brand;
@@ -10,6 +12,7 @@ import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.repositories.ModelRepository;
 import ru.web.laba_web2.services.ModelService;
+import ru.web.laba_web2.utils.ValidationUtil;
 
 import java.util.Comparator;
 import java.util.List;
@@ -21,9 +24,17 @@ public class ModelServiceImpl implements ModelService<String> {
     private final ModelMapper modelMapper;
     private BrandRepository brandRepository;
     private ModelRepository modelRepository;
+    private ValidationUtil validationUtil;
+    private BrandService brandService;
     @Autowired
-    public ModelServiceImpl(ModelMapper modelMapper) {
+    public ModelServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.modelMapper = modelMapper;
+        this.validationUtil = validationUtil;
+    }
+
+    @Autowired
+    public void setBrandService(BrandService brandService) {
+        this.brandService = brandService;
     }
 
     @Autowired
@@ -31,18 +42,28 @@ public class ModelServiceImpl implements ModelService<String> {
         this.brandRepository = brandRepository;
     }
 
-    @Autowired void setModelRepository(ModelRepository modelRepository) {
+    @Autowired
+    public void setModelRepository(ModelRepository modelRepository) {
         this.modelRepository = modelRepository;
     }
 
     @Override
-    public ModelDto register(ModelDto modelDto) {
-        Model model = modelMapper.map(modelDto, Model.class);
-        if (modelDto.getBrand().getUuid() != null) {
-            Brand brand = brandRepository.findById(modelDto.getBrand().getUuid()).get();
-            model.setBrand(brand);
+    public void register(ModelDto modelDto) {
+        if (!this.validationUtil.isValid(modelDto)) {
+
+            this.validationUtil
+                    .violations(modelDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+
+            throw new IllegalArgumentException("Illegal arguments!");
         }
-        return modelMapper.map(modelRepository.saveAndFlush(model), ModelDto.class);
+
+        Model model = this.modelMapper.map(modelDto, Model.class);
+        model.setBrand(brandService.findByName(modelDto.getBrand()));
+
+        this.modelRepository.saveAndFlush(model);
     }
 
 
@@ -85,10 +106,9 @@ public class ModelServiceImpl implements ModelService<String> {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Model findByName(String name) {
+        return this.modelRepository.findByName(name);
+    }
 
-//    @Override
-//    public Model create(ModelDto modelDto) {
-//        Model model = modelMapper.map(modelDto, Model.class);
-//        return modelRepository.saveAndFlush(model);
-//    }
 }

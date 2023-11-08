@@ -7,7 +7,7 @@ import ru.web.laba_web2.services.dtos.UserDto;
 import java.util.List;
 import java.util.Optional;
 public interface OfferService<String> {
-    OfferDto register(OfferDto offerDto);
+    void register(OfferDto offerDto);
 
 //    Offer create(OfferDto offerDto);
 

@@ -1,5 +1,7 @@
 package ru.web.laba_web2.services;
 
+import ru.web.laba_web2.models.Model;
+import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.dtos.ModelDto;
 
@@ -7,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ModelService<String> {
-    ModelDto register(ModelDto modelDto);
+    void register(ModelDto modelDto);
 
 //    Model create(ModelDto modelDto);
 
@@ -22,4 +24,6 @@ public interface ModelService<String> {
     void editModel(ModelDto modelDto);
 
     List<ModelDto> getModelsSortedByYear();
+
+    Model findByName(String name);
 }

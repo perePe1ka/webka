@@ -1,12 +1,14 @@
 package ru.web.laba_web2.services.impl;
 
+import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.services.BrandService;
+import ru.web.laba_web2.services.dtos.BrandDto;
+import ru.web.laba_web2.utils.ValidationUtil;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +18,14 @@ import java.util.stream.Collectors;
 public class BrandServiceImpl implements BrandService<String> {
 
     private final ModelMapper modelMapper;
+
+    private final ValidationUtil validationUtil;
     private BrandRepository brandRepository;
 
     @Autowired
-    public BrandServiceImpl(ModelMapper modelMapper) {
+    public BrandServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
         this.modelMapper = modelMapper;
+        this.validationUtil = validationUtil;
     }
 
     @Autowired
@@ -29,9 +34,42 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
-    public BrandDto register(BrandDto brandDto) {
-        Brand brand = modelMapper.map(brandDto, Brand.class);
-        return modelMapper.map(brandRepository.saveAndFlush(brand), BrandDto.class);
+    public void register(BrandDto brandDto) {
+
+        if (!this.validationUtil.isValid(brandDto)) {
+            this.validationUtil
+                    .violations(brandDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+
+        } else {
+            try {
+                this.brandRepository
+                        .saveAndFlush(this.modelMapper.map(brandDto, Brand.class));
+            } catch (Exception e) {
+                System.out.println("Что то пошло не так");
+            }
+        }
+    }
+
+    public void addBrand(String brandName) {
+        BrandDto brandDto = new BrandDto();
+        brandDto.setName(brandName);
+
+        if (!this.validationUtil.isValid(brandDto)) {
+
+            this.validationUtil
+                    .violations(brandDto)
+                    .stream()
+                    .map(ConstraintViolation::getMessage)
+                    .forEach(System.out::println);
+        } else {
+            this.brandRepository
+                    .saveAndFlush(this.modelMapper
+                            .map(brandDto, Brand.class));
+
+        }
     }
 
 
@@ -57,10 +95,10 @@ public class BrandServiceImpl implements BrandService<String> {
         brandRepository.saveAndFlush(brand);
     }
 
+    @Override
+    public Brand findByName(String name) {
+        return this.brandRepository.findByName(name);
+    }
 
-//    @Override
-//    public Brand create(BrandDto brandDto) {
-//        Brand brand = modelMapper.map(brandDto, Brand.class);
-//        return brandRepository.saveAndFlush(brand);
-//    }
+
 }
