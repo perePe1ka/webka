@@ -17,10 +17,6 @@ public class RolesController {
 
     private RolesService rolesService;
 
-    private ModelAndView modelAndView;
-
-    private RedirectAttributes redirectAttributes;
-
     @Autowired
     public void setRolesService(RolesService rolesService) {
         this.rolesService = rolesService;
@@ -34,7 +30,7 @@ public class RolesController {
     }
 
 
-    @PostMapping("/register")
+    @PostMapping("/register-role")
     ModelAndView registerRole(@ModelAttribute RolesDto newRole, ModelAndView modelAndView) {
         rolesService.register(newRole);
         modelAndView.setViewName("redirect:/roles");
@@ -61,57 +57,4 @@ public class RolesController {
         return modelAndView;
     }
 
-//    @GetMapping("/roles")
-//    public ModelAndView getAllRoles(ModelAndView modelAndView) {
-//        modelAndView.addObject("roles", rolesService.getAll());
-//        modelAndView.setViewName("rolesPage");
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/register")
-//    public ModelAndView registerRole(@ModelAttribute RolesDto rolesDto, BindingResult result, ModelAndView modelAndView) {
-//        if (result.hasErrors()) {
-//            modelAndView.setViewName("error");
-//        } else {
-//            rolesService.register(rolesDto);
-//            modelAndView.setViewName("redirect:/roles");
-//        }
-//
-//        return modelAndView;
-//    }
-//
-//    @DeleteMapping("/roles/delete/{uuid}")
-//    public ModelAndView deleteRoles(@PathVariable("uuid") String uuid, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
-//        rolesService.deleteByUuid(uuid);
-//        redirectAttributes.addFlashAttribute("completeDelete", "Роль была удалена");
-//        modelAndView.setViewName("redirect:/roles");
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/roles/edit/{uuid}")
-//    public ModelAndView editRolesForm(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
-//        modelAndView.addObject("roles", rolesService.findByUuid(uuid));
-//        modelAndView.setViewName("rolesPages");
-//        return modelAndView;
-//    }
-//
-//    @PutMapping("/roles/edit/{uuid}")
-//    public ModelAndView editRoles(@ModelAttribute RolesDto rolesDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
-//        rolesService.editRoles(rolesDto);
-//        redirectAttributes.addFlashAttribute("editComplete", "Роль успешно изменена");
-//        modelAndView.setViewName("redirect:/roles");
-//        return modelAndView;
-//    }
-
-//    @GetMapping("/roles")
-//    public String getAllRoles(Model model) {
-//        model.addAttribute("roles", rolesService.getAll());
-//        return "rolesPages";
-//    }
-//
-//    @PostMapping("/roles")
-//    public String createRoles(@ModelAttribute RolesDto rolesDto) {
-//        rolesService.create(rolesDto);
-//        return "redirect:/roles";
-//    }
 }

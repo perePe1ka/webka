@@ -15,10 +15,6 @@ import java.util.List;
 public class BrandController {
     private BrandServiceImpl brandService;
 
-//    private ModelAndView modelAndView;
-
-//    private RedirectAttributes redirectAttributes;
-
     @Autowired
     public void setBrandService(BrandServiceImpl brandService) {
         this.brandService = brandService;
@@ -31,7 +27,7 @@ public class BrandController {
         return (List<BrandDto>) modelAndView;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register-brand")
     ModelAndView registerBrand(@ModelAttribute BrandDto newBrand, ModelAndView modelAndView) {
         brandService.register(newBrand);
         modelAndView.setViewName("redirect:/brands");
@@ -58,56 +54,5 @@ public class BrandController {
         return modelAndView;
     }
 
-//    @GetMapping("/brands")
-//    public ModelAndView getAllBrands(ModelAndView modelAndView) {
-//        modelAndView.addObject("brands", brandService.getAll());
-//        modelAndView.setViewName("brandPage");
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/register")
-//    public ModelAndView registerBrand(@ModelAttribute BrandDto brandDto, BindingResult result, ModelAndView modelAndView) {
-//        if (result.hasErrors()) {
-//            modelAndView.setViewName("error");
-//        } else {
-//            brandService.register(brandDto);
-//            modelAndView.setViewName("redirect:/brands");
-//        }
-//        return modelAndView;
-//    }
-//
-//    @DeleteMapping("/brands/delete/{uuid}")
-//    public ModelAndView deleteBrand(@PathVariable("uuid") String uuid, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
-//        brandService.deleteByUuid(uuid);
-//        redirectAttributes.addFlashAttribute("completeDelete", "Бренд был удалён");
-//        modelAndView.setViewName("redirect:/brands");
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/brands/edit/{uuid}")
-//    public ModelAndView editBrandForm(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
-//        modelAndView.addObject("brands", brandService.findByUuid(uuid));
-//        modelAndView.setViewName("brandPage");
-//        return modelAndView;
-//    }
-//
-//    @PutMapping("/brands/edit/{uuid}")
-//    public ModelAndView editBrand(@ModelAttribute BrandDto brandDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
-//        brandService.editBrand(brandDto);
-//        redirectAttributes.addFlashAttribute("editComplete", "Бренд успешно изменён");
-//        modelAndView.setViewName("redirect:/brands");
-//        return modelAndView;
-//    }
-//
-////    @GetMapping("/brands")
-////    public String getAllBrands(Model model) {
-////        model.addAttribute("brands", brandService.getAll());
-////        return "brandPage";
-////    }
-//
-////    @PostMapping("/brands")
-////    public String createBrand(@ModelAttribute BrandDto brandDto) {
-////        brandService.create(brandDto);
-////        return "redirect:/brands";
-////    }
+
 }

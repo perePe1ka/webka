@@ -21,17 +21,6 @@ import java.util.stream.Collectors;
 public class OfferController {
     private OfferService offerService;
 
-    private ModelMapper modelMapper;
-
-    private ModelAndView modelAndView;
-
-    private RedirectAttributes redirectAttributes;
-
-    @Autowired
-    public OfferController(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
-    }
-
     @Autowired
     public void setOfferService(OfferService offerService) {
         this.offerService = offerService;
@@ -44,7 +33,7 @@ public class OfferController {
         return (List<OfferDto>) modelAndView;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/register-offer")
     ModelAndView registerOffer(@ModelAttribute OfferDto offerDto, ModelAndView modelAndView) {
         offerService.register(offerDto);
         modelAndView.setViewName("redirect:/offers");
@@ -72,7 +61,7 @@ public class OfferController {
     }
 
     @GetMapping("/admins")
-    ModelAndView getAllAdmins() {
+    ModelAndView getAllAdmins(ModelAndView modelAndView) {
         modelAndView.addObject("admins", offerService.getAllAdmins());
         modelAndView.setViewName("redirect:/offers");
         return modelAndView;
@@ -84,57 +73,5 @@ public class OfferController {
         return offerService.calculateTotalPrice();
     }
 
-//    @GetMapping("/offers")
-//    public ModelAndView getAllPages(ModelAndView modelAndView) {
-//        modelAndView.addObject("offers", offerService.getAll());
-//        modelAndView.setViewName("offerPage");
-//        return modelAndView;
-//    }
-//
-//    @PostMapping("/register")
-//    public ModelAndView registerOffer(@ModelAttribute OfferDto offerDto, BindingResult result, ModelAndView modelAndView) {
-//        if (result.hasErrors()) {
-//            modelAndView.setViewName("error");
-//        } else {
-//            offerService.register(offerDto);
-//            modelAndView.setViewName("redirect:/offers");
-//        }
-//
-//        return modelAndView;
-//    }
-//
-//    @DeleteMapping("/models/delete/{uuid}")
-//    public ModelAndView deleteOffer(@PathVariable("uuid") String uuid, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
-//        offerService.deleteByUuid(uuid);
-//        redirectAttributes.addFlashAttribute("completeDelete", "Оффер был удалён");
-//        modelAndView.setViewName("redirect:/offers");
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/models/edit/{uuid}")
-//    public ModelAndView editOfferForm(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
-//        modelAndView.addObject("offers", offerService.findByUuid(uuid));
-//        modelAndView.setViewName("offerPage");
-//        return modelAndView;
-//    }
-//
-//    @PutMapping("/models/edit/{uuid}")
-//    public ModelAndView editOffer(@ModelAttribute OfferDto offerDto, ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
-//        offerService.editOffer(offerDto);
-//        redirectAttributes.addFlashAttribute("editComplete", "Оффер успешно изменён");
-//        modelAndView.setViewName("redirect:/offers");
-//        return modelAndView;
-//    }
-//
-//    @GetMapping("/offers")
-//    public String getAllPages(Model model) {
-//        model.addAttribute("offers", offerService.getAll());
-//        return "offerPage";
-//    }
-//
-//    @PostMapping("/offers")
-//    public String createOffer(@ModelAttribute OfferDto offerDto) {
-//        offerService.create(offerDto);
-//        return "redirect:/offers";
-//    }
+
 }
