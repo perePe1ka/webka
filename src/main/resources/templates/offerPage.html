@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body class="d-flex flex-column h-100">
+<div th:replace="~{fragments/navbar}" class="mb-4">Navbar</div>
+<main class="flex-shrink-0">
+    <ul class="list-group">
+        <h2 class="text-center text-dark mt-5 mb-20">Все офферы</h2>
+        <li class="list-group-item text-center mb-20">
+            <div th:each="o : ${offers}">
+                <h2 th:text="'Описание: ' + *{o.description}"></h2>
+                <h6 th:text="'Двигатель: ' + *{o.engine}"></h6>
+                <h6 th:text="'Ссылка на картинку: ' + *{o.imageUrl}"></h6>
+                <h6 th:text="'Пробег: ' + *{o.milleage}"></h6>
+                <h6 th:text="'Цена: ' + *{o.price}"></h6>
+                <h6 th:text="'Трансмиссия: ' + *{o.transmission}"></h6>
+                <h6 th:text="'Год: ' + *{o.year}"></h6>
+                <h6 th:text="'Продавец: ' + *{o.seller}"></h6>
+                <h6 th:text="'Модель: ' + *{o.modelDto}"></h6>
+            </div>
+        </li>
+    </ul>
+</main>
+<footer th:replace="~{fragments/footer}" class="mt-auto" />
+</body>
+</html>

@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/offers")
 public class OfferController {
     private OfferService offerService;
 
@@ -26,11 +26,18 @@ public class OfferController {
         this.offerService = offerService;
     }
 
-    @GetMapping("/offers")
-    List<OfferDto> getAll(ModelAndView modelAndView) {
+    @GetMapping("/all/{offer-description}")
+    ModelAndView getAll(@PathVariable("offer-description") String offerDescription, ModelAndView modelAndView) {
         modelAndView.setViewName("offerPage");
-        modelAndView.addObject("offers", offerService.getAll());
-        return (List<OfferDto>) modelAndView;
+        modelAndView.addObject("offers", offerService.getAll(offerDescription));
+        return modelAndView;
+    }
+
+    @GetMapping("/show")
+    public ModelAndView showAllOffers(ModelAndView modelAndView) {
+        modelAndView.setViewName("showOffer");
+        modelAndView.addObject("offersInfos", offerService.allOffers());
+        return modelAndView;
     }
 
     @PostMapping("/register-offer")
@@ -40,20 +47,20 @@ public class OfferController {
         return modelAndView;
     }
 
-    @DeleteMapping("/offers/{uuid}")
+    @DeleteMapping("/delete/{uuid}")
     ModelAndView deleteOffer(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
         offerService.deleteByUuid(uuid);
         modelAndView.setViewName("redirect:/offers");
         return modelAndView;
     }
 
-    @GetMapping("/offers/(uuid)")
+    @GetMapping("/get/(uuid)")
     OfferDto getOne(@PathVariable("uuid") String uuid) throws Throwable {
         return (OfferDto) offerService.findByUuid(uuid)
                 .orElseThrow(() -> new OfferNotFoundException(uuid));
     }
 
-    @PutMapping("/offers/{uuid}")
+    @PutMapping("/edit/{uuid}")
     ModelAndView editOffer(@ModelAttribute OfferDto offerDto, ModelAndView modelAndView) {
         offerService.editOffer(offerDto);
         modelAndView.setViewName("redirect:/offers");

@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>Your Page Title</title>
+</head>
+<body>
+
+<ul class="nav nav-pills">
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" href="/">Главная</a>
+    </li>
+
+
+    <li class="nav-item">
+        <a class="nav-link" aria-current="page" aria-disabled="true" data-toggle="modal" data-target="#brandModal">Добавить бренд</a>
+        <div class="modal fade" id="brandModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Введи данные для добавления бренда</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group flex-nowrap">
+                            <form th:action="@{/brands/add}"
+                                  th:method="post"
+                                  th:object="${newBrand}"
+                                  class="m-md-auto w-50 pb-3">
+                                <div class="mb-3">
+                                    <label class="form-label" for="nameBrand">Name</label>
+                                    <input th:field="*{name}"
+                                           th:errorclass="is-invalid"
+                                           type="text" class="form-control text-center" id="nameBrand" aria-describedby="nameHelp"
+                                           name="name"/>
+                                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error
+                                        message</small>
+                                </div>
+                                <button type="submit" class="btn btn-secondary">Add Company</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+
+
+
+    <li class="nav-item">
+        <a class="nav-link" aria-disabled="true" aria-current="page" data-toggle="modal" data-target="#modelModal">Добавить модель</a>
+        <div class="modal fade" id="modelModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Введи данные для добавления модели</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Закрыть"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="input-group flex-nowrap">
+                            <form th:action="@{/models/add}"
+                                  th:method="post"
+                                  th:object="${newModel}"
+                                  class="m-md-auto w-50 pb-3">
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="nameModel">Name</label>
+                                    <input th:field="*{name}"
+                                           th:errorclass="is-invalid"
+                                           type="text" class="form-control text-center" id="nameModel" aria-describedby="nameHelp"
+                                           name="name"/>
+                                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error
+                                        message</small>
+                                </div>
+
+                                <fieldset class="mb-3">
+                                    <legend>Выберите категрию</legend>
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input th:field="*{category}"
+                                                   th:value="CAR"
+                                                   th:errorclass="is-invalid"
+                                                   type="radio" class="form-check-input" name="category"/>
+                                            <span>CAR</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check disabled">
+                                        <label class="form-check-label">
+                                            <input th:field="*{category}"
+                                                   th:value="BUS"
+                                                   th:errorclass="is-invalid"
+                                                   type="radio" class="form-check-input" name="category"/>
+                                            <span>BUS</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check disabled">
+                                        <label class="form-check-label">
+                                            <input th:field="*{category}"
+                                                   th:value="TRUCK"
+                                                   th:errorclass="is-invalid"
+                                                   type="radio" class="form-check-input " name="category"/>
+                                            <span>TRUCK</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check disabled">
+                                        <label class="form-check-label">
+                                            <input th:field="*{category}"
+                                                   th:value="MOTORCYCLE"
+                                                   th:errorclass="is-invalid"
+                                                   type="radio" class="form-check-input " name="category"/>
+                                            <span>MOTORCYCLE</span>
+                                        </label>
+                                    </div>
+                                    <small th:if="${#fields.hasErrors('category')}" th:errors="*{category}"
+                                           class="text-danger">Error message</small>
+                                </fieldset>
+
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="imageModel">Картинка</label>
+                                    <input th:field="*{imageUrl}"
+                                           th:errorclass="is-invalid"
+                                           type="text" class="form-control text-center" id="imageModel" aria-describedby="nameHelp"
+                                           name="name"/>
+                                    <small th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="text-danger">Error
+                                        message</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="startYear">Год начала</label>
+                                    <input th:field="*{startYear}"
+                                           th:errorclass="is-invalid"
+                                           type="text" class="form-control text-center" id="startYear" aria-describedby="nameHelp"
+                                           name="name"/>
+                                    <small th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}" class="text-danger">Error
+                                        message</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="endYear">Год конца</label>
+                                    <input th:field="*{endYear}"
+                                           th:errorclass="is-invalid"
+                                           type="text" class="form-control text-center" id="endYear" aria-describedby="nameHelp"
+                                           name="name"/>
+                                    <small th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}" class="text-danger">Error
+                                        message</small>
+                                </div>
+
+
+                                <div class="mb-3">
+                                    <label class="form-label" for="brand"><h5>Доступные бренды</h5></label>
+                                    <select multiple="false" class="form-control text-center"
+                                            id="brand" name="name" th:field="*{brand}">
+                                        <option th:each="b : ${availableBrands}"
+                                                th:value="${b.name}"
+                                                th:text="${b.name}">Име бренда
+                                        </option>
+                                    </select>
+                                    <small th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}"
+                                           class="text-danger">Error
+                                        message</small>
+                                </div>
+
+                                <button type="submit" class="btn btn-secondary">Добавить модель</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+
+
+
+<!--    <li class="nav-item">-->
+<!--        <a class="nav-link" aria-disabled="true" aria-current="page" data-toggle="modal" data-target="#offerModal">Добавить оффер</a>-->
+<!--        <div class="modal fade" id="offerModal" tabindex="-1">-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title">Введи данные для добавления оффера</h5>-->
+<!--                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Закрыть"></button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        <div class="input-group flex-nowrap">-->
+<!--                            <form th:action="@{/brands/add}"-->
+<!--                                  th:method="post"-->
+<!--                                  th:object="${newBrand}"-->
+<!--                                  class="m-md-auto w-50 pb-3">-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label class="form-label" for="name">Name</label>-->
+<!--                                    <input th:field="*{name}"-->
+<!--                                           th:errorclass="is-invalid"-->
+<!--                                           type="text" class="form-control text-center" id="nameOffer" aria-describedby="nameHelp"-->
+<!--                                           name="name"/>-->
+<!--                                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error-->
+<!--                                        message</small>-->
+<!--                                </div>-->
+<!--                                <button type="submit" class="btn btn-secondary">Add Company</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </li>-->
+
+
+
+<!--    <li class="nav-item">-->
+<!--        <a class="nav-link" aria-disabled="true" aria-current="page" data-toggle="modal" data-target="#userModal">Добавить пользователя</a>-->
+<!--        <div class="modal fade" id="userModal" tabindex="-1">-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title">Введи данные для добавления пользователя</h5>-->
+<!--                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Закрыть"></button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        <div class="input-group flex-nowrap">-->
+<!--                            <form th:action="@{/brands/add}"-->
+<!--                                  th:method="post"-->
+<!--                                  th:object="${newBrand}"-->
+<!--                                  class="m-md-auto w-50 pb-3">-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label class="form-label" for="name">Name</label>-->
+<!--                                    <input th:field="*{name}"-->
+<!--                                           th:errorclass="is-invalid"-->
+<!--                                           type="text" class="form-control text-center" id="nameUser" aria-describedby="nameHelp"-->
+<!--                                           name="name"/>-->
+<!--                                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error-->
+<!--                                        message</small>-->
+<!--                                </div>-->
+<!--                                <button type="submit" class="btn btn-secondary">Add Company</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </li>-->
+
+
+
+<!--    <li class="nav-item">-->
+<!--        <a class="nav-link" aria-disabled="true" aria-current="page" data-toggle="modal" data-target="#roleModal">Добавить роль</a>-->
+<!--        <div class="modal fade" id="roleModal" tabindex="-1">-->
+<!--            <div class="modal-dialog">-->
+<!--                <div class="modal-content">-->
+<!--                    <div class="modal-header">-->
+<!--                        <h5 class="modal-title">Введи данные для добавления роли</h5>-->
+<!--                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Закрыть"></button>-->
+<!--                    </div>-->
+<!--                    <div class="modal-body">-->
+<!--                        <div class="input-group flex-nowrap">-->
+<!--                            <form th:action="@{/brands/add}"-->
+<!--                                  th:method="post"-->
+<!--                                  th:object="${newBrand}"-->
+<!--                                  class="m-md-auto w-50 pb-3">-->
+<!--                                <div class="mb-3">-->
+<!--                                    <label class="form-label" for="name">Name</label>-->
+<!--                                    <input th:field="*{name}"-->
+<!--                                           th:errorclass="is-invalid"-->
+<!--                                           type="text" class="form-control text-center" id="name" aria-describedby="nameHelp"-->
+<!--                                           name="name"/>-->
+<!--                                    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error-->
+<!--                                        message</small>-->
+<!--                                </div>-->
+<!--                                <button type="submit" class="btn btn-secondary">Add Company</button>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </li>-->
+</ul>
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-XeRoQ7D5WE0pHnAEE9fN0BLT6gB4JQlwpfJ/ES5TPaNpZAL5wa/PmybuKUCszAwr" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

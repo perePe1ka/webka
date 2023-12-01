@@ -8,7 +8,7 @@ import ru.web.laba_web2.constants.Transmission;
 
 @Entity
 @Table(name = "offer")
-public class Offer extends BaseEntity{
+public class Offer extends TimeClass{
 
     private String description;
     @Enumerated(EnumType.STRING)
@@ -29,9 +29,7 @@ public class Offer extends BaseEntity{
 
     private User seller;
 
-    public Offer() {
 
-    }
     @Column(name = "description", length = 255, nullable = false)
     public String getDescription() {
         return description;
@@ -90,7 +88,7 @@ public class Offer extends BaseEntity{
     }
     @ManyToOne(optional = false)
     @JoinColumn(name = "model_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     public Model getModel() {
         return model;
     }
@@ -100,7 +98,7 @@ public class Offer extends BaseEntity{
     }
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     public User getSeller() {
         return seller;
     }

@@ -23,7 +23,7 @@ public class Roles extends BaseEntity{
     public void setRole(Role role) {
         this.role = role;
     }
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     public Set<User> getUser() {
         return user;
     }

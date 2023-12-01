@@ -3,6 +3,7 @@ package ru.web.laba_web2.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import ru.web.laba_web2.models.Brand;
+import ru.web.laba_web2.models.Model;
 
 import java.util.Optional;
 
@@ -12,6 +13,8 @@ public interface BrandRepository extends JpaRepository<Brand, String> {
 
     void deleteByUuid(String uuid);
 
-    Brand findByName(String name);
+    Brand findBrandByName (String name);
+
+    Optional<Brand> findByName(String name);
 
 }

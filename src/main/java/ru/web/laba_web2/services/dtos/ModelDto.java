@@ -17,14 +17,14 @@ public class ModelDto {
     private int startYear;
 
     private int endYear;
-    private BrandDto brand;
+    private String brand;
 
 
     public ModelDto() {
 
     }
 
-    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, BrandDto brand) {
+    public ModelDto(String name, Category category, String imageUrl, int startYear, int endYear, String brand) {
         this.name = name;
         this.category = category;
         this.imageUrl = imageUrl;
@@ -83,11 +83,11 @@ public class ModelDto {
         this.endYear = endYear;
     }
 
-    public BrandDto getBrand() {
+    public String getBrand() {
         return brand;
     }
 
-    public void setBrand(BrandDto brand) {
+    public void setBrand(String brand) {
         this.brand = brand;
     }
 }

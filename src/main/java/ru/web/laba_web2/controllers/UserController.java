@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/users")
 public class UserController {
     private UserService userService;
 
@@ -21,11 +21,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/all")
+    ModelAndView getAll(ModelAndView modelAndView) {
     @GetMapping("/users")
     List<UserDto> getAll(ModelAndView modelAndView) {
         modelAndView.setViewName("userPage");
         modelAndView.addObject("users", userService.getAll());
-        return (List<UserDto>) modelAndView;
+        return modelAndView;
     }
 
     @PostMapping("/register-user")
@@ -36,19 +38,19 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/users/{uuid}")
+    @DeleteMapping("/delete/{uuid}")
     ModelAndView deleteUser(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
         userService.deleteByUuid(uuid);
         modelAndView.setViewName("redirect:/users");
         return modelAndView;
     }
 
-    @GetMapping("/users/{uuid}")
+    @GetMapping("/get/{uuid}")
     UserDto getOne(@PathVariable("uuid") String uuid) throws Throwable {
         return (UserDto) userService.findByUuid(uuid)
                 .orElseThrow(() -> new UserNotFoundException(uuid));
     }
-    @PutMapping("/users/{uuid}")
+    @PutMapping("/edit/{uuid}")
     ModelAndView editUser(@ModelAttribute UserDto userDto, ModelAndView modelAndView) {
         userService.editUser(userDto);
         modelAndView.setViewName("redirect:/users");

@@ -1,14 +1,19 @@
 package ru.web.laba_web2.services.impl;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.web.laba_web2.controllers.exceptions.BrandNotFoundException;
 import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.services.BrandService;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.utils.ValidationUtil;
+import ru.web.laba_web2.viewModel.AddBrandViewModel;
+import ru.web.laba_web2.viewModel.DetailBrand;
+import ru.web.laba_web2.viewModel.ShowBrand;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,11 +39,12 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
-    public void register(BrandDto brandDto) {
+    @Transactional
+    public void register(AddBrandViewModel addBrandViewModel) {
 
-        if (!this.validationUtil.isValid(brandDto)) {
+        if (!this.validationUtil.isValid(addBrandViewModel)) {
             this.validationUtil
-                    .violations(brandDto)
+                    .violations(addBrandViewModel)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
@@ -46,7 +52,7 @@ public class BrandServiceImpl implements BrandService<String> {
         } else {
             try {
                 this.brandRepository
-                        .saveAndFlush(this.modelMapper.map(brandDto, Brand.class));
+                        .saveAndFlush(this.modelMapper.map(addBrandViewModel, Brand.class));
             } catch (Exception e) {
                 System.out.println("Что то пошло не так");
             }
@@ -66,8 +72,15 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
-    public List<BrandDto> getAll() {
-        return brandRepository.findAll().stream().map((brand) -> modelMapper.map(brand, BrandDto.class)).collect(Collectors.toList());
+    public List<ShowBrand> allBrands() {
+        return brandRepository.findAll().stream().map((brand) -> modelMapper.map(brand, ShowBrand.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public DetailBrand getAll(String brandName) {
+        Brand brand = brandRepository.findByName(brandName)
+                .orElseThrow(() -> new BrandNotFoundException("Brand with name " + brandName + " not found"));
+        return modelMapper.map(brand, DetailBrand.class);
     }
 
     @Override
@@ -91,6 +104,6 @@ public class BrandServiceImpl implements BrandService<String> {
 
     @Override
     public Brand findByName(String name) {
-        return this.brandRepository.findByName(name);
+        return this.brandRepository.findBrandByName(name);
     }
 }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body>
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main>
+    <ul class="list-group">
+        <h2 class="text-center">Все роли</h2>
+        <li class="list-group-item text-center">
+            <div th:each="r : ${roles}">
+                <h2 th:text="'Роль: ' + *{r.role}"></h2>
+            </div>
+        </li>
+    </ul>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

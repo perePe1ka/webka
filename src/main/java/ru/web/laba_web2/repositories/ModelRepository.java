@@ -12,6 +12,8 @@ public interface ModelRepository extends JpaRepository<Model, String> {
 
     void deleteByUuid(String uuid);
 
-    Model findByName(String name);
+    Model findModelByName(String name);
+
+    Optional<Model> findByName(String name);
 
 }

@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
 import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.repositories.BrandRepository;
@@ -13,6 +14,9 @@ import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.utils.ValidationUtil;
+import ru.web.laba_web2.viewModel.AddModelViewModel;
+import ru.web.laba_web2.viewModel.DetailModel;
+import ru.web.laba_web2.viewModel.ShowModel;
 
 import java.util.Comparator;
 import java.util.List;
@@ -24,7 +28,7 @@ public class ModelServiceImpl implements ModelService<String> {
     private final ModelMapper modelMapper;
     private BrandRepository brandRepository;
     private ModelRepository modelRepository;
-    private ValidationUtil validationUtil;
+    private final ValidationUtil validationUtil;
     private BrandService brandService;
 
     @Autowired
@@ -49,11 +53,11 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Override
-    public void register(ModelDto modelDto) {
-        if (!this.validationUtil.isValid(modelDto)) {
+    public void register(AddModelViewModel addModelViewModel) {
+        if (!this.validationUtil.isValid(addModelViewModel)) {
 
             this.validationUtil
-                    .violations(modelDto)
+                    .violations(addModelViewModel)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
@@ -61,8 +65,8 @@ public class ModelServiceImpl implements ModelService<String> {
             throw new IllegalArgumentException("Что то пошло не так");
         }
 
-        Model model = this.modelMapper.map(modelDto, Model.class);
-        model.setBrand(brandService.findByName(modelDto.getBrand()));
+        Model model = this.modelMapper.map(addModelViewModel, Model.class);
+        model.setBrand(brandService.findByName(addModelViewModel.getBrand()));
 
         this.modelRepository.saveAndFlush(model);
     }
@@ -87,8 +91,15 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Override
-    public List<ModelDto> getAll() {
-        return modelRepository.findAll().stream().map((model) -> modelMapper.map(model, ModelDto.class)).collect(Collectors.toList());
+    public DetailModel getAll(String modelName) {
+        Model model = modelRepository.findByName(modelName)
+                .orElseThrow(() -> new ModelNotFoundException("Model with name " + modelName + " not found"));
+        return modelMapper.map(model, DetailModel.class);
+    }
+
+    @Override
+    public List<ShowModel> allModels() {
+        return modelRepository.findAll().stream().map(model -> modelMapper.map(model, ShowModel.class)).collect(Collectors.toList());
     }
 
     @Override
@@ -122,7 +133,7 @@ public class ModelServiceImpl implements ModelService<String> {
 
     @Override
     public Model findByName(String name) {
-        return this.modelRepository.findByName(name);
+        return this.modelRepository.findModelByName(name);
     }
 
 }

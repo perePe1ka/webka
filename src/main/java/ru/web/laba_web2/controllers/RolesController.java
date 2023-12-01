@@ -12,7 +12,7 @@ import ru.web.laba_web2.services.dtos.RolesDto;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/roles")
 public class RolesController {
 
     private RolesService rolesService;
@@ -22,11 +22,11 @@ public class RolesController {
         this.rolesService = rolesService;
     }
 
-    @GetMapping("/roles")
-    List<RolesDto> getAll(ModelAndView modelAndView) {
+    @GetMapping("/all")
+    ModelAndView getAll(ModelAndView modelAndView) {
         modelAndView.setViewName("rolePage");
         modelAndView.addObject("roles", rolesService.getAll());
-        return (List<RolesDto>) modelAndView;
+        return modelAndView;
     }
 
 
@@ -37,20 +37,20 @@ public class RolesController {
         return modelAndView;
     }
 
-    @DeleteMapping("/roles/{uuid}")
+    @DeleteMapping("/delete/{uuid}")
     ModelAndView deleteRole(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
         rolesService.deleteByUuid(uuid);
         modelAndView.setViewName("redirect:/roles");
         return modelAndView;
     }
 
-    @GetMapping("/roles/(uuid)")
+    @GetMapping("/get/(uuid)")
     RolesDto getOne(@PathVariable("uuid") String uuid) throws Throwable {
         return (RolesDto) rolesService.findByUuid(uuid)
                 .orElseThrow(() -> new RolesNotFoundException(uuid));
     }
 
-    @PutMapping("/roles/{uuid}")
+    @PutMapping("/edit/{uuid}")
     ModelAndView editRole(@ModelAttribute RolesDto rolesDto, ModelAndView modelAndView) {
         rolesService.editRoles(rolesDto);
         modelAndView.setViewName("redirect:/roles");

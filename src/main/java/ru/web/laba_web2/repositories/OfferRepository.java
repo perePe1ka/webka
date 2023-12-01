@@ -10,4 +10,6 @@ public interface OfferRepository extends JpaRepository<Offer, String> {
     Optional<Offer> findByUuid(String uuid);
     void deleteByUuid(String uuid);
 
+    Optional<Offer> findByDescription(String description);
+
 }

@@ -24,9 +24,6 @@ public class User extends TimeClass{
 
     private Set<Offer> offers;
 
-
-    public User () {
-    }
     @Column(name = "username", length = 20, nullable = false)
     public String getUsername() {
         return username;
@@ -67,9 +64,10 @@ public class User extends TimeClass{
     public void setActive(boolean active) {
         isActive = active;
     }
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     public Roles getRole() {
         return role;
     }
@@ -85,12 +83,17 @@ public class User extends TimeClass{
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller",cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     public Set<Offer> getOffers() {
         return offers;
     }
 
     public void setOffers(Set<Offer> offers) {
         this.offers = offers;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + ' ' + lastName;
     }
 }

@@ -3,11 +3,32 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 import ru.web.laba_web2.constants.Category;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "model")
-public class Model extends BaseEntity{
+public class Model extends TimeClass{
+
+    public Model(LocalDate created,
+                 LocalDate modified,
+                 String name,
+                 Category category,
+                 String imageURL,
+                 Integer startYear,
+                 Integer endYear,
+                 Brand brand) {
+        super(created, modified);
+        this.name = name;
+        this.category = category;
+        this.imageUrl = imageURL;
+        this.startYear = startYear;
+        this.endYear = endYear;
+        this.brand = brand;
+    }
+
 
     private String name; //имя модели
     @Enumerated(EnumType.STRING)
@@ -24,7 +45,10 @@ public class Model extends BaseEntity{
     private Set<Offer> offers;
 
     public Model() {
+
     }
+
+
     @Column(name = "name", length = 255, nullable = false)
     public String getName() {
         return name;
@@ -67,7 +91,7 @@ public class Model extends BaseEntity{
     }
     @ManyToOne(optional = false)
     @JoinColumn(name = "brand_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.ALL)
+    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
     public Brand getBrand() {
         return brand;
     }
@@ -75,12 +99,17 @@ public class Model extends BaseEntity{
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "model", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "model", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     public Set<Offer> getOffers() {
         return offers;
     }
 
     public void setOffers(Set<Offer> offers) {
         this.offers = offers;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

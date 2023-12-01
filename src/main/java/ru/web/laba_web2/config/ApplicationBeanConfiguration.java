@@ -3,20 +3,19 @@ package ru.web.laba_web2.config;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
-import jakarta.validation.Validation;
-import jakarta.validation.Validator;
 
 @Configuration
 public class ApplicationBeanConfiguration {
     @Bean
-    public Validator validator(){
-        return Validation
-                .buildDefaultValidatorFactory()
-                .getValidator();
-    }
-    @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
+    }
+
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/images/**").addResourceLocations("file:resources/images");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 }

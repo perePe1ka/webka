@@ -1,5 +1,6 @@
 package ru.web.laba_web2.services;
 
+import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.models.Roles;
 import ru.web.laba_web2.services.dtos.RolesDto;
 
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RolesService<String> {
-    void register(String role);
+    void register(RolesDto role);
 
 //    Roles create(RolesDto rolesDto);
     void deleteByUuid(String uuid);
@@ -18,5 +19,5 @@ public interface RolesService<String> {
 
     void editRoles(RolesDto rolesDto);
 
-    Roles findByRole(String role);
+    Roles findByRole(Role role);
 }

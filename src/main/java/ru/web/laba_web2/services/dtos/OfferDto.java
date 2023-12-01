@@ -20,16 +20,16 @@ public class OfferDto {
 
     private int year;
 
-    private ModelDto modelDto;
+    private String seller;
 
-    private UserDto seller;
+    private String modelDto;
 
 
     public OfferDto() {
 
     }
 
-    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, ModelDto modelDto, UserDto seller) {
+    public OfferDto(String description, Engine engine, String imageUrl, int milleage, int price, Transmission transmission, int year, String seller, String modelDto) {
         this.description = description;
         this.engine = engine;
         this.imageUrl = imageUrl;
@@ -105,19 +105,19 @@ public class OfferDto {
         this.year = year;
     }
 
-    public ModelDto getModelDto() {
+    public String getModelDto() {
         return modelDto;
     }
 
-    public void setModelDto(ModelDto modelDto) {
+    public void setModelDto(String modelDto) {
         this.modelDto = modelDto;
     }
 
-    public UserDto getSeller() {
+    public String getSeller() {
         return seller;
     }
 
-    public void setSeller(UserDto seller) {
+    public void setSeller(String seller) {
         this.seller = seller;
     }
 }

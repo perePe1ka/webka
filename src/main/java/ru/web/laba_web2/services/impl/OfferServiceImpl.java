@@ -5,6 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.constants.Role;
+import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.models.User;
@@ -18,6 +19,7 @@ import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
+import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
 import java.util.Optional;
@@ -79,8 +81,8 @@ public class OfferServiceImpl implements OfferService<String> {
         }
 
         Offer offer = this.modelMapper.map(offerDto, Offer.class);
-        offer.setModel(modelService.findByName(offerDto.getModelDto()));
         offer.setSeller(userService.findByUsername(offerDto.getSeller()));
+        offer.setModel(modelService.findByName(offerDto.getModelDto()));
 
         this.offerRepository.saveAndFlush(offer);
     }
@@ -106,8 +108,15 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
-    public List<OfferDto> getAll() {
-        return offerRepository.findAll().stream().map(offer -> modelMapper.map(offer, OfferDto.class)).collect(Collectors.toList());
+    public OfferDto getAll(String offerDescription) {
+        Offer offer = offerRepository.findByDescription(offerDescription)
+                .orElseThrow(() -> new ModelNotFoundException("Offer with name " + offerDescription + " not found"));
+        return modelMapper.map(offer, OfferDto.class);
+    }
+
+    @Override
+    public List<ShowOffer> allOffers() {
+        return offerRepository.findAll().stream().map(offer -> modelMapper.map(offer, ShowOffer.class)).collect(Collectors.toList());
     }
 
     @Override

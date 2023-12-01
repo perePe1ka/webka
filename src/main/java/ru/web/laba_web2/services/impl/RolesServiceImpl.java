@@ -33,10 +33,7 @@ public class RolesServiceImpl implements RolesService<String> {
     }
 
     @Override
-    public void register(String role) {
-        RolesDto rolesDto = new RolesDto();
-        rolesDto.setRole(Role.valueOf(role));
-
+    public void register(RolesDto rolesDto) {
         if (!this.validationUtil.isValid(rolesDto)) {
             this.validationUtil
                     .violations(rolesDto)
@@ -89,7 +86,7 @@ public class RolesServiceImpl implements RolesService<String> {
 
 
     @Override
-    public Roles findByRole(String role) {
+    public Roles findByRole(Role role) {
         return this.rolesRepository.findByRole(role);
     }
 

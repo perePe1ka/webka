@@ -3,6 +3,7 @@ package ru.web.laba_web2.services.dtos;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
+import ru.web.laba_web2.constants.Role;
 
 public class UserDto {
     private String uuid;
@@ -17,7 +18,7 @@ public class UserDto {
 
     private boolean isActive;
 
-    private RolesDto role;
+    private Role role;
 
     private String imageUrl;
 
@@ -26,7 +27,7 @@ public class UserDto {
 
     }
 
-    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, RolesDto role, String imageUrl) {
+    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, Role role, String imageUrl) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -69,9 +70,7 @@ public class UserDto {
     public String getFirstName() {
         return firstName;
     }
-    @NotNull
-    @NotEmpty
-    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -92,11 +91,11 @@ public class UserDto {
         isActive = active;
     }
 
-    public RolesDto getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(RolesDto role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
