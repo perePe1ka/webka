@@ -65,8 +65,6 @@ public class ModelController {
 //            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newBrand", bindingResult);
             return  "redirect:/";
         }
-    @PostMapping("/register-model")
-    ModelAndView registerModel(@ModelAttribute ModelDto newModel, ModelAndView modelAndView) {
         modelService.register(newModel);
 
         return "redirect:/models/show";
@@ -96,7 +94,6 @@ public class ModelController {
     List<ModelDto> getModelsSortedByYear() {
         return modelService.getModelsSortedByYear();
     }
-
 
 
 }

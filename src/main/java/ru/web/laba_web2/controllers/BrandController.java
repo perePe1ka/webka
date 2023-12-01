@@ -1,9 +1,12 @@
 package ru.web.laba_web2.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.controllers.exceptions.BrandNotFoundException;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
@@ -11,6 +14,7 @@ import ru.web.laba_web2.viewModel.AddBrandViewModel;
 
 
 @Controller
+@RequestMapping("/brands")
 public class BrandController {
     private BrandServiceImpl brandService;
 
@@ -26,10 +30,6 @@ public class BrandController {
         return modelAndView;
     }
 
-    @PostMapping("/register-brand")
-    ModelAndView registerBrand(@ModelAttribute BrandDto newBrand, ModelAndView modelAndView) {
-        brandService.register(newBrand);
-        modelAndView.setViewName("redirect:/brands");
     @GetMapping("/show")
     public ModelAndView showAllBrands(ModelAndView modelAndView) {
         modelAndView.setViewName("showBrand");
@@ -49,14 +49,14 @@ public class BrandController {
 
     @PostMapping("/add")
     String registerBrand(@Valid AddBrandViewModel newBrand, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-       if (bindingResult.hasErrors()) {
-           redirectAttributes.addFlashAttribute("newBrand", newBrand);
-           redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newBrand", bindingResult);
-           return  "redirect:/";
-       }
-       brandService.register(newBrand);
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("newBrand", newBrand);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newBrand", bindingResult);
+            return  "redirect:/";
+        }
+        brandService.register(newBrand);
 
-       return "redirect:/brands/show";
+        return "redirect:/brands/show";
     }
 
     @DeleteMapping("/delete/{uuid}")
@@ -78,6 +78,4 @@ public class BrandController {
         modelAndView.setViewName("redirect:/brands");
         return modelAndView;
     }
-
-
 }

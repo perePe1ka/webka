@@ -23,8 +23,6 @@ public class UserController {
 
     @GetMapping("/all")
     ModelAndView getAll(ModelAndView modelAndView) {
-    @GetMapping("/users")
-    List<UserDto> getAll(ModelAndView modelAndView) {
         modelAndView.setViewName("userPage");
         modelAndView.addObject("users", userService.getAll());
         return modelAndView;
