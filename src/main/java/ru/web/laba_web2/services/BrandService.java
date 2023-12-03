@@ -9,10 +9,10 @@ import ru.web.laba_web2.viewModel.ShowBrand;
 import java.util.List;
 import java.util.Optional;
 
-public interface BrandService<String>{
+public interface BrandService<String> {
     void register(AddBrandViewModel addBrandViewModel);
 
-    void deleteByUuid(String uuid);
+    void deleteByName(java.lang.String brandName);
 
     Optional<BrandDto> findByUuid(String uuid);
 

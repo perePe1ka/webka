@@ -12,7 +12,8 @@ import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
 import ru.web.laba_web2.services.BrandService;
 import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.dtos.ModelDto;
-import ru.web.laba_web2.viewModel.AddBrandViewModel;
+import ru.web.laba_web2.services.impl.BrandServiceImpl;
+import ru.web.laba_web2.services.impl.ModelServiceImpl;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
 
 import java.util.List;
@@ -21,15 +22,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/models")
 public class ModelController {
-    private ModelService modelService;
+    private ModelServiceImpl modelService;
 
-    private BrandService brandService;
-
-    @Autowired
-    public void setBrandService(BrandService brandService) {this.brandService = brandService;}
+    private BrandServiceImpl brandService;
 
     @Autowired
-    public void setModelService(ModelService modelService) {
+    public void setBrandService(BrandServiceImpl brandService) {this.brandService = brandService;}
+
+    @Autowired
+    public void setModelService(ModelServiceImpl modelService) {
         this.modelService = modelService;
     }
 
@@ -48,9 +49,10 @@ public class ModelController {
     }
 
     @GetMapping("/add")
-    public String addModel(Model model) {
+    public String addBrand(Model model) {
         model.addAttribute("availableBrands", brandService.allBrands());
-        return "fragments/navbar";
+
+        return "addModel";
     }
 
     @ModelAttribute("newModel")
@@ -58,27 +60,28 @@ public class ModelController {
         return new AddModelViewModel();
     }
 
-    @PostMapping("/register-model")
+    @PostMapping("/add")
     String registerModel(@Valid AddModelViewModel newModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("newModel", newModel);
-//            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newBrand", bindingResult);
-            return  "redirect:/";
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newModel", bindingResult);
+
+            return "redirect:/models/add";
         }
         modelService.register(newModel);
 
         return "redirect:/models/show";
     }
 
-    @DeleteMapping("/delete/{uuid}")
-    ModelAndView deleteModel(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
-        modelService.deleteByUuid(uuid);
-        modelAndView.setViewName("redirect:/models");
-        return modelAndView;
+    @GetMapping("/delete{modelName}")
+    String deleteModel(@PathVariable("modelName") String modelName) {
+        modelService.deleteByModelName(modelName);
+
+        return "redirect:/models/show";
     }
 
     @GetMapping("/get/{uuid}")
-    ModelDto getOne(@PathVariable("uuid") String uuid) throws Throwable {
+    ModelDto getOne(@PathVariable("uuid") String uuid) {
         return (ModelDto) modelService.findByUuid(uuid)
                 .orElseThrow(() -> new ModelNotFoundException(uuid));
     }

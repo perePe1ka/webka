@@ -1,8 +1,5 @@
 package ru.web.laba_web2.viewModel;
 
-import ru.web.laba_web2.models.Roles;
-import ru.web.laba_web2.models.TimeClass;
-
 public class ShowBrand {
     private String name;
 
@@ -12,5 +9,10 @@ public class ShowBrand {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

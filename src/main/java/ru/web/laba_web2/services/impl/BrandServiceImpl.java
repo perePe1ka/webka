@@ -61,8 +61,8 @@ public class BrandServiceImpl implements BrandService<String> {
 
 
     @Override
-    public void deleteByUuid(String uuid) {
-        brandRepository.deleteByUuid(uuid);
+    public void deleteByName(String brandName) {
+        brandRepository.deleteBrandByName(brandName);
     }
 
 
@@ -73,7 +73,8 @@ public class BrandServiceImpl implements BrandService<String> {
 
     @Override
     public List<ShowBrand> allBrands() {
-        return brandRepository.findAll().stream().map((brand) -> modelMapper.map(brand, ShowBrand.class)).collect(Collectors.toList());
+        return brandRepository.findAll().stream().map(brand -> modelMapper.map(brand, ShowBrand.class))
+                .collect(Collectors.toList());
     }
 
     @Override

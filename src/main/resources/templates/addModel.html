@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/head}"/>
+<body>
+<div th:replace="~{fragments/navbar}">Navbar</div>
+
+<form th:action="@{/models/add}"
+      th:method="post"
+      th:object="${newModel}"
+      class="m-md-auto w-50 pb-3">
+
+  <div class="form-group">
+    <label for="nameModel">Имя</label>
+    <input th:field="*{name}"
+           th:errorclass="is-invalid"
+           type="text" class="form-control" id="nameModel" aria-describedby="nameHelp"
+           name="name"/>
+    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error message</small>
+  </div>
+
+  <fieldset class="form-group">
+    <legend>Выберите категорию</legend>
+    <div class="form-check">
+      <input th:field="*{category}"
+             th:value="CAR"
+             th:errorclass="is-invalid"
+             type="radio" class="form-check-input" name="category"/>
+      <label class="form-check-label">CAR</label>
+    </div>
+    <div class="form-check">
+      <input th:field="*{category}"
+             th:value="BUS"
+             th:errorclass="is-invalid"
+             type="radio" class="form-check-input" name="category"/>
+      <label class="form-check-label">BUS</label>
+    </div>
+    <div class="form-check">
+      <input th:field="*{category}"
+             th:value="TRUCK"
+             th:errorclass="is-invalid"
+             type="radio" class="form-check-input" name="category"/>
+      <label class="form-check-label">TRUCK</label>
+    </div>
+    <div class="form-check">
+      <input th:field="*{category}"
+             th:value="MOTORCYCLE"
+             th:errorclass="is-invalid"
+             type="radio" class="form-check-input" name="category"/>
+      <label class="form-check-label">MOTORCYCLE</label>
+    </div>
+    <small th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="text-danger">Error message</small>
+  </fieldset>
+
+  <div class="form-group">
+    <label for="imageModel">Картинка</label>
+    <input th:field="*{imageUrl}"
+           th:errorclass="is-invalid"
+           type="text" class="form-control" id="imageModel" aria-describedby="nameHelp"
+           name="name"/>
+    <small th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="text-danger">Error message</small>
+  </div>
+
+  <div class="form-group">
+    <label for="startYear">Год начала</label>
+    <input th:field="*{startYear}"
+           th:errorclass="is-invalid"
+           type="text" class="form-control" id="startYear" aria-describedby="nameHelp"
+           name="name"/>
+    <small th:if="${#fields.hasErrors('startYear')}" th:errors="*{startYear}" class="text-danger">Error message</small>
+  </div>
+
+  <div class="form-group">
+    <label for="endYear">Год конца</label>
+    <input th:field="*{endYear}"
+           th:errorclass="is-invalid"
+           type="text" class="form-control" id="endYear" aria-describedby="nameHelp"
+           name="name"/>
+    <small th:if="${#fields.hasErrors('endYear')}" th:errors="*{endYear}" class="text-danger">Error message</small>
+  </div>
+
+  <div class="form-group">
+    <label for="brand">Выберите бренд</label>
+    <select class="form-control" id="brand" name="brand" th:field="*{brand}">
+      <option th:each="b : ${availableBrands}" th:value="${b.name}" th:text="${b.name}">Brand name</option>
+    </select>
+    <small th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}" class="text-danger">Error message</small>
+  </div>
+
+  <button type="submit" class="btn btn-secondary">Добавить модель</button>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-XeRoQ7D5WE0pHnAEE9fN0BLT6gB4JQlwpfJ/ES5TPaNpZAL5wa/PmybuKUCszAwr" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

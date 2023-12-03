@@ -19,6 +19,7 @@ import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
+import ru.web.laba_web2.viewModel.AddOfferViewModel;
 import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
@@ -68,11 +69,11 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
-    public void register(OfferDto offerDto) {
-        if (!this.validationUtil.isValid(offerDto)) {
+    public void register(AddOfferViewModel newOffer) {
+        if (!this.validationUtil.isValid(newOffer)) {
 
             this.validationUtil
-                    .violations(offerDto)
+                    .violations(newOffer)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
@@ -80,16 +81,16 @@ public class OfferServiceImpl implements OfferService<String> {
             throw new IllegalArgumentException("Что то пошло не так");
         }
 
-        Offer offer = this.modelMapper.map(offerDto, Offer.class);
-        offer.setSeller(userService.findByUsername(offerDto.getSeller()));
-        offer.setModel(modelService.findByName(offerDto.getModelDto()));
+        Offer offer = this.modelMapper.map(newOffer, Offer.class);
+        offer.setSeller(userService.findByUsername(newOffer.getSeller()));
+        offer.setModel(modelService.findByName(newOffer.getModel()));
 
         this.offerRepository.saveAndFlush(offer);
     }
 
     @Override
-    public void deleteByUuid(String uuid) {
-        offerRepository.deleteByUuid(uuid);
+    public void deleteByOfferDescription(String description) {
+        offerRepository.deleteOfferByDescription(description);
     }
 
     @Override

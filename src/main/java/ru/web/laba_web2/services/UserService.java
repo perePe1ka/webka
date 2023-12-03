@@ -9,11 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService<String> {
-//    User create(UserDto userDto);
 
     void register(UserDto userDto);
 
-    void deleteByUuid(String uuid);
+    void deleteByUserName(java.lang.String username);
 
     void transfer(UserDto userDto, RolesDto rolesDto, OfferDto offerDto);
 

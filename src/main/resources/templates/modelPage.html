@@ -15,6 +15,10 @@
             <h6 th:text="'Бренд: ' + *{m.brand}"></h6>
             <h6 th:text="'Изменено: ' + *{m.modified}"></h6>
             <h6 th:text="'Создано: ' + *{m.created}"></h6>
+            <div class="align-bottom">
+                <a class="btn btn-danger align-bottom"
+                   th:href="@{/models/delete{modelName}(modelName=${models.name})}">Удалить модель</a>
+            </div>
         </div></li>
     </ul>
 </main>

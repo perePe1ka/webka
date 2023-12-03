@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ModelService<String> {
-    void register(AddModelViewModel addModelViewModel);
+    void register(AddModelViewModel newModel);
 
-    void deleteByUuid(String uuid);
+    void deleteByModelName(java.lang.String modelName);
 
     void transfer(ModelDto modelDto, BrandDto brandDto);
 

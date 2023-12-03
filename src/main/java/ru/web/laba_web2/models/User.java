@@ -67,7 +67,7 @@ public class User extends TimeClass{
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     public Roles getRole() {
         return role;
     }
@@ -83,7 +83,7 @@ public class User extends TimeClass{
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller",cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller",cascade = CascadeType.REMOVE)
     public Set<Offer> getOffers() {
         return offers;
     }

@@ -66,8 +66,8 @@ public class UserServiceImpl implements UserService<String> {
     }
 
     @Override
-    public void deleteByUuid(String uuid) {
-        userRepository.deleteByUuid(uuid);
+    public void deleteByUserName(String username) {
+        userRepository.deleteUserByUsername(username);
     }
 
     @Override
@@ -82,6 +82,8 @@ public class UserServiceImpl implements UserService<String> {
     public Optional<UserDto> findByUuid(String uuid) {
         return Optional.ofNullable(modelMapper.map(userRepository.findByUuid(uuid), UserDto.class));
     }
+
+
 
     @Override
     public List<UserDto> getAll() {

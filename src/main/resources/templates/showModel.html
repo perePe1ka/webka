@@ -3,6 +3,7 @@
 <head th:replace="~{fragments/head}"/>
 <body class="d-flex flex-column h-100">
 <div th:replace="~{fragments/navbar}">Navbar</div>
+
 <main class="flex-shrink-0">
     <div class="container">
         <div class="row">
@@ -10,8 +11,8 @@
             <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
                 <h2 class="text-center text-dark mt-5">Все модели</h2>
                 <div th:each="m : ${modelsInfos}" class="d-flex flex-column bg-text mb-3">
-                    <h2 th:text="'Company: ' + ${m.name}"></h2>
-                    <h4 th:text="'Town: ' + ${m.category}"></h4>
+                    <h2 th:text="'Название модели: ' + ${m.name}"></h2>
+                    <h4 th:text="'Категория модели: ' + ${m.category}"></h4>
                     <h4><a class="btn-block" th:href="@{/models/all/{model-name}(model-name=${m.name})}">Детальная
                         информация</a></h4>
                 </div>

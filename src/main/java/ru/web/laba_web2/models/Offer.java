@@ -88,7 +88,7 @@ public class Offer extends TimeClass{
     }
     @ManyToOne(optional = false)
     @JoinColumn(name = "model_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     public Model getModel() {
         return model;
     }
@@ -98,7 +98,7 @@ public class Offer extends TimeClass{
     }
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     public User getSeller() {
         return seller;
     }

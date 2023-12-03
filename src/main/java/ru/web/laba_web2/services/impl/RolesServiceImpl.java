@@ -52,8 +52,8 @@ public class RolesServiceImpl implements RolesService<String> {
     }
 
     @Override
-    public void deleteByUuid(String uuid) {
-        rolesRepository.deleteByUuid(uuid);
+    public void deleteByRole(String role) {
+        rolesRepository.deleteRolesByRole(role);
     }
 
     @Override

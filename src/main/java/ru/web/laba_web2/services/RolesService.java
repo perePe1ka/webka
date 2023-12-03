@@ -10,8 +10,7 @@ import java.util.Optional;
 public interface RolesService<String> {
     void register(RolesDto role);
 
-//    Roles create(RolesDto rolesDto);
-    void deleteByUuid(String uuid);
+    void deleteByRole(java.lang.String role);
 
     Optional<RolesDto> findByUuid(String uuid);
 

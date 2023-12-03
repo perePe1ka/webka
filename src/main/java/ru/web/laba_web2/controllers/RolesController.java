@@ -37,11 +37,11 @@ public class RolesController {
         return modelAndView;
     }
 
-    @DeleteMapping("/delete/{uuid}")
-    ModelAndView deleteRole(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
-        rolesService.deleteByUuid(uuid);
-        modelAndView.setViewName("redirect:/roles");
-        return modelAndView;
+    @GetMapping("/delete{rolesRole}")
+    String deleteRole(@PathVariable("uuid") String role) {
+        rolesService.deleteByRole(role);
+
+        return "redirect:/roles";
     }
 
     @GetMapping("/get/(uuid)")

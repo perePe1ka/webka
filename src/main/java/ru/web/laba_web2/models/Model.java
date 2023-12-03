@@ -91,7 +91,7 @@ public class Model extends TimeClass{
     }
     @ManyToOne(optional = false)
     @JoinColumn(name = "brand_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.MERGE)
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     public Brand getBrand() {
         return brand;
     }
@@ -99,7 +99,7 @@ public class Model extends TimeClass{
     public void setBrand(Brand brand) {
         this.brand = brand;
     }
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "model", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "model", cascade = CascadeType.REMOVE)
     public Set<Offer> getOffers() {
         return offers;
     }

@@ -17,6 +17,10 @@
                 <h6 th:text="'Год: ' + *{o.year}"></h6>
                 <h6 th:text="'Продавец: ' + *{o.seller}"></h6>
                 <h6 th:text="'Модель: ' + *{o.modelDto}"></h6>
+                <div class="align-bottom">
+                    <a class="btn btn-danger align-bottom"
+                       th:href="@{/offers/delete{offerDescription}(offerDescription=${offers.description})}">Удалить оффер</a>
+                </div>
             </div>
         </li>
     </ul>

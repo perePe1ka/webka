@@ -28,4 +28,9 @@ public class DetailBrand {
     public void setCreated(String created) {
         this.created = created;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

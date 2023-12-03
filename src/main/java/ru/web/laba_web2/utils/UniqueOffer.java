@@ -10,9 +10,9 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-@Constraint(validatedBy = UniqueBrandNameValidator.class)
-public @interface UniqueBrandName {
-    String message() default "К сожалению данное имя уже занято";
+@Constraint(validatedBy = UniqueOfferValidator.class)
+public @interface UniqueOffer {
+    String message() default "К сожалению такое же описание есть у другого бренда";
 
     Class<?>[] groups() default {};
 

@@ -53,28 +53,29 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Override
-    public void register(AddModelViewModel addModelViewModel) {
-        if (!this.validationUtil.isValid(addModelViewModel)) {
-
+    public void register(AddModelViewModel newModel) {
+        if (!this.validationUtil.isValid(newModel))
+        {
             this.validationUtil
-                    .violations(addModelViewModel)
+                    .violations(newModel)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
-
-            throw new IllegalArgumentException("Что то пошло не так");
+        } else {
+            try {
+                Model model = modelMapper.map(newModel, Model.class);
+                model.setBrand(brandRepository.findByName(newModel.getBrand()).orElse(null));
+                this.modelRepository.saveAndFlush(model);
+            } catch (Exception e) {
+                System.out.println("Oops, something went wrong! :(");
+            }
         }
-
-        Model model = this.modelMapper.map(addModelViewModel, Model.class);
-        model.setBrand(brandService.findByName(addModelViewModel.getBrand()));
-
-        this.modelRepository.saveAndFlush(model);
     }
 
 
     @Override
-    public void deleteByUuid(String uuid) {
-        modelRepository.deleteByUuid(uuid);
+    public void deleteByModelName(String modelName) {
+        modelRepository.deleteModelByName(modelName);
     }
 
     @Override
@@ -99,7 +100,8 @@ public class ModelServiceImpl implements ModelService<String> {
 
     @Override
     public List<ShowModel> allModels() {
-        return modelRepository.findAll().stream().map(model -> modelMapper.map(model, ShowModel.class)).collect(Collectors.toList());
+        return modelRepository.findAll().stream().map(model -> modelMapper.map(model, ShowModel.class))
+                .collect(Collectors.toList());
     }
 
     @Override

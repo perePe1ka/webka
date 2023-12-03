@@ -36,11 +36,11 @@ public class UserController {
     }
 
 
-    @DeleteMapping("/delete/{uuid}")
-    ModelAndView deleteUser(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
-        userService.deleteByUuid(uuid);
-        modelAndView.setViewName("redirect:/users");
-        return modelAndView;
+    @GetMapping("/delete{userUsername}")
+    String deleteUser(@PathVariable("userUsername") String username) {
+        userService.deleteByUserName(username);
+     
+        return "redirect:/users";
     }
 
     @GetMapping("/get/{uuid}")

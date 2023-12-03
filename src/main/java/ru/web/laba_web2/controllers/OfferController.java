@@ -1,25 +1,39 @@
 package ru.web.laba_web2.controllers;
 
-import org.modelmapper.ModelMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.controllers.exceptions.OfferNotFoundException;
+import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.OfferService;
 import ru.web.laba_web2.services.UserService;
 import ru.web.laba_web2.services.dtos.OfferDto;
-import ru.web.laba_web2.services.dtos.UserDto;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import ru.web.laba_web2.viewModel.AddOfferViewModel;
 
 
 @Controller
 @RequestMapping("/offers")
 public class OfferController {
     private OfferService offerService;
+
+    private ModelService modelService;
+
+    private UserService userService;
+
+    @Autowired
+    public void setModelService(ModelService modelService) {
+        this.modelService = modelService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @Autowired
     public void setOfferService(OfferService offerService) {
@@ -40,18 +54,37 @@ public class OfferController {
         return modelAndView;
     }
 
-    @PostMapping("/register-offer")
-    ModelAndView registerOffer(@ModelAttribute OfferDto offerDto, ModelAndView modelAndView) {
-        offerService.register(offerDto);
-        modelAndView.setViewName("redirect:/offers");
-        return modelAndView;
+    @ModelAttribute("newOffer")
+    public AddOfferViewModel initOffer() {
+        return new AddOfferViewModel();
     }
 
-    @DeleteMapping("/delete/{uuid}")
-    ModelAndView deleteOffer(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
-        offerService.deleteByUuid(uuid);
-        modelAndView.setViewName("redirect:/offers");
-        return modelAndView;
+    @GetMapping("/add")
+    String addOffer(Model model)
+    {
+        model.addAttribute("availableModels", modelService.allModels());
+        model.addAttribute("availableUsers", userService.getAll());
+        return "addOffer";
+    }
+
+    @PostMapping("/add")
+    String registerOffer(@Valid AddOfferViewModel newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("newOffer", newOffer);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newModel", bindingResult);
+
+            return "redirect:/offers/add";
+        }
+        offerService.register(newOffer);
+
+        return "redirect:/offers/show";
+    }
+
+    @GetMapping("/delete{offerDescription}")
+    String deleteOffer(@PathVariable("offerDescription") String offerDescription) {
+        offerService.deleteByOfferDescription(offerDescription);
+
+        return "redirect:/offers";
     }
 
     @GetMapping("/get/(uuid)")

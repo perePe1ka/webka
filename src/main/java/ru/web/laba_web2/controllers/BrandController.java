@@ -39,7 +39,7 @@ public class BrandController {
 
     @GetMapping("/add")
     public String addBrand() {
-        return "fragments/navbar";
+        return "addBrand";
     }
 
     @ModelAttribute("newBrand")
@@ -52,18 +52,19 @@ public class BrandController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("newBrand", newBrand);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newBrand", bindingResult);
-            return  "redirect:/";
+
+            return "redirect:/brands/add";
         }
         brandService.register(newBrand);
 
         return "redirect:/brands/show";
     }
 
-    @DeleteMapping("/delete/{uuid}")
-    ModelAndView deleteBrand(@PathVariable("uuid") String uuid, ModelAndView modelAndView) {
-        brandService.deleteByUuid(uuid);
-        modelAndView.setViewName("redirect:/brands");
-        return modelAndView;
+    @GetMapping("/delete{brandName}")
+    String deleteBrand(@PathVariable("brandName") String brandName) {
+        brandService.deleteByName(brandName);
+
+        return "redirect:/brands/show";
     }
 
     @GetMapping("/get/(uuid)")
