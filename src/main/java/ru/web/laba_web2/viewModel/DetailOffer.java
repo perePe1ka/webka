@@ -1,17 +1,10 @@
-package ru.web.laba_web2.models;
+package ru.web.laba_web2.viewModel;
 
-import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
 import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Transmission;
 
-
-@Entity
-@Table(name = "offer")
-public class Offer extends TimeClass{
-
+public class DetailOffer {
     private String description;
-    @Enumerated(EnumType.STRING)
     private Engine engine;
 
     private String imageUrl;
@@ -19,18 +12,33 @@ public class Offer extends TimeClass{
     private int milleage;
 
     private int price;
-    @Enumerated(EnumType.STRING)
     private Transmission transmission;
 
     private int year;
 
-    private Model model;
+    private String seller;
 
+    private String model;
 
-    private User seller;
+    private String modified;
+    private String created;
 
+    public String getModified() {
+        return modified;
+    }
 
-    @Column(name = "description", length = 255, nullable = false)
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -38,7 +46,7 @@ public class Offer extends TimeClass{
     public void setDescription(String description) {
         this.description = description;
     }
-    @Column(name = "engine", nullable = false)
+
     public Engine getEngine() {
         return engine;
     }
@@ -46,7 +54,7 @@ public class Offer extends TimeClass{
     public void setEngine(Engine engine) {
         this.engine = engine;
     }
-    @Column(name = "imageUrl", length = 255)
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -54,7 +62,7 @@ public class Offer extends TimeClass{
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    @Column(name = "milleage", nullable = false)
+
     public int getMilleage() {
         return milleage;
     }
@@ -62,7 +70,7 @@ public class Offer extends TimeClass{
     public void setMilleage(int milleage) {
         this.milleage = milleage;
     }
-    @Column(name = "price", nullable = false)
+
     public int getPrice() {
         return price;
     }
@@ -70,7 +78,7 @@ public class Offer extends TimeClass{
     public void setPrice(int price) {
         this.price = price;
     }
-    @Column(name = "transmission", nullable = false)
+
     public Transmission getTransmission() {
         return transmission;
     }
@@ -78,7 +86,7 @@ public class Offer extends TimeClass{
     public void setTransmission(Transmission transmission) {
         this.transmission = transmission;
     }
-    @Column(name = "year", nullable = false)
+
     public int getYear() {
         return year;
     }
@@ -86,22 +94,25 @@ public class Offer extends TimeClass{
     public void setYear(int year) {
         this.year = year;
     }
-    @ManyToOne
-    @JoinColumn(name = "model_uuid", referencedColumnName = "uuid", nullable=false)
-    public Model getModel() {
-        return model;
-    }
 
-    public void setModel(Model model) {
-        this.model = model;
-    }
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_uuid", referencedColumnName = "uuid", nullable=false)
-    public User getSeller() {
+    public String getSeller() {
         return seller;
     }
 
-    public void setSeller(User seller) {
+    public void setSeller(String seller) {
         this.seller = seller;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    @Override
+    public String toString() {
+        return description;
     }
 }

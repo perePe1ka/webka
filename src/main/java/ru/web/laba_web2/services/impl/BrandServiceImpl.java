@@ -62,7 +62,7 @@ public class BrandServiceImpl implements BrandService<String> {
 
     @Override
     public void deleteByName(String brandName) {
-        brandRepository.deleteBrandByName(brandName);
+        brandRepository.deleteByName(brandName);
     }
 
 

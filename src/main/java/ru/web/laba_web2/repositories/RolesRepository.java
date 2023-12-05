@@ -16,6 +16,5 @@ public interface RolesRepository extends JpaRepository<Roles, String> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Roles r WHERE r.role = :role")
-    void deleteRolesByRole(String role);
+    void deleteByRole(String role);
 }

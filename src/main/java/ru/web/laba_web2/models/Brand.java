@@ -34,7 +34,7 @@ public class Brand extends TimeClass{
         this.name = name;
     }
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "brand", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "brand", cascade = CascadeType.REMOVE)
     public Set<Model> getModel() {
         return model;
     }

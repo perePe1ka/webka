@@ -67,7 +67,6 @@ public class User extends TimeClass{
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     public Roles getRole() {
         return role;
     }

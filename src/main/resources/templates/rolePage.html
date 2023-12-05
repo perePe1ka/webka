@@ -9,10 +9,10 @@
         <li class="list-group-item text-center">
             <div th:each="r : ${roles}">
                 <h2 th:text="'Роль: ' + *{r.role}"></h2>
-                <div class="align-bottom">
-                    <a class="btn btn-danger align-bottom"
-                       th:href="@{/roles/delete{rolesRole}(rolesRole=${roles.description})}">Удалить оффер</a>
-                </div>
+<!--                <div class="align-bottom">-->
+<!--                    <a class="btn btn-danger align-bottom"-->
+<!--                       th:href="@{/roles/delete{rolesRole}(rolesRole=${roles})}">Удалить оффер</a>-->
+<!--                </div>-->
             </div>
         </li>
     </ul>

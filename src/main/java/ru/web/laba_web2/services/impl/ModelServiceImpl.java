@@ -75,7 +75,7 @@ public class ModelServiceImpl implements ModelService<String> {
 
     @Override
     public void deleteByModelName(String modelName) {
-        modelRepository.deleteModelByName(modelName);
+        modelRepository.deleteByName(modelName);
     }
 
     @Override

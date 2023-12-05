@@ -20,6 +20,7 @@ import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
+import ru.web.laba_web2.viewModel.DetailOffer;
 import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
@@ -109,10 +110,10 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
-    public OfferDto getAll(String offerDescription) {
+    public DetailOffer getAll(String offerDescription) {
         Offer offer = offerRepository.findByDescription(offerDescription)
                 .orElseThrow(() -> new ModelNotFoundException("Offer with name " + offerDescription + " not found"));
-        return modelMapper.map(offer, OfferDto.class);
+        return modelMapper.map(offer, DetailOffer.class);
     }
 
     @Override

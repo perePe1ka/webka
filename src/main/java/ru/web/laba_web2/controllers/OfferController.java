@@ -71,7 +71,7 @@ public class OfferController {
     String registerOffer(@Valid AddOfferViewModel newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("newOffer", newOffer);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newModel", bindingResult);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newOffer", bindingResult);
 
             return "redirect:/offers/add";
         }
@@ -84,7 +84,7 @@ public class OfferController {
     String deleteOffer(@PathVariable("offerDescription") String offerDescription) {
         offerService.deleteByOfferDescription(offerDescription);
 
-        return "redirect:/offers";
+        return "redirect:/offers/show";
     }
 
     @GetMapping("/get/(uuid)")

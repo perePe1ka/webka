@@ -4,6 +4,7 @@ import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
+import ru.web.laba_web2.viewModel.DetailOffer;
 import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface OfferService<String> {
 
     List<UserDto> getAllAdmins();
 
-    OfferDto getAll(java.lang.String offerDescription);
+    DetailOffer getAll(String offerDescription);
 
     List<ShowOffer> allOffers();
 

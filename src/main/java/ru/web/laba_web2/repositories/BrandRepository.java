@@ -20,7 +20,6 @@ public interface BrandRepository extends JpaRepository<Brand, String> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Brand b WHERE b.name = :name")
-    void deleteBrandByName(String name);
+    void deleteByName(String name);
 
 }

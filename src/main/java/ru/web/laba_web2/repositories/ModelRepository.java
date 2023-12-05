@@ -19,7 +19,6 @@ public interface ModelRepository extends JpaRepository<Model, String> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Model m WHERE m.name = :name")
-    void deleteModelByName(String name);
+    void deleteByName(String name);
 
 }

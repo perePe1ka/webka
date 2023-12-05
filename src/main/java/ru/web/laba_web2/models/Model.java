@@ -89,9 +89,8 @@ public class Model extends TimeClass{
     public void setEndYear(int endYear) {
         this.endYear = endYear;
     }
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "brand_uuid", referencedColumnName = "uuid", nullable=false)
-    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     public Brand getBrand() {
         return brand;
     }

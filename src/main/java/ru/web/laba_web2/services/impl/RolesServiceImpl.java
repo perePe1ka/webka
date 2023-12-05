@@ -53,7 +53,7 @@ public class RolesServiceImpl implements RolesService<String> {
 
     @Override
     public void deleteByRole(String role) {
-        rolesRepository.deleteRolesByRole(role);
+        rolesRepository.deleteByRole(role);
     }
 
     @Override

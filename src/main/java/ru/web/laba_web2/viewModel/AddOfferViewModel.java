@@ -94,8 +94,8 @@ public class AddOfferViewModel {
     public void setYear(int year) {
         this.year = year;
     }
-    @NotEmpty(message = "Выберите модель")
 
+    @NotEmpty(message = "Выберите модель")
     public String getModel() {
         return model;
     }
