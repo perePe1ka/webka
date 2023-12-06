@@ -12,6 +12,7 @@
             <h2 th:text="'Название бренда: ' + *{b.name}"></h2>
             <h6 th:text="'Время изменения: ' + *{b.modified}"></h6>
             <h6 th:text="'Время создания: ' + *{b.created}"></h6>
+            <h4><a class="btn-block" th:href="@{/brands/update/{uuid}(uuid = ${b.uuid})}">Обновить информацию</a></h4>
             <div class="align-bottom">
                 <a class="btn btn-danger align-bottom"
                    th:href="@{/brands/delete{brandName}(brandName=${brands.name})}">Удалить бренд</a>

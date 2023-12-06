@@ -10,6 +10,10 @@ public class ShowOffer {
     private int price;
     private int year;
 
+    private String model;
+
+    private String seller;
+
     public String getDescription() {
         return description;
     }
@@ -48,6 +52,22 @@ public class ShowOffer {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
     @Override

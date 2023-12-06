@@ -12,6 +12,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 @AllArgsConstructor
@@ -21,10 +23,10 @@ import java.time.LocalDate;
 public abstract class TimeClass extends BaseEntity{
     @Column(name = "modified", columnDefinition = "DATE")
     @LastModifiedDate
-    public LocalDate modified;
+    public LocalDateTime modified;
     @Column(name = "created", columnDefinition = "DATE")
     @CreatedDate
-    public LocalDate created;
+    public LocalDateTime created;
 //    @Column(name = "modified", columnDefinition = "DATE")
 //    @LastModifiedDate
 //    public LocalDate getModified() {

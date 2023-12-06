@@ -19,9 +19,7 @@ import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
-import ru.web.laba_web2.viewModel.AddOfferViewModel;
-import ru.web.laba_web2.viewModel.DetailOffer;
-import ru.web.laba_web2.viewModel.ShowOffer;
+import ru.web.laba_web2.viewModel.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -105,8 +103,8 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
-    public Optional<OfferDto> findByUuid(String uuid) {
-        return Optional.ofNullable(modelMapper.map(offerRepository.findByUuid(uuid), OfferDto.class));
+    public Optional<EditOffer> findByUuid(String uuid) {
+        return Optional.ofNullable(modelMapper.map(offerRepository.findByUuid(uuid), EditOffer.class));
     }
 
     @Override
@@ -122,17 +120,19 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
-    public void editOffer(OfferDto offerDto) {
-        if (!this.validationUtil.isValid(offerDto)) {
+    public void editOffer(EditOffer editOffer) {
+        if (!this.validationUtil.isValid(editOffer)) {
             this.validationUtil
-                    .violations(offerDto)
+                    .violations(editOffer)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
         } else {
             try {
-                Offer offer = modelMapper.map(offerDto, Offer.class);
-                offerRepository.saveAndFlush(offer);
+                Offer offer = modelMapper.map(editOffer, Offer.class);
+                offer.setModel(modelRepository.findByName(editOffer.getModel()).orElse(null));
+                offer.setSeller(userRepository.findByUsername(editOffer.getSeller()).orElse(null));
+                this.offerRepository.saveAndFlush(offer);
             } catch (Exception e) {
                 System.out.println("Что-то пошло не так");
             }

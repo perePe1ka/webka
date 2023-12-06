@@ -5,6 +5,7 @@ import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
 import ru.web.laba_web2.viewModel.DetailOffer;
+import ru.web.laba_web2.viewModel.EditOffer;
 import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface OfferService<String> {
 
     void transfer(OfferDto offerDto, ModelDto modelDto, UserDto userDto);
 
-    Optional<OfferDto> findByUuid(String uuid);
+    Optional<EditOffer> findByUuid(String uuid);
 
     List<UserDto> getAllAdmins();
 
@@ -24,7 +25,7 @@ public interface OfferService<String> {
 
     List<ShowOffer> allOffers();
 
-    void editOffer(OfferDto offerDto);
+    void editOffer(EditOffer editOffer);
 
     int calculateTotalPrice();
 }

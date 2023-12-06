@@ -6,6 +6,8 @@ public class ShowModel {
     private String name;
     private Category category;
 
+    private String brand;
+
     public String getName() {
         return name;
     }
@@ -20,6 +22,14 @@ public class ShowModel {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
     }
 
     @Override

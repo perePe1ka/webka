@@ -2,8 +2,11 @@ package ru.web.laba_web2.models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
+import ru.web.laba_web2.constants.Category;
 import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Transmission;
+
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -28,6 +31,33 @@ public class Offer extends TimeClass{
 
 
     private User seller;
+
+    public Offer(LocalDateTime created,
+                 LocalDateTime modified,
+                 String description,
+                 Engine engine,
+                 String imageURL,
+                 Integer milleage,
+                 Integer price,
+                 Transmission transmission,
+                 Integer year,
+                 Model model,
+                 User seller) {
+        super(created, modified);
+        this.description = description;
+        this.engine = engine;
+        this.imageUrl = imageURL;
+        this.milleage = milleage;
+        this.price = price;
+        this.transmission = transmission;
+        this.year = year;
+        this.model = model;
+        this.seller = seller;
+    }
+
+    public Offer() {
+
+    }
 
 
     @Column(name = "description", length = 255, nullable = false)

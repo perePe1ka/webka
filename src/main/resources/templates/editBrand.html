@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/head}"/>
+<body>
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<form th:action="@{/brands/update/{uuid}}"
+      th:method="post"
+      th:object="${editBrand}"
+      class="m-md-auto w-50 pb-3">
+  <input type="hidden" th:field="*{uuid}"/>
+  <input type="hidden" th:field="*{created}"/>
+  <div class="mb-3">
+    <label class="form-label" for="nameBrand">Name</label>
+    <input th:field="*{name}"
+           th:errorclass="is-invalid"
+           type="text" class="form-control text-center" id="nameBrand"
+           aria-describedby="nameHelp"
+           name="uuid"/>
+    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error message</small>
+  </div>
+  <button type="submit" class="btn btn-secondary">Обновить данные бренда</button>
+</form>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

@@ -12,6 +12,7 @@
                 <h2 class="text-center text-dark mt-5">Все модели</h2>
                 <div th:each="m : ${modelsInfos}" class="d-flex flex-column bg-text mb-3">
                     <h2 th:text="'Название модели: ' + ${m.name}"></h2>
+                    <h4 th:text="'Бренд: ' + ${m.brand}"></h4>
                     <h4 th:text="'Категория модели: ' + ${m.category}"></h4>
                     <h4><a class="btn-block" th:href="@{/models/all/{model-name}(model-name=${m.name})}">Детальная
                         информация</a></h4>

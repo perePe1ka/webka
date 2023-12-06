@@ -5,14 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 
 @Entity
 @Table(name = "brand")
 public class Brand extends TimeClass{
-    public Brand(LocalDate created,
-                 LocalDate modified,
+    public Brand(LocalDateTime created,
+                 LocalDateTime modified,
                  String name) {
         super(created, modified);
         this.name = name;

@@ -9,16 +9,17 @@
         <li class="list-group-item text-center mb-20">
             <div th:each="o : ${offers}">
                 <h2 th:text="'Описание: ' + *{o.description}"></h2>
+                <h4 th:text="'Продавец: ' + *{o.seller}"></h4>
+                <h4 th:text="'Модель: ' + *{o.model}"></h4>
                 <h6 th:text="'Двигатель: ' + *{o.engine}"></h6>
                 <h6 th:text="'Ссылка на картинку: ' + *{o.imageUrl}"></h6>
                 <h6 th:text="'Пробег: ' + *{o.milleage}"></h6>
                 <h6 th:text="'Цена: ' + *{o.price}"></h6>
                 <h6 th:text="'Трансмиссия: ' + *{o.transmission}"></h6>
                 <h6 th:text="'Год: ' + *{o.year}"></h6>
-                <h6 th:text="'Продавец: ' + *{o.seller}"></h6>
-                <h6 th:text="'Модель: ' + *{o.model}"></h6>
                 <h6 th:text="'Создан: ' + *{o.created}"></h6>
                 <h6 th:text="'Изменён: ' + *{o.modified}"></h6>
+                <h4><a class="btn-block" th:href="@{/offers/update/{uuid}(uuid = ${o.uuid})}">Обновить информацию</a></h4>
                 <div class="align-bottom">
                     <a class="btn btn-danger align-bottom"
                        th:href="@{/offers/delete{offerDescription}(offerDescription=${offers.description})}">Удалить оффер</a>

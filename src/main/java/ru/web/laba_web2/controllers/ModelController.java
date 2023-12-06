@@ -15,6 +15,8 @@ import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
 import ru.web.laba_web2.services.impl.ModelServiceImpl;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
+import ru.web.laba_web2.viewModel.EditBrand;
+import ru.web.laba_web2.viewModel.EditModel;
 
 import java.util.List;
 
@@ -80,18 +82,30 @@ public class ModelController {
         return "redirect:/models/show";
     }
 
-    @GetMapping("/get/{uuid}")
-    ModelDto getOne(@PathVariable("uuid") String uuid) {
-        return (ModelDto) modelService.findByUuid(uuid)
-                .orElseThrow(() -> new ModelNotFoundException(uuid));
+    @GetMapping("/update/{uuid}")
+    public String showUpdateForm(@PathVariable("uuid") String uuid, Model model) {
+        model.addAttribute("availableBrands", brandService.allBrands());
+
+        model.addAttribute("editModel", modelService.findByUuid(uuid)
+                .orElseThrow(() -> new ModelNotFoundException(uuid)));
+        return "editModel";
     }
 
-    @PutMapping("/edit/{uuid}")
-    ModelAndView editModel(@ModelAttribute ModelDto modelDto, ModelAndView modelAndView) {
-        modelService.editModel(modelDto);
-        modelAndView.setViewName("redirect:/models");
-        return modelAndView;
+    @PostMapping("/update/{uuid}")
+    public String updateModel(@PathVariable("uuid") String uuid,
+                              @Valid EditModel editModel,
+                              BindingResult bindingResult,
+                              RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("editModel", editModel);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editModel", bindingResult);
+            return "redirect:/models/update/" + uuid;
+        }
+
+        modelService.editModel(editModel);
+        return "redirect:/models/show";
     }
+
 
     @GetMapping("/sortedByYear")
     List<ModelDto> getModelsSortedByYear() {

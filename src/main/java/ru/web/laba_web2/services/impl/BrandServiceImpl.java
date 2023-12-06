@@ -13,6 +13,7 @@ import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddBrandViewModel;
 import ru.web.laba_web2.viewModel.DetailBrand;
+import ru.web.laba_web2.viewModel.EditBrand;
 import ru.web.laba_web2.viewModel.ShowBrand;
 
 import java.util.List;
@@ -67,8 +68,8 @@ public class BrandServiceImpl implements BrandService<String> {
 
 
     @Override
-    public Optional<BrandDto> findByUuid(String uuid) {
-        return Optional.ofNullable(modelMapper.map(brandRepository.findByUuid(uuid), BrandDto.class));
+    public Optional<EditBrand> findByUuid(String uuid) {
+        return Optional.ofNullable(modelMapper.map(brandRepository.findByUuid(uuid), EditBrand.class));
     }
 
     @Override
@@ -85,16 +86,16 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
-    public void editBrand(BrandDto brandDto) {
-        if (!this.validationUtil.isValid(brandDto)) {
+    public void editBrand(EditBrand editBrand) {
+        if (!this.validationUtil.isValid(editBrand)) {
             this.validationUtil
-                    .violations(brandDto)
+                    .violations(editBrand)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
         } else {
             try {
-                Brand brand = modelMapper.map(brandDto, Brand.class);
+                Brand brand = modelMapper.map(editBrand, Brand.class);
                 brandRepository.saveAndFlush(brand);
             } catch (Exception e) {
                 System.out.println("Что-то пошло не так");

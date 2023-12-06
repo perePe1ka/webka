@@ -5,6 +5,7 @@ import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
 import ru.web.laba_web2.viewModel.DetailModel;
+import ru.web.laba_web2.viewModel.EditModel;
 import ru.web.laba_web2.viewModel.ShowModel;
 
 import java.util.List;
@@ -17,13 +18,13 @@ public interface ModelService<String> {
 
     void transfer(ModelDto modelDto, BrandDto brandDto);
 
-    Optional<ModelDto> findByUuid(String uuid);
+    Optional<EditModel> findByUuid(String uuid);
 
     DetailModel getAll(String name);
 
     List<ShowModel> allModels();
 
-    void editModel(ModelDto modelDto);
+    void editModel(EditModel editModel);
 
     List<ModelDto> getModelsSortedByYear();
 

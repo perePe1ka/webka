@@ -12,7 +12,7 @@ public interface UserService<String> {
 
     void register(UserDto userDto);
 
-    void deleteByUserName(java.lang.String username);
+    void deleteByUserName(String username);
 
     void transfer(UserDto userDto, RolesDto rolesDto, OfferDto offerDto);
 

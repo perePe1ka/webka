@@ -12,8 +12,8 @@ import java.util.Set;
 @Table(name = "model")
 public class Model extends TimeClass{
 
-    public Model(LocalDate created,
-                 LocalDate modified,
+    public Model(LocalDateTime created,
+                 LocalDateTime modified,
                  String name,
                  Category category,
                  String imageURL,

@@ -4,6 +4,7 @@ import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.viewModel.AddBrandViewModel;
 import ru.web.laba_web2.viewModel.DetailBrand;
+import ru.web.laba_web2.viewModel.EditBrand;
 import ru.web.laba_web2.viewModel.ShowBrand;
 
 import java.util.List;
@@ -14,13 +15,13 @@ public interface BrandService<String> {
 
     void deleteByName(java.lang.String brandName);
 
-    Optional<BrandDto> findByUuid(String uuid);
+    Optional<EditBrand> findByUuid(String uuid);
 
     List<ShowBrand> allBrands();
 
     DetailBrand getAll(String brandName);
 
-    void editBrand(BrandDto brandDto);
+    void editBrand(EditBrand editBrand);
 
     Brand findByName(String name);
 }

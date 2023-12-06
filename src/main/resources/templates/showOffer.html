@@ -11,6 +11,8 @@
                 <h2 class="text-center text-dark mt-5">Все офферы</h2>
                 <div th:each="o : ${offersInfos}" class="d-flex flex-column bg-text mb-3">
                     <h2 th:text="'Описание: ' + ${o.description}"></h2>
+                    <h4 th:text="'Модель машины: ' + ${o.model}"></h4>
+                    <h4 th:text="'Продавец: ' + ${o.seller}"></h4>
                     <h4 th:text="'Двигатель: ' + ${o.engine}"></h4>
                     <h4 th:text="'Пробег: ' + ${o.milleage}"></h4>
                     <h4 th:text="'Цена: ' + ${o.price}"></h4>

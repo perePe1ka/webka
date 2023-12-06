@@ -12,8 +12,8 @@ import ru.web.laba_web2.controllers.exceptions.OfferNotFoundException;
 import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.OfferService;
 import ru.web.laba_web2.services.UserService;
-import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
+import ru.web.laba_web2.viewModel.EditOffer;
 
 
 @Controller
@@ -60,8 +60,7 @@ public class OfferController {
     }
 
     @GetMapping("/add")
-    String addOffer(Model model)
-    {
+    String addOffer(Model model) {
         model.addAttribute("availableModels", modelService.allModels());
         model.addAttribute("availableUsers", userService.getAll());
         return "addOffer";
@@ -87,24 +86,29 @@ public class OfferController {
         return "redirect:/offers/show";
     }
 
-    @GetMapping("/get/(uuid)")
-    OfferDto getOne(@PathVariable("uuid") String uuid) throws Throwable {
-        return (OfferDto) offerService.findByUuid(uuid)
-                .orElseThrow(() -> new OfferNotFoundException(uuid));
+    @GetMapping("/update/{uuid}")
+    String showUpdateForm(@PathVariable("uuid") String uuid, Model model) throws Throwable {
+        model.addAttribute("availableModels", modelService.allModels());
+        model.addAttribute("availableUsers", userService.getAll());
+
+        model.addAttribute("editOffer", offerService.findByUuid(uuid)
+                .orElseThrow(() -> new OfferNotFoundException(uuid)));
+        return "editOffer";
     }
 
-    @PutMapping("/edit/{uuid}")
-    ModelAndView editOffer(@ModelAttribute OfferDto offerDto, ModelAndView modelAndView) {
-        offerService.editOffer(offerDto);
-        modelAndView.setViewName("redirect:/offers");
-        return modelAndView;
-    }
+    @PostMapping("/update/{uuid}")
+    String updateOffer(@PathVariable("uuid") String uuid,
+                       @Valid EditOffer editOffer,
+                       BindingResult bindingResult,
+                       RedirectAttributes redirectAttributes) {
+        if (bindingResult.hasErrors()) {
+            redirectAttributes.addFlashAttribute("editOffer", editOffer);
+            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editOffer", bindingResult);
+            return "redirect:/offers/update/" + uuid;
+        }
 
-    @GetMapping("/admins")
-    ModelAndView getAllAdmins(ModelAndView modelAndView) {
-        modelAndView.addObject("admins", offerService.getAllAdmins());
-        modelAndView.setViewName("redirect:/offers");
-        return modelAndView;
+        offerService.editOffer(editOffer);
+        return "redirect:/offers/show";
     }
 
 

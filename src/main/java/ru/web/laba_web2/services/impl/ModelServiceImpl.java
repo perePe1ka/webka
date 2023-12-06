@@ -16,6 +16,7 @@ import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
 import ru.web.laba_web2.viewModel.DetailModel;
+import ru.web.laba_web2.viewModel.EditModel;
 import ru.web.laba_web2.viewModel.ShowModel;
 
 import java.util.Comparator;
@@ -54,8 +55,7 @@ public class ModelServiceImpl implements ModelService<String> {
 
     @Override
     public void register(AddModelViewModel newModel) {
-        if (!this.validationUtil.isValid(newModel))
-        {
+        if (!this.validationUtil.isValid(newModel)) {
             this.validationUtil
                     .violations(newModel)
                     .stream()
@@ -87,8 +87,8 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Override
-    public Optional<ModelDto> findByUuid(String uuid) {
-        return Optional.ofNullable(modelMapper.map(modelRepository.findByUuid(uuid), ModelDto.class));
+    public Optional<EditModel> findByUuid(String uuid) {
+        return Optional.ofNullable(modelMapper.map(modelRepository.findByUuid(uuid), EditModel.class));
     }
 
     @Override
@@ -105,17 +105,18 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Override
-    public void editModel(ModelDto modelDto) {
-        if (!this.validationUtil.isValid(modelDto)) {
+    public void editModel(EditModel editModel) {
+        if (!this.validationUtil.isValid(editModel)) {
             this.validationUtil
-                    .violations(modelDto)
+                    .violations(editModel)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
         } else {
             try {
-                Model model = modelMapper.map(modelDto, Model.class);
-                modelRepository.saveAndFlush(model);
+                Model model = modelMapper.map(editModel, Model.class);
+                model.setBrand(brandRepository.findByName(editModel.getBrand()).orElse(null));
+                this.modelRepository.saveAndFlush(model);
             } catch (Exception e) {
                 System.out.println("Что-то пошло не так");
             }

@@ -2,6 +2,9 @@ package ru.web.laba_web2.models;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
+import ru.web.laba_web2.constants.Category;
+
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -23,6 +26,29 @@ public class User extends TimeClass{
     private String imageUrl;
 
     private Set<Offer> offers;
+
+    public User(LocalDateTime created,
+                 LocalDateTime modified,
+                 String username,
+                 String password,
+                 String firstName,
+                 String lastName,
+                 boolean isActive,
+                 Roles role,
+                String imageURL) {
+        super(created, modified);
+        this.username = username;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isActive = isActive;
+        this.role = role;
+        this.imageUrl = imageURL;
+    }
+
+    public User() {
+
+    }
 
     @Column(name = "username", length = 20, nullable = false)
     public String getUsername() {
