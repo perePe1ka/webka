@@ -9,7 +9,7 @@ public class AddBrandViewModel {
     private String name;
 
     @NotEmpty(message = "Имя не может быть пустым")
-    @Size(min = 2, max = 10, message = "Название минимум 2 символа")
+    @Size(min = 2, max = 40, message = "Название минимум 2 символа")
     public String getName() {
         return name;
     }

@@ -26,7 +26,5 @@ public interface ModelService<String> {
 
     void editModel(EditModel editModel);
 
-    List<ModelDto> getModelsSortedByYear();
-
     Model findByName(String name);
 }

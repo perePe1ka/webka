@@ -59,6 +59,11 @@ public class OfferController {
         return new AddOfferViewModel();
     }
 
+    @ModelAttribute("editOffer")
+    public EditOffer editOffer() {
+        return new EditOffer();
+    }
+
     @GetMapping("/add")
     String addOffer(Model model) {
         model.addAttribute("availableModels", modelService.allModels());
@@ -109,12 +114,6 @@ public class OfferController {
 
         offerService.editOffer(editOffer);
         return "redirect:/offers/show";
-    }
-
-
-    @GetMapping("/totalPrice")
-    int calculateTotalPrice() {
-        return offerService.calculateTotalPrice();
     }
 
 

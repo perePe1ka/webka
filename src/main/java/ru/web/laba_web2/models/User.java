@@ -1,15 +1,14 @@
 package ru.web.laba_web2.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
-import ru.web.laba_web2.constants.Category;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends TimeClass{
+public class User extends TimeClass implements Serializable{
 
     private String username;
 
@@ -21,6 +20,8 @@ public class User extends TimeClass{
 
     private boolean isActive;
 
+    private String email;
+
     private Roles role;
 
     private String imageUrl;
@@ -28,13 +29,13 @@ public class User extends TimeClass{
     private Set<Offer> offers;
 
     public User(LocalDateTime created,
-                 LocalDateTime modified,
-                 String username,
-                 String password,
-                 String firstName,
-                 String lastName,
-                 boolean isActive,
-                 Roles role,
+                LocalDateTime modified,
+                String username,
+                String password,
+                String firstName,
+                String lastName,
+                boolean isActive,
+                Roles role,
                 String imageURL) {
         super(created, modified);
         this.username = username;
@@ -58,6 +59,7 @@ public class User extends TimeClass{
     public void setUsername(String username) {
         this.username = username;
     }
+
     @Column(name = "password", length = 20, nullable = false)
     public String getPassword() {
         return password;
@@ -66,6 +68,7 @@ public class User extends TimeClass{
     public void setPassword(String password) {
         this.password = password;
     }
+
     @Column(name = "firstName", length = 15, nullable = false)
     public String getFirstName() {
         return firstName;
@@ -74,6 +77,7 @@ public class User extends TimeClass{
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     @Column(name = "lastName", length = 15, nullable = false)
     public String getLastName() {
         return lastName;
@@ -82,6 +86,7 @@ public class User extends TimeClass{
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
     @Column(name = "isActive", nullable = false)
     public boolean isActive() {
         return isActive;
@@ -92,7 +97,7 @@ public class User extends TimeClass{
     }
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable=false)
+    @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable = false)
     public Roles getRole() {
         return role;
     }
@@ -100,6 +105,7 @@ public class User extends TimeClass{
     public void setRole(Roles role) {
         this.role = role;
     }
+
     @Column(name = "imageUrl", length = 255)
     public String getImageUrl() {
         return imageUrl;
@@ -108,7 +114,8 @@ public class User extends TimeClass{
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller",cascade = CascadeType.REMOVE)
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller", cascade = CascadeType.REMOVE)
     public Set<Offer> getOffers() {
         return offers;
     }
@@ -121,4 +128,5 @@ public class User extends TimeClass{
     public String toString() {
         return firstName + ' ' + lastName;
     }
+
 }

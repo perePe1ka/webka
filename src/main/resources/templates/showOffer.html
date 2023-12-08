@@ -17,6 +17,7 @@
                     <h4 th:text="'Пробег: ' + ${o.milleage}"></h4>
                     <h4 th:text="'Цена: ' + ${o.price}"></h4>
                     <h4 th:text="'Год: ' + ${o.year}"></h4>
+
                     <h4><a class="btn-block" th:href="@{/offers/all/{offer-description}(offer-description=${o.description})}">Детальная информация</a></h4>
                 </div>
             </div>

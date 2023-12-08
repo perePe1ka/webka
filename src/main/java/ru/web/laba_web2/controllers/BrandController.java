@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.controllers.exceptions.BrandNotFoundException;
 import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
-import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
 import ru.web.laba_web2.viewModel.AddBrandViewModel;
 import ru.web.laba_web2.viewModel.EditBrand;
+import ru.web.laba_web2.viewModel.EditOffer;
 
 
 @Controller
@@ -50,6 +50,11 @@ public class BrandController {
         return new AddBrandViewModel();
     }
 
+    @ModelAttribute("editBrand")
+    public EditBrand editBrand() {
+        return new EditBrand();
+    }
+
     @PostMapping("/add")
     String registerBrand(@Valid AddBrandViewModel newBrand, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -72,16 +77,16 @@ public class BrandController {
 
     @GetMapping("/update/{uuid}")
     String showUpdateForm(@PathVariable("uuid") String uuid, Model model) {
-        model.addAttribute("editBrand", brandService.findByUuid(uuid)
-                .orElseThrow(() -> new ModelNotFoundException(uuid)));
+        model.addAttribute("editBrand", brandService.findByUuid(uuid));
+//                .orElseThrow(() -> new BrandNotFoundException(uuid)));
         return "editBrand";
     }
 
     @PostMapping("/update/{uuid}")
     String updateBrand(@PathVariable("uuid") String uuid,
-                              @Valid EditBrand editBrand,
-                              BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
+                       @Valid EditBrand editBrand,
+                       BindingResult bindingResult,
+                       RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("editBrand", editBrand);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editBrand", bindingResult);

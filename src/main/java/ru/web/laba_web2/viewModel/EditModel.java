@@ -44,6 +44,7 @@ public class EditModel {
     public void setCategory(Category category) {
         this.category = category;
     }
+
     @NotEmpty(message = "Укажите ссылку на фотографию!")
     public String getImageUrl() {
         return imageUrl;
@@ -52,6 +53,7 @@ public class EditModel {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
     @NotNull(message = "Год не может быть пустым")
     @Min(value = 1, message = "Год не может быть отрицательным")
     public int getStartYear() {
@@ -61,6 +63,7 @@ public class EditModel {
     public void setStartYear(int startYear) {
         this.startYear = startYear;
     }
+
     @NotNull(message = "Год не может быть пустым")
     @Min(value = 1, message = "Год не может быть отрицательным")
     public int getEndYear() {
@@ -70,6 +73,7 @@ public class EditModel {
     public void setEndYear(int endYear) {
         this.endYear = endYear;
     }
+
     @NotEmpty(message = "Выберите бренд модели")
     public String getBrand() {
         return brand;

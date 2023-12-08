@@ -11,7 +11,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
@@ -20,7 +19,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public abstract class TimeClass extends BaseEntity{
+public abstract class TimeClass extends BaseEntity {
     @Column(name = "modified", columnDefinition = "DATE")
     @LastModifiedDate
     public LocalDateTime modified;

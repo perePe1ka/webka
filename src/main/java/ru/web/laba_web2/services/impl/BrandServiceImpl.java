@@ -9,7 +9,6 @@ import ru.web.laba_web2.controllers.exceptions.BrandNotFoundException;
 import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.services.BrandService;
-import ru.web.laba_web2.services.dtos.BrandDto;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddBrandViewModel;
 import ru.web.laba_web2.viewModel.DetailBrand;

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import ru.web.laba_web2.constants.Role;
 
+import java.time.LocalDateTime;
+
 public class UserDto {
     private String uuid;
 
@@ -18,16 +20,20 @@ public class UserDto {
 
     private boolean isActive;
 
-    private Role role;
+    private String role;
 
     private String imageUrl;
+
+    private LocalDateTime created;
+
+    private LocalDateTime modified;
 
 
     public UserDto() {
 
     }
 
-    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, Role role, String imageUrl) {
+    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, String role, String imageUrl, LocalDateTime created, LocalDateTime modified) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -35,6 +41,8 @@ public class UserDto {
         this.isActive = isActive;
         this.role = role;
         this.imageUrl = imageUrl;
+        this.created = created;
+        this.modified = modified;
     }
 
     public String getUuid() {
@@ -91,11 +99,11 @@ public class UserDto {
         isActive = active;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -105,5 +113,21 @@ public class UserDto {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public LocalDateTime getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDateTime created) {
+        this.created = created;
+    }
+
+    public LocalDateTime getModified() {
+        return modified;
+    }
+
+    public void setModified(LocalDateTime modified) {
+        this.modified = modified;
     }
 }

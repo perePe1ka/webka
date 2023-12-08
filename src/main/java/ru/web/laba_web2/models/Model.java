@@ -1,10 +1,8 @@
 package ru.web.laba_web2.models;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Cascade;
 import ru.web.laba_web2.constants.Category;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
@@ -90,7 +88,7 @@ public class Model extends TimeClass{
         this.endYear = endYear;
     }
     @ManyToOne
-    @JoinColumn(name = "brand_uuid", referencedColumnName = "uuid", nullable=false)
+    @JoinColumn(name = "brand_uuid", referencedColumnName = "uuid", nullable = false)
     public Brand getBrand() {
         return brand;
     }

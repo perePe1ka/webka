@@ -2,7 +2,6 @@ package ru.web.laba_web2.viewModel;
 
 import ru.web.laba_web2.constants.Category;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DetailModel {
@@ -21,7 +20,6 @@ public class DetailModel {
     private LocalDateTime created;
 
     private LocalDateTime modified;
-
 
 
     public String getName() {

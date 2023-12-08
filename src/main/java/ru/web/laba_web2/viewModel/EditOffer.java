@@ -42,6 +42,7 @@ public class EditOffer {
     public void setDescription(String description) {
         this.description = description;
     }
+
     @NotNull(message = "Выберите двигатель!")
     public Engine getEngine() {
         return engine;
@@ -50,6 +51,7 @@ public class EditOffer {
     public void setEngine(Engine engine) {
         this.engine = engine;
     }
+
     @NotEmpty(message = "Укажите ссылку на фотографию!")
     public String getImageUrl() {
         return imageUrl;
@@ -58,6 +60,7 @@ public class EditOffer {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
     @NotNull(message = "Пробег не может быть пустым")
     @Min(value = 1, message = "Пробег не может быть отрицательным")
     public int getMilleage() {
@@ -67,6 +70,7 @@ public class EditOffer {
     public void setMilleage(int milleage) {
         this.milleage = milleage;
     }
+
     @NotNull(message = "Цена не может быть пустой")
     @Min(value = 1, message = "Цена не может быть отрицательной")
     public int getPrice() {
@@ -76,6 +80,7 @@ public class EditOffer {
     public void setPrice(int price) {
         this.price = price;
     }
+
     @NotNull(message = "Выберите вид трансмиссии!")
     public Transmission getTransmission() {
         return transmission;
@@ -84,6 +89,7 @@ public class EditOffer {
     public void setTransmission(Transmission transmission) {
         this.transmission = transmission;
     }
+
     @NotNull(message = "Год не может быть пустым")
     @Min(value = 1, message = "Год не может быть отрицательным")
     public int getYear() {
@@ -102,6 +108,7 @@ public class EditOffer {
     public void setModel(String model) {
         this.model = model;
     }
+
     @NotEmpty(message = "Выберите продавца модели")
     public String getSeller() {
         return seller;

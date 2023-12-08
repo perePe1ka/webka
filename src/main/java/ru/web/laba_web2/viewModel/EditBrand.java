@@ -4,7 +4,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import ru.web.laba_web2.utils.UniqueBrandName;
 
-import javax.xml.transform.sax.SAXResult;
 import java.time.LocalDateTime;
 
 public class EditBrand {

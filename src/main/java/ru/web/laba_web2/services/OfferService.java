@@ -10,6 +10,7 @@ import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
 import java.util.Optional;
+
 public interface OfferService<String> {
     void register(AddOfferViewModel addOfferViewModel);
 
@@ -19,13 +20,10 @@ public interface OfferService<String> {
 
     Optional<EditOffer> findByUuid(String uuid);
 
-    List<UserDto> getAllAdmins();
-
     DetailOffer getAll(String offerDescription);
 
     List<ShowOffer> allOffers();
 
     void editOffer(EditOffer editOffer);
 
-    int calculateTotalPrice();
 }

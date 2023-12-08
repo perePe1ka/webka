@@ -4,6 +4,7 @@ import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.RolesDto;
 import ru.web.laba_web2.services.dtos.UserDto;
+import ru.web.laba_web2.viewModel.EditUser;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,7 +21,7 @@ public interface UserService<String> {
 
     List<UserDto> getAll();
 
-    void editUser(UserDto userDto);
+    void editUser(EditUser editUser);
 
     User findByUsername(String userName);
 }

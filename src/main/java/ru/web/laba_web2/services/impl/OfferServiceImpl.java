@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
+import ru.web.laba_web2.controllers.exceptions.OfferNotFoundException;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.models.User;
@@ -35,6 +36,13 @@ public class OfferServiceImpl implements OfferService<String> {
     private ModelService modelService;
 
     private UserService userService;
+
+    private StatisticsService statisticsService;
+
+    @Autowired
+    public void setStatisticsService(StatisticsService statisticsService){
+        this.statisticsService = statisticsService;
+    }
 
     @Autowired
     public OfferServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
@@ -89,6 +97,9 @@ public class OfferServiceImpl implements OfferService<String> {
 
     @Override
     public void deleteByOfferDescription(String description) {
+        Offer deletedOffer = offerRepository.findByDescription(description)
+                .orElseThrow(() -> new OfferNotFoundException("Offer with description " + description + " not found"));
+
         offerRepository.deleteOfferByDescription(description);
     }
 
@@ -139,23 +150,5 @@ public class OfferServiceImpl implements OfferService<String> {
         }
     }
 
-    @Override
-    public List<UserDto> getAllAdmins() {
-        List<User> admins = userRepository.findAllByRoleRole(Role.ADMIN);
-        return mapUsersToUserDtos(admins);
-    }
-
-    private List<UserDto> mapUsersToUserDtos(List<User> users) {
-        return users.stream()
-                .map(user -> modelMapper.map(user, UserDto.class))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public int calculateTotalPrice() {
-        List<Offer> offers = offerRepository.findAll();
-        int totalPrice = offers.stream().mapToInt(Offer::getPrice).sum();
-        return totalPrice;
-    }
 
 }

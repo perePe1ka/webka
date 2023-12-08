@@ -13,6 +13,9 @@
                 <h6 th:text="'Статус: ' + ${u.isActive}"></h6>
                 <h6 th:text="'Роль: ' + ${u.role}"></h6>
                 <h6 th:text="'Ссылка на картнку: ' + ${u.imageUrl}"></h6>
+                <h6 th:text="'Создано: ' + ${u.created}"></h6>
+                <h6 th:text="'Изменено: ' + ${u.modified}"></h6>
+                <h4><a class="btn-block" th:href="@{/users/update/{uuid}(uuid = ${u.uuid})}">Обновить информацию</a></h4>
             </div>
         </li>
     </ul>

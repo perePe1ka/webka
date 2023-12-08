@@ -4,6 +4,7 @@ import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Roles;
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.repositories.RolesRepository;
@@ -14,6 +15,8 @@ import ru.web.laba_web2.services.dtos.OfferDto;
 import ru.web.laba_web2.services.dtos.RolesDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
+import ru.web.laba_web2.viewModel.AddModelViewModel;
+import ru.web.laba_web2.viewModel.EditUser;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,20 +52,22 @@ public class UserServiceImpl implements UserService<String> {
     }
 
     @Override
-    public void register(UserDto userDto) {
-        if (!this.validationUtil.isValid(userDto)) {
+    public void register(UserDto newUser) {
+        if (!this.validationUtil.isValid(newUser)) {
             this.validationUtil
-                    .violations(userDto)
+                    .violations(newUser)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
-
-            throw new IllegalArgumentException("Что то пошло не так");
+        } else {
+            try {
+                User user = modelMapper.map(newUser, User.class);
+                user.setRole(rolesRepository.findRolesByRole(newUser.getRole()).orElse(null));
+                this.userRepository.saveAndFlush(user);
+            } catch (Exception e) {
+                System.out.println("Oops, something went wrong! :(");
+            }
         }
-        User user = this.modelMapper.map(userDto, User.class);
-        user.setRole(rolesService.findByRole(userDto.getRole()));
-
-        this.userRepository.saveAndFlush(user);
     }
 
     @Override
@@ -84,24 +89,24 @@ public class UserServiceImpl implements UserService<String> {
     }
 
 
-
     @Override
     public List<UserDto> getAll() {
         return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
     @Override
-    public void editUser(UserDto userDto) {
-        if (!this.validationUtil.isValid(userDto)) {
+    public void editUser(EditUser editUser) {
+        if (!this.validationUtil.isValid(editUser)) {
             this.validationUtil
-                    .violations(userDto)
+                    .violations(editUser)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
         } else {
             try {
-                User user = modelMapper.map(userDto, User.class);
-                userRepository.saveAndFlush(user);
+                User user = modelMapper.map(editUser, User.class);
+                user.setRole(rolesRepository.findRolesByRole(editUser.getRoles()).orElse(null));
+                this.userRepository.saveAndFlush(user);
             } catch (Exception e) {
                 System.out.println("Что-то пошло не так");
             }

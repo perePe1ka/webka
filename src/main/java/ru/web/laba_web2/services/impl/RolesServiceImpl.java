@@ -83,11 +83,5 @@ public class RolesServiceImpl implements RolesService<String> {
             }
         }
     }
-
-
-    @Override
-    public Roles findByRole(Role role) {
-        return this.rolesRepository.findByRole(role);
-    }
-
+    
 }

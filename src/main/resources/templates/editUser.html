@@ -1,10 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<head th:replace="~{fragments/head}"/>
 <body>
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<form th:action="@{/users/update/{uuid}}"
+      th:method="post"
+      th:object="${editUser}"
+      class="m-md-auto w-50 pb-3">
+    <input type="hidden" th:field="*{uuid}"/>
+    <input type="hidden" th:field="*{created}"/>
 
+    <div class="form-group">
+        <label for="usernameUser">Имя пользователя</label>
+        <input th:field="*{username}"
+               th:errorclass="is-invalid"
+               type="text" class="form-control" id="usernameUser" aria-describedby="nameHelp"
+               name="name"/>
+        <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger">Error message</small>
+    </div>
+
+    <div class="form-group">
+        <label for="firstNameUser">Имя</label>
+        <input th:field="*{firstName}"
+               th:errorclass="is-invalid"
+               type="text" class="form-control" id="firstNameUser" aria-describedby="nameHelp"
+               name="name"/>
+        <small th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="text-danger">Error message</small>
+    </div>
+
+    <div class="form-group">
+        <label for="lastNameUser">Фамилия</label>
+        <input th:field="*{lastName}"
+               th:errorclass="is-invalid"
+               type="text" class="form-control" id="lastNameUser" aria-describedby="nameHelp"
+               name="name"/>
+        <small th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="text-danger">Error message</small>
+    </div>
+
+
+    <div class="form-group">
+        <label for="isActiveUser">Статус</label>
+        <input th:field="*{active}"
+               th:errorclass="is-invalid"
+               type="checkbox" class="form-control" id="isActiveUser" aria-describedby="nameHelp"
+               name="name"/>
+        <small th:if="${#fields.hasErrors('active')}" th:errors="*{active}" class="text-danger">Error message</small>
+    </div>
+
+    <div class="form-group">
+        <label for="imageUrlUser">URL изображения</label>
+        <input th:field="*{imageUrl}"
+               th:errorclass="is-invalid"
+               type="text" class="form-control" id="imageUrlUser" aria-describedby="imageUrlHelp"
+               name="imageUrl"/>
+        <small th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="text-danger">Error message</small>
+    </div>
+
+    <div class="form-group">
+        <label for="role">Выберите роль</label>
+        <select class="form-control" id="role" name="roles" th:field="*{role}">
+            <option th:each="r : ${availableRoles}" th:value="${r.role}" th:text="${r.role}">Роли</option>
+        </select>
+        <small th:if="${#fields.hasErrors('role')}" th:errors="*{role}" class="text-danger">Error message</small>
+    </div>
+
+    <button type="submit" class="btn btn-secondary">Обновить данные пользователя</button>
+</form>
+
+</form>
+<footer th:replace="~{fragments/footer}"/>
 </body>
 </html>

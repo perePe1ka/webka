@@ -9,14 +9,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
-import ru.web.laba_web2.services.BrandService;
-import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
 import ru.web.laba_web2.services.impl.ModelServiceImpl;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
-import ru.web.laba_web2.viewModel.EditBrand;
 import ru.web.laba_web2.viewModel.EditModel;
+import ru.web.laba_web2.viewModel.EditOffer;
 
 import java.util.List;
 
@@ -29,7 +27,9 @@ public class ModelController {
     private BrandServiceImpl brandService;
 
     @Autowired
-    public void setBrandService(BrandServiceImpl brandService) {this.brandService = brandService;}
+    public void setBrandService(BrandServiceImpl brandService) {
+        this.brandService = brandService;
+    }
 
     @Autowired
     public void setModelService(ModelServiceImpl modelService) {
@@ -37,7 +37,7 @@ public class ModelController {
     }
 
     @GetMapping("/all/{model-name}")
-    ModelAndView getAll(@PathVariable("model-name")  String modelName, ModelAndView modelAndView) {
+    ModelAndView getAll(@PathVariable("model-name") String modelName, ModelAndView modelAndView) {
         modelAndView.setViewName("modelPage");
         modelAndView.addObject("models", modelService.getAll(modelName));
         return modelAndView;
@@ -62,6 +62,11 @@ public class ModelController {
         return new AddModelViewModel();
     }
 
+    @ModelAttribute("editModel")
+    public EditModel editModel() {
+        return new EditModel();
+    }
+
     @PostMapping("/add")
     String registerModel(@Valid AddModelViewModel newModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -83,7 +88,7 @@ public class ModelController {
     }
 
     @GetMapping("/update/{uuid}")
-    public String showUpdateForm(@PathVariable("uuid") String uuid, Model model) {
+    String showUpdateForm(@PathVariable("uuid") String uuid, Model model) {
         model.addAttribute("availableBrands", brandService.allBrands());
 
         model.addAttribute("editModel", modelService.findByUuid(uuid)
@@ -92,10 +97,10 @@ public class ModelController {
     }
 
     @PostMapping("/update/{uuid}")
-    public String updateModel(@PathVariable("uuid") String uuid,
-                              @Valid EditModel editModel,
-                              BindingResult bindingResult,
-                              RedirectAttributes redirectAttributes) {
+    String updateModel(@PathVariable("uuid") String uuid,
+                       @Valid EditModel editModel,
+                       BindingResult bindingResult,
+                       RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("editModel", editModel);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editModel", bindingResult);
@@ -105,12 +110,4 @@ public class ModelController {
         modelService.editModel(editModel);
         return "redirect:/models/show";
     }
-
-
-    @GetMapping("/sortedByYear")
-    List<ModelDto> getModelsSortedByYear() {
-        return modelService.getModelsSortedByYear();
-    }
-
-
 }

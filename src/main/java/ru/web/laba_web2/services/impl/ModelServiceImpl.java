@@ -123,17 +123,6 @@ public class ModelServiceImpl implements ModelService<String> {
         }
     }
 
-
-    @Override
-    public List<ModelDto> getModelsSortedByYear() {
-        List<Model> models = modelRepository.findAll();
-        models.sort(Comparator.comparingInt(Model::getStartYear));
-
-        return models.stream()
-                .map(model -> modelMapper.map(model, ModelDto.class))
-                .collect(Collectors.toList());
-    }
-
     @Override
     public Model findByName(String name) {
         return this.modelRepository.findModelByName(name);

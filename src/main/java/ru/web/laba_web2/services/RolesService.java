@@ -18,5 +18,4 @@ public interface RolesService<String> {
 
     void editRoles(RolesDto rolesDto);
 
-    Roles findByRole(Role role);
 }
