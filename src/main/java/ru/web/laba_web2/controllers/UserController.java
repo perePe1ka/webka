@@ -1,6 +1,9 @@
 package ru.web.laba_web2.controllers;
 
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,8 @@ import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.viewModel.EditModel;
 import ru.web.laba_web2.viewModel.EditUser;
 
+import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/users")
@@ -22,6 +27,8 @@ public class UserController {
     private UserService userService;
 
     private RolesService rolesService;
+
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -34,7 +41,9 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    ModelAndView getAll(ModelAndView modelAndView) {
+    ModelAndView getAll(Principal principal, ModelAndView modelAndView) {
+        LOG.log(Level.INFO, "Showw all Users for " + principal.getName());
+
         modelAndView.setViewName("userPage");
         modelAndView.addObject("users", userService.getAll());
         return modelAndView;

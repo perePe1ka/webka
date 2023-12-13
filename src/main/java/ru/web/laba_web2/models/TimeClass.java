@@ -1,5 +1,10 @@
 package ru.web.laba_web2.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -20,11 +25,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public abstract class TimeClass extends BaseEntity {
+
     @Column(name = "modified", columnDefinition = "DATE")
     @LastModifiedDate
     public LocalDateTime modified;
+
+
     @Column(name = "created", columnDefinition = "DATE")
     @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", shape = JsonFormat.Shape.STRING)
     public LocalDateTime created;
 //    @Column(name = "modified", columnDefinition = "DATE")
 //    @LastModifiedDate

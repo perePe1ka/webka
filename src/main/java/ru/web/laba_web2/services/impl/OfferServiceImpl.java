@@ -3,6 +3,9 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
@@ -27,6 +30,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class OfferServiceImpl implements OfferService<String> {
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
@@ -76,6 +80,7 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
+    @CacheEvict(cacheNames = "offers", allEntries = true)
     public void register(AddOfferViewModel newOffer) {
         if (!this.validationUtil.isValid(newOffer)) {
 
@@ -96,6 +101,7 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
+    @CacheEvict(cacheNames = "offers", allEntries = true)
     public void deleteByOfferDescription(String description) {
         Offer deletedOffer = offerRepository.findByDescription(description)
                 .orElseThrow(() -> new OfferNotFoundException("Offer with description " + description + " not found"));
@@ -119,6 +125,7 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
+    @Cacheable("offers")
     public DetailOffer getAll(String offerDescription) {
         Offer offer = offerRepository.findByDescription(offerDescription)
                 .orElseThrow(() -> new ModelNotFoundException("Offer with name " + offerDescription + " not found"));
@@ -126,11 +133,13 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
+    @Cacheable("offers")
     public List<ShowOffer> allOffers() {
         return offerRepository.findAll().stream().map(offer -> modelMapper.map(offer, ShowOffer.class)).collect(Collectors.toList());
     }
 
     @Override
+    @CacheEvict(cacheNames = "offers", allEntries = true)
     public void editOffer(EditOffer editOffer) {
         if (!this.validationUtil.isValid(editOffer)) {
             this.validationUtil

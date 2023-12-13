@@ -4,6 +4,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.controllers.exceptions.BrandNotFoundException;
 import ru.web.laba_web2.models.Brand;
@@ -20,6 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class BrandServiceImpl implements BrandService<String> {
 
     private final ModelMapper modelMapper;
@@ -39,7 +43,7 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
-    @Transactional
+    @CacheEvict(cacheNames = "brands", allEntries = true)
     public void register(AddBrandViewModel addBrandViewModel) {
 
         if (!this.validationUtil.isValid(addBrandViewModel)) {
@@ -61,6 +65,7 @@ public class BrandServiceImpl implements BrandService<String> {
 
 
     @Override
+    @CacheEvict(cacheNames = "brands", allEntries = true)
     public void deleteByName(String brandName) {
         brandRepository.deleteByName(brandName);
     }
@@ -72,12 +77,14 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
+    @Cacheable("brands")
     public List<ShowBrand> allBrands() {
         return brandRepository.findAll().stream().map(brand -> modelMapper.map(brand, ShowBrand.class))
                 .collect(Collectors.toList());
     }
 
     @Override
+    @Cacheable("brands")
     public DetailBrand getAll(String brandName) {
         Brand brand = brandRepository.findByName(brandName)
                 .orElseThrow(() -> new BrandNotFoundException("Brand with name " + brandName + " not found"));
@@ -85,6 +92,7 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Override
+    @CacheEvict(cacheNames = "brands", allEntries = true)
     public void editBrand(EditBrand editBrand) {
         if (!this.validationUtil.isValid(editBrand)) {
             this.validationUtil

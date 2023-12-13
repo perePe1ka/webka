@@ -17,8 +17,8 @@
                 <h6 th:text="'Цена: ' + *{o.price}"></h6>
                 <h6 th:text="'Трансмиссия: ' + *{o.transmission}"></h6>
                 <h6 th:text="'Год: ' + *{o.year}"></h6>
-                <h6 th:text="'Создан: ' + *{o.created}"></h6>
-                <h6 th:text="'Изменён: ' + *{o.modified}"></h6>
+<!--                <h6 th:text="'Создан: ' + *{o.created}"></h6>-->
+<!--                <h6 th:text="'Изменён: ' + *{o.modified}"></h6>-->
                 <h4><a class="btn-block" th:href="@{/offers/update/{uuid}(uuid = ${o.uuid})}">Обновить информацию</a></h4>
                 <div class="align-bottom">
                     <a class="btn btn-danger align-bottom"

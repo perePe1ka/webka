@@ -3,6 +3,9 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
 import ru.web.laba_web2.models.Brand;
@@ -25,6 +28,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class ModelServiceImpl implements ModelService<String> {
     private final ModelMapper modelMapper;
     private BrandRepository brandRepository;
@@ -54,6 +58,7 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Override
+    @CacheEvict(cacheNames = "models", allEntries = true)
     public void register(AddModelViewModel newModel) {
         if (!this.validationUtil.isValid(newModel)) {
             this.validationUtil
@@ -74,6 +79,7 @@ public class ModelServiceImpl implements ModelService<String> {
 
 
     @Override
+    @CacheEvict(cacheNames = "models", allEntries = true)
     public void deleteByModelName(String modelName) {
         modelRepository.deleteByName(modelName);
     }
@@ -92,6 +98,7 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Override
+    @Cacheable("models")
     public DetailModel getAll(String modelName) {
         Model model = modelRepository.findByName(modelName)
                 .orElseThrow(() -> new ModelNotFoundException("Model with name " + modelName + " not found"));
@@ -99,12 +106,14 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Override
+    @Cacheable("models")
     public List<ShowModel> allModels() {
         return modelRepository.findAll().stream().map(model -> modelMapper.map(model, ShowModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
+    @CacheEvict(cacheNames = "models", allEntries = true)
     public void editModel(EditModel editModel) {
         if (!this.validationUtil.isValid(editModel)) {
             this.validationUtil

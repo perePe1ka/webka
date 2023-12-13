@@ -3,6 +3,9 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Roles;
@@ -23,6 +26,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class UserServiceImpl implements UserService<String> {
     private final ModelMapper modelMapper;
     private RolesRepository rolesRepository;
@@ -52,6 +56,7 @@ public class UserServiceImpl implements UserService<String> {
     }
 
     @Override
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public void register(UserDto newUser) {
         if (!this.validationUtil.isValid(newUser)) {
             this.validationUtil
@@ -71,6 +76,7 @@ public class UserServiceImpl implements UserService<String> {
     }
 
     @Override
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public void deleteByUserName(String username) {
         userRepository.deleteByUsername(username);
     }
@@ -90,11 +96,13 @@ public class UserServiceImpl implements UserService<String> {
 
 
     @Override
+    @Cacheable("users")
     public List<UserDto> getAll() {
         return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
     @Override
+    @CacheEvict(cacheNames = "users", allEntries = true)
     public void editUser(EditUser editUser) {
         if (!this.validationUtil.isValid(editUser)) {
             this.validationUtil

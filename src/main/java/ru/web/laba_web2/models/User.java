@@ -20,7 +20,7 @@ public class User extends TimeClass implements Serializable{
 
     private boolean isActive;
 
-    private String email;
+//    private String email;
 
     private Roles role;
 
@@ -45,6 +45,7 @@ public class User extends TimeClass implements Serializable{
         this.isActive = isActive;
         this.role = role;
         this.imageUrl = imageURL;
+//        this.email = email;
     }
 
     public User() {
@@ -123,6 +124,14 @@ public class User extends TimeClass implements Serializable{
     public void setOffers(Set<Offer> offers) {
         this.offers = offers;
     }
+//    @Column(name = "email", length = 255)
+//    public String getEmail() {
+//        return email;
+//    }
+//
+//    public void setEmail(String email) {
+//        this.email = email;
+//    }
 
     @Override
     public String toString() {

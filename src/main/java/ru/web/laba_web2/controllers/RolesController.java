@@ -1,5 +1,8 @@
 package ru.web.laba_web2.controllers;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -8,11 +11,15 @@ import ru.web.laba_web2.controllers.exceptions.RolesNotFoundException;
 import ru.web.laba_web2.services.RolesService;
 import ru.web.laba_web2.services.dtos.RolesDto;
 
+import java.security.Principal;
+
 @Controller
 @RequestMapping("/roles")
 public class RolesController {
 
     private RolesService rolesService;
+
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     @Autowired
     public void setRolesService(RolesService rolesService) {
@@ -20,7 +27,8 @@ public class RolesController {
     }
 
     @GetMapping("/all")
-    ModelAndView getAll(ModelAndView modelAndView) {
+    ModelAndView getAll(ModelAndView modelAndView, Principal principal) {
+        LOG.log(Level.INFO, "Show all roles for " + principal.getName());
         modelAndView.setViewName("rolePage");
         modelAndView.addObject("roles", rolesService.getAll());
         return modelAndView;

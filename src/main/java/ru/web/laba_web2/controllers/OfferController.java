@@ -1,6 +1,9 @@
 package ru.web.laba_web2.controllers;
 
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,8 @@ import ru.web.laba_web2.services.UserService;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
 import ru.web.laba_web2.viewModel.EditOffer;
 
+import java.security.Principal;
+
 
 @Controller
 @RequestMapping("/offers")
@@ -24,6 +29,8 @@ public class OfferController {
     private ModelService modelService;
 
     private UserService userService;
+
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     @Autowired
     public void setModelService(ModelService modelService) {
@@ -41,14 +48,16 @@ public class OfferController {
     }
 
     @GetMapping("/all/{offer-description}")
-    ModelAndView getAll(@PathVariable("offer-description") String offerDescription, ModelAndView modelAndView) {
+    ModelAndView getAll(@PathVariable("offer-description") String offerDescription, ModelAndView modelAndView, Principal principal) {
+        LOG.log(Level.INFO, "Show all offers for " + principal.getName());
         modelAndView.setViewName("offerPage");
         modelAndView.addObject("offers", offerService.getAll(offerDescription));
         return modelAndView;
     }
 
     @GetMapping("/show")
-    public ModelAndView showAllOffers(ModelAndView modelAndView) {
+    public ModelAndView showAllOffers(ModelAndView modelAndView, Principal principal) {
+        LOG.log(Level.INFO, "Show briefly offers for " + principal.getName());
         modelAndView.setViewName("showOffer");
         modelAndView.addObject("offersInfos", offerService.allOffers());
         return modelAndView;

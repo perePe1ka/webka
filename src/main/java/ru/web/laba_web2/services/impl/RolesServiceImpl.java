@@ -3,6 +3,9 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.models.Roles;
@@ -16,6 +19,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@EnableCaching
 public class RolesServiceImpl implements RolesService<String> {
     private final ModelMapper modelMapper;
     private RolesRepository rolesRepository;
@@ -33,6 +37,7 @@ public class RolesServiceImpl implements RolesService<String> {
     }
 
     @Override
+    @CacheEvict(cacheNames = "roles", allEntries = true)
     public void register(RolesDto rolesDto) {
         if (!this.validationUtil.isValid(rolesDto)) {
             this.validationUtil
@@ -52,6 +57,7 @@ public class RolesServiceImpl implements RolesService<String> {
     }
 
     @Override
+    @CacheEvict(cacheNames = "roles", allEntries = true)
     public void deleteByRole(String role) {
         rolesRepository.deleteByRole(role);
     }
@@ -62,11 +68,13 @@ public class RolesServiceImpl implements RolesService<String> {
     }
 
     @Override
+    @Cacheable("roles")
     public List<RolesDto> getAll() {
         return rolesRepository.findAll().stream().map(roles -> modelMapper.map(roles, RolesDto.class)).collect(Collectors.toList());
     }
 
     @Override
+    @CacheEvict(cacheNames = "roles", allEntries = true)
     public void editRoles(RolesDto rolesDto) {
         if (!this.validationUtil.isValid(rolesDto)) {
             this.validationUtil

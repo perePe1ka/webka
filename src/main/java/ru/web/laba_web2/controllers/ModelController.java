@@ -1,6 +1,9 @@
 package ru.web.laba_web2.controllers;
 
 import jakarta.validation.Valid;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +19,7 @@ import ru.web.laba_web2.viewModel.AddModelViewModel;
 import ru.web.laba_web2.viewModel.EditModel;
 import ru.web.laba_web2.viewModel.EditOffer;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -25,6 +29,8 @@ public class ModelController {
     private ModelServiceImpl modelService;
 
     private BrandServiceImpl brandService;
+
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     @Autowired
     public void setBrandService(BrandServiceImpl brandService) {
@@ -37,14 +43,17 @@ public class ModelController {
     }
 
     @GetMapping("/all/{model-name}")
-    ModelAndView getAll(@PathVariable("model-name") String modelName, ModelAndView modelAndView) {
+    ModelAndView getAll(@PathVariable("model-name") String modelName, ModelAndView modelAndView, Principal principal) {
+        LOG.log(Level.INFO, "Show all models for " + principal.getName());
         modelAndView.setViewName("modelPage");
         modelAndView.addObject("models", modelService.getAll(modelName));
         return modelAndView;
     }
 
     @GetMapping("/show")
-    public ModelAndView showAllModels(ModelAndView modelAndView) {
+    public ModelAndView showAllModels(Principal principal, ModelAndView modelAndView) {
+        LOG.log(Level.INFO, "Show briefly models for " + principal.getName());
+
         modelAndView.setViewName("showModel");
         modelAndView.addObject("modelsInfos", modelService.allModels());
         return modelAndView;
