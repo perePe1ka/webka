@@ -1,12 +1,13 @@
 package ru.web.laba_web2.viewModel;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class DetailBrand {
     private String uuid;
     private String name;
-    private LocalDateTime modified;
-    private LocalDateTime created;
+    private String  modified;
+    private String  created;
 
     public String getName() {
         return name;
@@ -16,19 +17,19 @@ public class DetailBrand {
         this.name = name;
     }
 
-    public LocalDateTime getModified() {
+    public String  getModified() {
         return modified;
     }
 
-    public void setModified(LocalDateTime modified) {
+    public void setModified(String modified) {
         this.modified = modified;
     }
 
-    public LocalDateTime getCreated() {
+    public String getCreated() {
         return created;
     }
 
-    public void setCreated(LocalDateTime created) {
+    public void setCreated(String created) {
         this.created = created;
     }
 

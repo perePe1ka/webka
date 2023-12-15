@@ -16,6 +16,5 @@ public interface OfferRepository extends JpaRepository<Offer, String> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Offer o WHERE o.description = :description")
-    void deleteOfferByDescription(String description);
+    void deleteByDescription(String description);
 }

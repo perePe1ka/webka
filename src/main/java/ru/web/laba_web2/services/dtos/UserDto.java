@@ -24,16 +24,16 @@ public class UserDto {
 
     private String imageUrl;
 
-    private LocalDateTime created;
-
-    private LocalDateTime modified;
+//    private LocalDateTime created;
+//
+//    private LocalDateTime modified;
 
 
     public UserDto() {
 
     }
 
-    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, String role, String imageUrl, LocalDateTime created, LocalDateTime modified) {
+    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, String role, String imageUrl) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -41,8 +41,8 @@ public class UserDto {
         this.isActive = isActive;
         this.role = role;
         this.imageUrl = imageUrl;
-        this.created = created;
-        this.modified = modified;
+//        this.created = created;
+//        this.modified = modified;
     }
 
     public String getUuid() {
@@ -115,19 +115,19 @@ public class UserDto {
         this.imageUrl = imageUrl;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDateTime modified) {
-        this.modified = modified;
-    }
+//    public LocalDateTime getCreated() {
+//        return created;
+//    }
+//
+//    public void setCreated(LocalDateTime created) {
+//        this.created = created;
+//    }
+//
+//    public LocalDateTime getModified() {
+//        return modified;
+//    }
+//
+//    public void setModified(LocalDateTime modified) {
+//        this.modified = modified;
+//    }
 }

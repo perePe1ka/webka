@@ -74,7 +74,8 @@ public class OfferController {
     }
 
     @GetMapping("/add")
-    String addOffer(Model model) {
+    String addOffer(Model model, Principal principal) {
+        LOG.log(Level.INFO, "Add offer for" + principal.getName());
         model.addAttribute("availableModels", modelService.allModels());
         model.addAttribute("availableUsers", userService.getAll());
         return "addOffer";
@@ -101,7 +102,8 @@ public class OfferController {
     }
 
     @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") String uuid, Model model) throws Throwable {
+    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) throws Throwable {
+        LOG.log(Level.INFO, "Edit offer for" + principal.getName());
         model.addAttribute("availableModels", modelService.allModels());
         model.addAttribute("availableUsers", userService.getAll());
 

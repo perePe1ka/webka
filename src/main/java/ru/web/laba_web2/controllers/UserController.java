@@ -69,7 +69,8 @@ public class UserController {
     }
 
     @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") String uuid, Model model) throws Throwable {
+    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) throws Throwable {
+        LOG.log(Level.INFO, "Edit user for" + principal.getName());
         model.addAttribute("availableRoles", rolesService.getAll());
 
         model.addAttribute("editUser", userService.findByUuid(uuid)

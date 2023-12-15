@@ -60,7 +60,8 @@ public class ModelController {
     }
 
     @GetMapping("/add")
-    public String addBrand(Model model) {
+    public String addBrand(Model model, Principal principal) {
+        LOG.log(Level.INFO, "Add models for" + principal.getName());
         model.addAttribute("availableBrands", brandService.allBrands());
 
         return "addModel";
@@ -97,7 +98,8 @@ public class ModelController {
     }
 
     @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") String uuid, Model model) {
+    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) {
+        LOG.log(Level.INFO, "Edit models for" + principal.getName());
         model.addAttribute("availableBrands", brandService.allBrands());
 
         model.addAttribute("editModel", modelService.findByUuid(uuid)

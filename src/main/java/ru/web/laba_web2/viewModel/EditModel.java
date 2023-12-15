@@ -98,4 +98,5 @@ public class EditModel {
     public void setCreated(LocalDateTime created) {
         this.created = created;
     }
+
 }

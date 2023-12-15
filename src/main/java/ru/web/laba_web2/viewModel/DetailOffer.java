@@ -23,24 +23,24 @@ public class DetailOffer {
 
     private String model;
 
-//    private LocalDateTime modified;
-//    private LocalDateTime created;
+    private String modified;
+    private String created;
 
-//    public LocalDateTime getModified() {
-//        return modified;
-//    }
-//
-//    public void setModified(LocalDateTime modified) {
-//        this.modified = modified;
-//    }
-//
-//    public LocalDateTime getCreated() {
-//        return created;
-//    }
-//
-//    public void setCreated(LocalDateTime created) {
-//        this.created = created;
-//    }
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
 
     public String getDescription() {
         return description;

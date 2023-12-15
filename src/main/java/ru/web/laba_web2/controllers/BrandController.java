@@ -47,7 +47,8 @@ public class BrandController {
     }
 
     @GetMapping("/add")
-    public String addBrand() {
+    public String addBrand(Principal principal) {
+        LOG.log(Level.INFO, "Add brands for" + principal.getName());
         return "addBrand";
     }
 
@@ -75,16 +76,16 @@ public class BrandController {
     }
 
     @GetMapping("/delete{brandName}")
-    String deleteBrand(@PathVariable("brandName") String brandName) {
+    String deleteBrand(@PathVariable("brandName") String brandName, Principal principal) {
         brandService.deleteByName(brandName);
 
         return "redirect:/brands/show";
     }
 
     @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") String uuid, Model model) {
+    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) {
+        LOG.log(Level.INFO, "Edit brands for" + principal.getName());
         model.addAttribute("editBrand", brandService.findByUuid(uuid));
-//                .orElseThrow(() -> new BrandNotFoundException(uuid)));
         return "editBrand";
     }
 

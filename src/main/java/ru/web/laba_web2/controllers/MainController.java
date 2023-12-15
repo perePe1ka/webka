@@ -1,6 +1,9 @@
 package ru.web.laba_web2.controllers;
 
 import org.apache.catalina.LifecycleState;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.services.impl.StatisticsService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -17,13 +21,16 @@ public class MainController {
 
     private StatisticsService statisticsService;
 
+    private static final Logger LOG = LogManager.getLogger(Controller.class);
+
     @Autowired
     public void setStatisticsService(StatisticsService statisticsService) {
         this.statisticsService = statisticsService;
     }
 
     @GetMapping("/statistics")
-    public String showStatistics(Model model) {
+    public String showStatistics(Model model, Principal principal) {
+        LOG.log(Level.INFO, "Show statistics for" + principal.getName());
         int averageCarPrice = statisticsService.getAverageCarPrice();
         List<Offer> top3OffersByMileage = statisticsService.getTopOffersByMileage();
 
@@ -33,7 +40,8 @@ public class MainController {
         return "statistics";
     }
     @GetMapping("/")
-    public String mainPage() {
+    public String mainPage(Principal principal) {
+        LOG.log(Level.INFO, "Show main page for" + principal.getName());
         return "mainPage";
     }
 }

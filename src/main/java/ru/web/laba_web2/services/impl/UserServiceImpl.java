@@ -3,6 +3,7 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -33,6 +34,7 @@ public class UserServiceImpl implements UserService<String> {
     private UserRepository userRepository;
     private ValidationUtil validationUtil;
     private RolesService rolesService;
+
 
     @Autowired
     public UserServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {

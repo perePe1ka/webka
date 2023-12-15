@@ -17,10 +17,25 @@ public class DetailModel {
     private int endYear;
     private String brand;
 
-    private LocalDateTime created;
+    private String created;
 
-    private LocalDateTime modified;
+    private String modified;
 
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+
+    public String getModified() {
+        return modified;
+    }
+
+    public void setModified(String modified) {
+        this.modified = modified;
+    }
 
     public String getName() {
         return name;
@@ -70,21 +85,7 @@ public class DetailModel {
         this.brand = brand;
     }
 
-    public LocalDateTime getCreated() {
-        return created;
-    }
 
-    public void setCreated(LocalDateTime created) {
-        this.created = created;
-    }
-
-    public LocalDateTime getModified() {
-        return modified;
-    }
-
-    public void setModified(LocalDateTime modified) {
-        this.modified = modified;
-    }
 
     public String getUuid() {
         return uuid;

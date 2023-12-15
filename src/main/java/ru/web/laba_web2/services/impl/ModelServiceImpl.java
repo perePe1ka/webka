@@ -3,6 +3,7 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -34,6 +35,7 @@ public class ModelServiceImpl implements ModelService<String> {
     private BrandRepository brandRepository;
     private ModelRepository modelRepository;
     private final ValidationUtil validationUtil;
+
     private BrandService brandService;
 
     @Autowired
@@ -79,7 +81,7 @@ public class ModelServiceImpl implements ModelService<String> {
 
 
     @Override
-    @CacheEvict(cacheNames = "models", allEntries = true)
+    @CacheEvict(cacheNames = {"models","offers"}, allEntries = true)
     public void deleteByModelName(String modelName) {
         modelRepository.deleteByName(modelName);
     }

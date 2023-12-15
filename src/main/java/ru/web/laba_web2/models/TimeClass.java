@@ -33,8 +33,13 @@ public abstract class TimeClass extends BaseEntity {
 
     @Column(name = "created", columnDefinition = "DATE")
     @CreatedDate
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", shape = JsonFormat.Shape.STRING)
     public LocalDateTime created;
+
+
+
+
+
+
 //    @Column(name = "modified", columnDefinition = "DATE")
 //    @LastModifiedDate
 //    public LocalDate getModified() {

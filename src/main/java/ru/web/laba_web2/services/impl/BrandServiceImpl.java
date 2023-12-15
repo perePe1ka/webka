@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -65,7 +66,7 @@ public class BrandServiceImpl implements BrandService<String> {
 
 
     @Override
-    @CacheEvict(cacheNames = "brands", allEntries = true)
+    @CacheEvict(cacheNames = {"brands","models","offers"}, allEntries = true)
     public void deleteByName(String brandName) {
         brandRepository.deleteByName(brandName);
     }

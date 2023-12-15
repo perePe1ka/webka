@@ -3,6 +3,7 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
@@ -103,10 +104,7 @@ public class OfferServiceImpl implements OfferService<String> {
     @Override
     @CacheEvict(cacheNames = "offers", allEntries = true)
     public void deleteByOfferDescription(String description) {
-        Offer deletedOffer = offerRepository.findByDescription(description)
-                .orElseThrow(() -> new OfferNotFoundException("Offer with description " + description + " not found"));
-
-        offerRepository.deleteOfferByDescription(description);
+        offerRepository.deleteByDescription(description);
     }
 
     @Override
