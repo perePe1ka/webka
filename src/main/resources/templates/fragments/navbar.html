@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,11 +14,11 @@
         <a class="nav-link" aria-current="page" href="/">Главная</a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
         <a class="nav-link" aria-current="page" href="/brands/add">Добавить бренд</a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
         <a class="nav-link" aria-current="page" href="/models/add">Добавить модель</a>
     </li>
 
@@ -29,6 +29,26 @@
     <li class="nav-item">
         <a class="nav-link" aria-current="page" href="/statistics">Статистика цен</a>
     </li>
+
+
+
+    <li class="nav-item" sec:authorize="isAuthenticated()">
+        <a class="nav-item nav-link text-dark text-info" href="/users/profile"><th:block sec:authentication="name"></th:block></a>
+    </li>
+    <li class="nav-item" sec:authorize="isAuthenticated()">
+        <form
+                th:method="post"
+                th:action="@{/users/logout}">
+            <input class="btn btn-link nav-link" type="submit" value="Logout">
+        </form>
+    </li>
+    <li class="nav-item" sec:authorize="!isAuthenticated()">
+        <a class="nav-item nav-link text-dark" th:href="@{/users/register}">Зарегистрироваться</a>
+    </li>
+    <li class="nav-item" sec:authorize="!isAuthenticated()">
+        <a class="nav-item nav-link text-dark" th:href="@{/users/login}">Авторизоваться</a>
+    </li>
+
 </ul>
 </body>
 </html>

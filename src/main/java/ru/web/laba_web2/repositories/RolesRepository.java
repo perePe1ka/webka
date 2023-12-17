@@ -15,6 +15,8 @@ public interface RolesRepository extends JpaRepository<Roles, String> {
 
     Optional<Roles> findRolesByRole(String role);
 
+    Optional<Roles> findRolesByRole(Role role);
+
     @Modifying
     @Transactional
     void deleteByRole(String role);

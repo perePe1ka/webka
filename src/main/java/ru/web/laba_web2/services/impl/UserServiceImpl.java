@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService<String> {
         } else {
             try {
                 User user = modelMapper.map(newUser, User.class);
-                user.setRole(rolesRepository.findRolesByRole(newUser.getRole()).orElse(null));
+                user.setRole((List<Roles>) rolesRepository.findRolesByRole(newUser.getRole()).orElse(null));
                 this.userRepository.saveAndFlush(user);
             } catch (Exception e) {
                 System.out.println("Oops, something went wrong! :(");
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService<String> {
     public void transfer(UserDto userDto, RolesDto rolesDto, OfferDto offerDto) {
         User user = userRepository.findByUuid(userDto.getUuid()).get();
         Roles roles = rolesRepository.findByUuid(rolesDto.getUuid()).get();
-        user.setRole(roles);
+        user.setRole((List<Roles>) roles);
         userRepository.saveAndFlush(user);
     }
 
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService<String> {
         } else {
             try {
                 User user = modelMapper.map(editUser, User.class);
-                user.setRole(rolesRepository.findRolesByRole(editUser.getRoles()).orElse(null));
+                user.setRole((List<Roles>) rolesRepository.findRolesByRole(editUser.getRoles()).orElse(null));
                 this.userRepository.saveAndFlush(user);
             } catch (Exception e) {
                 System.out.println("Что-то пошло не так");

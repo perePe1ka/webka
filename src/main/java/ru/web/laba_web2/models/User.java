@@ -3,7 +3,8 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -11,48 +12,34 @@ import java.util.Set;
 public class User extends TimeClass implements Serializable{
 
     private String username;
-
-    private String password;
-
     private String firstName;
-
     private String lastName;
-
     private boolean isActive;
-
-//    private String email;
-
-    private Roles role;
-
+    private String email;
+    private String password;
+    private List<Roles> role;
     private String imageUrl;
-
     private Set<Offer> offers;
 
-    public User(LocalDateTime created,
-                LocalDateTime modified,
-                String username,
-                String password,
-                String firstName,
+    public User(String username,
+               String firstName,
                 String lastName,
-                boolean isActive,
-                Roles role,
-                String imageURL) {
-        super(created, modified);
+                String email,
+                String password) {
+        this();
+
         this.username = username;
-        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.isActive = isActive;
-        this.role = role;
-        this.imageUrl = imageURL;
-//        this.email = email;
+        this.email = email;
+        this.password = password;
     }
 
     public User() {
-
+        this.role = new ArrayList<>();
     }
 
-    @Column(name = "username", length = 20, nullable = false)
+    @Column(name = "username", length = 255, nullable = false)
     public String getUsername() {
         return username;
     }
@@ -61,7 +48,7 @@ public class User extends TimeClass implements Serializable{
         this.username = username;
     }
 
-    @Column(name = "password", length = 20, nullable = false)
+    @Column(name = "password", length = 255, nullable = false)
     public String getPassword() {
         return password;
     }
@@ -70,7 +57,7 @@ public class User extends TimeClass implements Serializable{
         this.password = password;
     }
 
-    @Column(name = "firstName", length = 15, nullable = false)
+    @Column(name = "firstName", length = 255, nullable = false)
     public String getFirstName() {
         return firstName;
     }
@@ -79,7 +66,7 @@ public class User extends TimeClass implements Serializable{
         this.firstName = firstName;
     }
 
-    @Column(name = "lastName", length = 15, nullable = false)
+    @Column(name = "lastName", length = 20, nullable = false)
     public String getLastName() {
         return lastName;
     }
@@ -97,13 +84,13 @@ public class User extends TimeClass implements Serializable{
         isActive = active;
     }
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable = false)
-    public Roles getRole() {
+    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable = false)
+    public List<Roles> getRole() {
         return role;
     }
 
-    public void setRole(Roles role) {
+    public void setRole(List<Roles> role) {
         this.role = role;
     }
 
@@ -124,14 +111,14 @@ public class User extends TimeClass implements Serializable{
     public void setOffers(Set<Offer> offers) {
         this.offers = offers;
     }
-//    @Column(name = "email", length = 255)
-//    public String getEmail() {
-//        return email;
-//    }
-//
-//    public void setEmail(String email) {
-//        this.email = email;
-//    }
+    @Column(name = "email", length = 255)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     @Override
     public String toString() {
