@@ -10,10 +10,10 @@ public class UserProfileView {
 
 
 
-    public UserProfileView(String username, String email, String firstName, String lastName) {
+    public UserProfileView() {
     }
 
-    public UserProfileView(String username, String email, String firstName, String lastName, int age) {
+    public UserProfileView(String username, String email, String firstName, String lastName) {
         this.username = username;
         this.email = email;
         this.firstName = firstName;

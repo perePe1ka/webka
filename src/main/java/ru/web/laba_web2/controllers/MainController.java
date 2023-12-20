@@ -40,8 +40,7 @@ public class MainController {
         return "statistics";
     }
     @GetMapping("/")
-    public String mainPage(Principal principal) {
-        LOG.log(Level.INFO, "Show main page for" + principal.getName());
+    public String mainPage() {
         return "mainPage";
     }
 }
