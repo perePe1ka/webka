@@ -20,7 +20,7 @@ public class UserDto extends BaseViewModel {
 
     private String lastName;
 
-    private boolean isActive;
+//    private boolean isActive;
 
     private String role;
     @UniqueEmail
@@ -39,12 +39,12 @@ public class UserDto extends BaseViewModel {
 
     }
 
-    public UserDto(String username, String password, String firstName, String lastName, boolean isActive, String role, String imageUrl, String created, String modified, String confirmPassword, String email) {
+    public UserDto(String username, String password, String firstName, String lastName, String role, String imageUrl, String created, String modified, String confirmPassword, String email) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.isActive = isActive;
+//        this.isActive = isActive;
         this.role = role;
         this.imageUrl = imageUrl;
         this.created = created;
@@ -94,13 +94,13 @@ public class UserDto extends BaseViewModel {
         this.lastName = lastName;
     }
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
+//    public boolean isActive() {
+//        return isActive;
+//    }
+//
+//    public void setActive(boolean isActive) {
+//        isActive = isActive;
+//    }
 
     public String getRole() {
         return role;

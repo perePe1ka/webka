@@ -4,9 +4,9 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import org.springframework.cglib.core.Local;
 import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Transmission;
+import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.utils.UniqueOffer;
 
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class EditOffer extends BaseViewModel{
 
     private String model;
 
-    private String seller;
+    private User seller;
 
     private LocalDateTime created;
 
@@ -109,12 +109,11 @@ public class EditOffer extends BaseViewModel{
         this.model = model;
     }
 
-    @NotEmpty(message = "Выберите продавца модели")
-    public String getSeller() {
+    public User getSeller() {
         return seller;
     }
 
-    public void setSeller(String seller) {
+    public void setSeller(User seller) {
         this.seller = seller;
     }
 

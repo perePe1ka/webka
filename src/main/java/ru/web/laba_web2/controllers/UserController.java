@@ -94,14 +94,9 @@ public class UserController {
         return "redirect:/users/login";
     }
 
-
-
-    @ModelAttribute("editUser")
-    public EditUser editUser() {
-        return new EditUser();
-    }
     @GetMapping("/profile")
     public String profile(Principal principal, Model model) {
+        LOG.log(Level.INFO, "Show profile for " + principal.getName());
         String username = principal.getName();
         User user = userService.getUser(username);
 
@@ -118,6 +113,11 @@ public class UserController {
         return "profile";
     }
 
+
+    @ModelAttribute("editUser")
+    public EditUser editUser() {
+        return new EditUser();
+    }
     @GetMapping("/update/{uuid}")
     String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) throws Throwable {
         LOG.log(Level.INFO, "Edit user for" + principal.getName());
@@ -129,8 +129,11 @@ public class UserController {
     String updateUser(@PathVariable("uuid") String uuid,
                       @Valid EditUser editUser,
                       BindingResult bindingResult,
-                      RedirectAttributes redirectAttributes) {
+                      RedirectAttributes redirectAttributes,
+                      Principal principal) {
+        LOG.log(Level.INFO, "Update profile for: " + principal.getName());
         if (bindingResult.hasErrors()) {
+            LOG.log(Level.INFO, "Trouble with update for: " + principal.getName());
             redirectAttributes.addFlashAttribute("editUser", editUser);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editUser", bindingResult);
             return "redirect:/users/update/" + uuid;

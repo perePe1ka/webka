@@ -38,14 +38,14 @@
     </div>
 
 
-    <div class="form-group">
-        <label for="isActiveUser">Статус</label>
-        <input th:field="*{active}"
-               th:errorclass="is-invalid"
-               type="checkbox" class="form-control" id="isActiveUser" aria-describedby="nameHelp"
-               name="name" th:value="${isActive}"/>
-        <small th:if="${#fields.hasErrors('isActive')}" th:errors="*{isActive}" class="text-danger">Error message</small>
-    </div>
+<!--    <div class="form-group">-->
+<!--        <label for="isActiveUser">Статус</label>-->
+<!--        <input th:field="*{active}"-->
+<!--               th:errorclass="is-invalid"-->
+<!--               type="checkbox" class="form-control" id="isActiveUser" aria-describedby="nameHelp"-->
+<!--               name="name" />-->
+<!--        <small th:if="${#fields.hasErrors('isActive')}" th:errors="*{isActive}" class="text-danger">Error message</small>-->
+<!--    </div>-->
 
 
     <div class="form-group">

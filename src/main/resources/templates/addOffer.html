@@ -8,6 +8,7 @@
       th:object="${newOffer}"
       class="m-md-auto w-50 pb-3">
 
+    <input type="hidden" th:field="*{seller}" th:value="${#authentication.principal.username}" />
 
     <div class="mb-3">
         <label class="form-label" for="nameOffer">Описание</label>
@@ -130,6 +131,9 @@
             message</small>
     </div>
 
+    <br>
+    <br>
+    <br>
 
     <div class="form-group">
         <label for="model">Выберите модель</label>
@@ -139,16 +143,22 @@
         <small th:if="${#fields.hasErrors('model')}" th:errors="*{model}" class="text-danger">Error message</small>
     </div>
 
+    <br>
+    <br>
+    <br>
 
     <div class="form-group">
         <label for="seller">Выберите пользователя</label>
         <select class="form-control" id="seller" name="seller" th:field="*{seller}">
-            <option th:each="b : ${availableUsers}" th:value="${b.username}" th:text="${b.username}">Seller name</option>
+            <option th:each="s : ${seller}" th:value="${seller}" th:text="${seller}">Seller name</option>
         </select>
         <small th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}" class="text-danger">Error message</small>
     </div>
 
-
+<!--    <div class="form-group">-->
+<!--        <label for="seller">Выберите пользователя</label>-->
+<!--        <p class="form-control-static" th:text="${#authentication.principal.username}">Seller name</p>-->
+<!--    </div>-->
 
 
     <button type="submit" class="btn btn-secondary">Добавить оффер</button>

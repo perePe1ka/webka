@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService<String> {
         existingUser.setUsername(editUser.getUsername());
         existingUser.setFirstName(editUser.getFirstName());
         existingUser.setLastName(editUser.getLastName());
-        existingUser.setActive(editUser.isActive());
+//        existingUser.setActive(editUser.isActive());
         existingUser.setImageUrl(editUser.getImageUrl());
         existingUser.setEmail(editUser.getEmail());
 

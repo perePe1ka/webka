@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Offer;
@@ -80,18 +81,19 @@ public class OfferServiceImpl implements OfferService<String> {
     @CacheEvict(cacheNames = "offers", allEntries = true)
     public void register(AddOfferViewModel newOffer) {
         if (!this.validationUtil.isValid(newOffer)) {
-
             this.validationUtil
                     .violations(newOffer)
                     .stream()
                     .map(ConstraintViolation::getMessage)
                     .forEach(System.out::println);
 
-            throw new IllegalArgumentException("Что то пошло не так");
+            throw new IllegalArgumentException("Что-то пошло не так");
         }
 
+        User currentUser = userService.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
         Offer offer = this.modelMapper.map(newOffer, Offer.class);
-        offer.setSeller(userService.findByUsername(newOffer.getSeller()));
+        offer.setSeller(currentUser);
         offer.setModel(modelService.findByName(newOffer.getModel()));
 
         this.offerRepository.saveAndFlush(offer);
@@ -115,8 +117,10 @@ public class OfferServiceImpl implements OfferService<String> {
 
     @Override
     public Optional<EditOffer> findByUuid(String uuid) {
-        return Optional.ofNullable(modelMapper.map(offerRepository.findByUuid(uuid), EditOffer.class));
+        Optional<Offer> offer = offerRepository.findByUuid(uuid);
+        return offer.map(o -> modelMapper.map(o, EditOffer.class));
     }
+
 
     @Override
     @Cacheable("offers")
@@ -144,7 +148,7 @@ public class OfferServiceImpl implements OfferService<String> {
             try {
                 Offer offer = modelMapper.map(editOffer, Offer.class);
                 offer.setModel(modelRepository.findByName(editOffer.getModel()).orElse(null));
-                offer.setSeller(userRepository.findByUsername(editOffer.getSeller()).orElse(null));
+                offer.setSeller(userRepository.findByUsername(editOffer.getSeller().getUsername()).orElse(null));
                 this.offerRepository.saveAndFlush(offer);
             } catch (Exception e) {
                 System.out.println("Что-то пошло не так");

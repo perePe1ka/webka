@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.OfferService;
 import ru.web.laba_web2.services.UserService;
@@ -18,6 +19,7 @@ import ru.web.laba_web2.viewModel.AddOfferViewModel;
 import ru.web.laba_web2.viewModel.EditOffer;
 
 import java.security.Principal;
+import java.util.Optional;
 
 
 @Controller
@@ -70,20 +72,26 @@ public class OfferController {
 
     @GetMapping("/add")
     String addOffer(Model model, Principal principal) {
-        LOG.log(Level.INFO, "Add offer for" + principal.getName());
+        LOG.log(Level.INFO, "Add offer for " + principal.getName());
+        User currentUser = userService.findByUsername(principal.getName());
+
         model.addAttribute("availableModels", modelService.allModels());
-        model.addAttribute("availableUsers", userService.getAll());
+        model.addAttribute("seller", currentUser.getUsername());
+
         return "addOffer";
     }
 
     @PostMapping("/add")
-    String registerOffer(@Valid AddOfferViewModel newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    String registerOffer(@Valid AddOfferViewModel newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("newOffer", newOffer);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newOffer", bindingResult);
 
             return "redirect:/offers/add";
         }
+
+        User currentUser = userService.findByUsername(principal.getName());
+        newOffer.setSeller(currentUser.getUsername());
         offerService.register(newOffer);
 
         return "redirect:/offers/show";
@@ -103,14 +111,28 @@ public class OfferController {
 
     @GetMapping("/update/{uuid}")
     String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) throws Throwable {
-        LOG.log(Level.INFO, "Edit offer for" + principal.getName());
-        model.addAttribute("availableModels", modelService.allModels());
-        model.addAttribute("availableUsers", userService.getAll());
+        LOG.log(Level.INFO, "Edit offer for " + principal.getName());
+        Optional<EditOffer> editOfferOptional = offerService.findByUuid(uuid);
 
-        model.addAttribute("editOffer", offerService.findByUuid(uuid));
-
-        return "editOffer";
+        if (editOfferOptional.isPresent()) {
+            EditOffer editOffer = editOfferOptional.get();
+            String sellerUsername = editOffer.getSeller().getUsername();
+            LOG.log(Level.INFO, "sellerUsername: " + sellerUsername);
+            LOG.log(Level.INFO, "principal: " + principal.getName());
+            if (sellerUsername.equals(principal.getName())) {
+                model.addAttribute("availableModels", modelService.allModels());
+                model.addAttribute("editOffer", editOffer);
+                return "editOffer";
+            } else {
+                return "redirect:/offers/show";
+            }
+        } else {
+            return "redirect:/offers/show";
+        }
     }
+
+
+
 
     @PostMapping("/update/{uuid}")
     String updateOffer(@PathVariable("uuid") String uuid,
