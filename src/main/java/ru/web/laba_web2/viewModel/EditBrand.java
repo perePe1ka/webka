@@ -7,9 +7,7 @@ import ru.web.laba_web2.utils.UniqueBrandName;
 
 import java.time.LocalDateTime;
 
-public class EditBrand {
-    private String uuid;
-
+public class EditBrand extends BaseViewModel{
     @UniqueBrandName
     private String name;
 
@@ -23,14 +21,6 @@ public class EditBrand {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public LocalDateTime getCreated() {

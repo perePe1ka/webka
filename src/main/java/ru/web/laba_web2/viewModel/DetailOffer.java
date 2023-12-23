@@ -5,8 +5,7 @@ import ru.web.laba_web2.constants.Transmission;
 
 import java.time.LocalDateTime;
 
-public class DetailOffer {
-    private String uuid;
+public class DetailOffer extends BaseViewModel{
     private String description;
     private Engine engine;
 
@@ -112,14 +111,6 @@ public class DetailOffer {
 
     public void setModel(String model) {
         this.model = model;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     @Override

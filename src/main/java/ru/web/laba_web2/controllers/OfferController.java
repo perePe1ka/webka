@@ -11,7 +11,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.web.laba_web2.controllers.exceptions.OfferNotFoundException;
 import ru.web.laba_web2.services.ModelService;
 import ru.web.laba_web2.services.OfferService;
 import ru.web.laba_web2.services.UserService;
@@ -68,10 +67,6 @@ public class OfferController {
         return new AddOfferViewModel();
     }
 
-    @ModelAttribute("editOffer")
-    public EditOffer editOffer() {
-        return new EditOffer();
-    }
 
     @GetMapping("/add")
     String addOffer(Model model, Principal principal) {
@@ -101,14 +96,19 @@ public class OfferController {
         return "redirect:/offers/show";
     }
 
+    @ModelAttribute("editOffer")
+    public EditOffer editOffer() {
+        return new EditOffer();
+    }
+
     @GetMapping("/update/{uuid}")
     String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) throws Throwable {
         LOG.log(Level.INFO, "Edit offer for" + principal.getName());
         model.addAttribute("availableModels", modelService.allModels());
         model.addAttribute("availableUsers", userService.getAll());
 
-        model.addAttribute("editOffer", offerService.findByUuid(uuid)
-                .orElseThrow(() -> new OfferNotFoundException(uuid)));
+        model.addAttribute("editOffer", offerService.findByUuid(uuid));
+
         return "editOffer";
     }
 

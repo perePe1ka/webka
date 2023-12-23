@@ -4,8 +4,7 @@ import ru.web.laba_web2.constants.Category;
 
 import java.time.LocalDateTime;
 
-public class DetailModel {
-    private String uuid;
+public class DetailModel extends BaseViewModel{
     private String name;
 
     private Category category;
@@ -83,16 +82,6 @@ public class DetailModel {
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     @Override

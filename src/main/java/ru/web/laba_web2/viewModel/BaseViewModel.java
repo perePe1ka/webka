@@ -1,4 +1,16 @@
 package ru.web.laba_web2.viewModel;
 
-public class BaseViewModel {
+import jakarta.persistence.MappedSuperclass;
+
+@MappedSuperclass
+public abstract class BaseViewModel {
+    private String uuid;
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
+    }
 }

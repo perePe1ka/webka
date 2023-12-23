@@ -57,11 +57,6 @@ public class BrandController {
         return new AddBrandViewModel();
     }
 
-    @ModelAttribute("editBrand")
-    public EditBrand editBrand() {
-        return new EditBrand();
-    }
-
     @PostMapping("/add")
     String registerBrand(@Valid AddBrandViewModel newBrand, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -80,6 +75,11 @@ public class BrandController {
         brandService.deleteByName(brandName);
 
         return "redirect:/brands/show";
+    }
+
+    @ModelAttribute("editBrand")
+    public EditBrand editBrand() {
+        return new EditBrand();
     }
 
     @GetMapping("/update/{uuid}")

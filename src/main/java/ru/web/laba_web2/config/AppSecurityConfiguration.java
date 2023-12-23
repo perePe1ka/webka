@@ -39,7 +39,7 @@ public class AppSecurityConfiguration {
                                 authorizeHttpRequests.
                                         requestMatchers(PathRequest.toStaticResources().atCommonLocations())
                                         .permitAll().
-                                        requestMatchers("/", "/users/login", "/users/register", "/users/login-error")
+                                        requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/pic/**", "/js/bootstrap.min.js", "/css/bootstrap.min.css")
                                         .permitAll().
                                         requestMatchers("/users/profile").authenticated().
                                         requestMatchers("/brands/add", "/models/add", "","/brands/delete", "/models/delete/").hasRole(Role.ADMIN.name()).

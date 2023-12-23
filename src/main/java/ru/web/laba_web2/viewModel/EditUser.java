@@ -1,28 +1,32 @@
 package ru.web.laba_web2.viewModel;
 
-public class EditUser {
-    private String uuid;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.Length;
+import ru.web.laba_web2.utils.UniqueEmail;
+import ru.web.laba_web2.utils.UniqueUsername;
 
+public class EditUser extends BaseViewModel{
+    @UniqueUsername
     private String username;
 
     private String firstName;
 
     private String lastName;
+    @UniqueEmail
+    private String email;
 
     private boolean isActive;
 
-    private String roles;
-
     private String imageUrl;
 
-    public String getUuid() {
-        return uuid;
-    }
+    private String password;
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
+    private String confirmPassword;
 
+    @NotNull
+    @NotEmpty
+    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getUsername() {
         return username;
     }
@@ -30,7 +34,9 @@ public class EditUser {
     public void setUsername(String username) {
         this.username = username;
     }
-
+    @NotNull
+    @NotEmpty
+    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getFirstName() {
         return firstName;
     }
@@ -38,7 +44,9 @@ public class EditUser {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
+    @NotNull
+    @NotEmpty
+    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getLastName() {
         return lastName;
     }
@@ -55,7 +63,9 @@ public class EditUser {
         isActive = active;
     }
 
-
+    @NotNull
+    @NotEmpty
+    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getImageUrl() {
         return imageUrl;
     }
@@ -64,11 +74,34 @@ public class EditUser {
         this.imageUrl = imageUrl;
     }
 
-    public String getRoles() {
-        return roles;
+
+    @NotNull
+    @NotEmpty
+    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
+    public String getPassword() {
+        return password;
     }
 
-    public void setRoles(String roles) {
-        this.roles = roles;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+    @NotNull
+    @NotEmpty
+    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }

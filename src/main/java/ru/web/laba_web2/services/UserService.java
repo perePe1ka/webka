@@ -1,27 +1,25 @@
 package ru.web.laba_web2.services;
 
 import ru.web.laba_web2.models.User;
-import ru.web.laba_web2.services.dtos.OfferDto;
-import ru.web.laba_web2.services.dtos.RolesDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.viewModel.EditUser;
+import ru.web.laba_web2.viewModel.UserRegistration;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserService<String> {
+    void register(UserRegistration registrationDTO);
 
-    void register(UserDto userDto);
-
-    void deleteByUserName(String username);
-
-    void transfer(UserDto userDto, RolesDto rolesDto, OfferDto offerDto);
+    void deleteByUsername(String username);
 
     Optional<UserDto> findByUuid(String uuid);
 
+    User getUser(String username);
+
     List<UserDto> getAll();
 
-    void editUser(EditUser editUser);
+    void update(EditUser editUser);
 
     User findByUsername(String userName);
 }

@@ -7,26 +7,25 @@
   <div class="container">
     <div class="row">
       <div class="col-md-2"></div>
-      <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
+      <div class="text-center rounded col-md-8 align-self-center pt-5">
         <div class="justify-content-center">
-          <h1>Register</h1>
+          <h1>Регистрация</h1>
         </div>
         <form th:action="@{/users/register}"
               th:method="post"
-              th:object="${userRegistrationDto}"
+              th:object="${userRegistration}"
               class="m-md-auto w-50 pb-3">
           <div class="mb-3">
-            <label class="form-label" for="username">Username</label>
+            <label class="form-label" for="username">Логин</label>
             <input th:field="*{username}"
                    th:errorclass="is-invalid"
                    type="text" class="form-control text-center" id="username" aria-describedby="usernameHelp"
                    name="username"/>
-            <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger">Error
-              message</small>
+            <small th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger">Error message</small>
           </div>
 
           <div class="mb-3">
-            <label class="form-label" for="firstName">First Name</label>
+            <label class="form-label" for="firstName">Имя</label>
             <input th:field="*{firstName}"
                    th:errorclass="is-invalid"
                    type="text" class="form-control text-center" id="firstName" aria-describedby="firstName"
@@ -36,7 +35,7 @@
           </div>
 
           <div class="mb-3">
-            <label class="form-label" for="lastName">Last Name</label>
+            <label class="form-label" for="lastName">Фамилия</label>
             <input th:field="*{lastName}"
                    th:errorclass="is-invalid"
                    type="text" class="form-control text-center" id="lastName" aria-describedby="lastName"
@@ -46,22 +45,19 @@
           </div>
 
           <div class="mb-3">
-            <label class="form-label" for="email">Email</label>
+            <label class="form-label" for="email">Электронная почта</label>
             <input th:field="*{email}"
                    th:errorclass="is-invalid"
                    type="email" class="form-control text-center"
                    id="email" aria-describedby="email" name="email"/>
-            <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
-                   class="text-danger">Error
-              message</small>
+            <small th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-danger">Error message</small>
           </div>
 
 
 
           <div class="mb-3">
-            <label class="form-label" for="password">Password</label>
+            <label class="form-label" for="password">Пароль</label>
             <input th:field="*{password}"
-                   required minlength="5" maxlength="20"
                    th:errorclass="is-invalid"
                    type="password" min="0" class="form-control text-center"
                    id="password" aria-describedby="password" name="password"/>
@@ -72,9 +68,8 @@
 
 
           <div class="mb-3">
-            <label class="form-label" for="confirmPassword">Confirm password</label>
+            <label class="form-label" for="confirmPassword">Подтвердите пароль</label>
             <input th:field="*{confirmPassword}"
-                   required minlength="5" maxlength="20"
                    th:errorclass="is-invalid"
                    type="password" min="0" class="form-control text-center"
                    id="confirmPassword" aria-describedby="confirmPassword" name="confirmPassword"/>
@@ -83,7 +78,7 @@
               message</small>
           </div>
 
-          <button type="submit" class="btn btn-secondary">Register</button>
+          <button type="submit" class="btn btn-secondary">Зарегистрироваться</button>
         </form>
       </div>
     </div>

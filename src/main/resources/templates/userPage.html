@@ -1,25 +1,25 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">-->
-<!--<head th:replace="~{fragments/head}"/>-->
-<!--<body>-->
-<!--<div th:replace="~{fragments/navbar}">Navbar</div>-->
-<!--<main>-->
-<!--    <ul class="list-group">-->
-<!--        <h2 class="text-center">Все пользователи</h2>-->
-<!--        <li class="list-group-item text-center">-->
-<!--            <div th:each="u : ${users}">-->
-<!--                <h2 th:text="'Ник пользователя: ' + *{u.username}"></h2>-->
-<!--                <h6 th:text="'ФИО: ' + ${u.firstName} + ' ' + ${u.lastName}"></h6>-->
-<!--                <h6 th:text="'Статус: ' + ${u.isActive}"></h6>-->
-<!--                <h6 th:text="'Роль: ' + ${u.role}"></h6>-->
-<!--                <h6 th:text="'Ссылка на картнку: ' + ${u.imageUrl}"></h6>-->
-<!--                <h6 th:text="'Создано: ' + ${u.created}"></h6>-->
-<!--                <h6 th:text="'Изменено: ' + ${u.modified}"></h6>-->
-<!--                <h4><a class="btn-block" th:href="@{/users/update/{uuid}(uuid = ${u.uuid})}">Обновить информацию</a></h4>-->
-<!--            </div>-->
-<!--        </li>-->
-<!--    </ul>-->
-<!--</main>-->
-<!--<footer th:replace="~{fragments/footer}"/>-->
-<!--</body>-->
-<!--</html>-->
+<!DOCTYPE html>
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"/>
+<body>
+<div th:replace="~{fragments/navbar}">Navbar</div>
+<main>
+    <ul class="list-group">
+        <h2 class="text-center">Все пользователи</h2>
+        <li class="list-group-item text-center">
+            <div th:each="u : ${users}">
+                <h2 th:text="'Ник пользователя: ' + *{u.username}"></h2>
+                <h6 th:text="'ФИО: ' + ${u.firstName} + ' ' + ${u.lastName}"></h6>
+                <h6 th:text="'Статус: ' + ${u.isActive}"></h6>
+                <h6 th:text="'Роль: ' + ${u.role}"></h6>
+                <h6 th:text="'Ссылка на картнку: ' + ${u.imageUrl}"></h6>
+                <h6 th:text="'Создано: ' + ${u.created}"></h6>
+                <h6 th:text="'Изменено: ' + ${u.modified}"></h6>
+                <h4><a class="btn-block" th:href="@{/users/update/{uuid}(uuid = ${u.uuid})}">Обновить информацию</a></h4>
+            </div>
+        </li>
+    </ul>
+</main>
+<footer th:replace="~{fragments/footer}"/>
+</body>
+</html>

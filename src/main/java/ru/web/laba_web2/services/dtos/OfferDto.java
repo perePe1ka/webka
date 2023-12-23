@@ -3,10 +3,10 @@ package ru.web.laba_web2.services.dtos;
 import jakarta.validation.constraints.DecimalMin;
 import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Transmission;
+import ru.web.laba_web2.viewModel.BaseViewModel;
 
 
-public class OfferDto {
-    private String uuid;
+public class OfferDto extends BaseViewModel {
     private String description;
     private Engine engine;
 
@@ -39,14 +39,6 @@ public class OfferDto {
         this.year = year;
         this.modelDto = modelDto;
         this.seller = seller;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public String getDescription() {

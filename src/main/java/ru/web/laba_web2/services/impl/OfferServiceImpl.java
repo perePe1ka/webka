@@ -3,14 +3,10 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
-import ru.web.laba_web2.constants.Role;
-import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
-import ru.web.laba_web2.controllers.exceptions.OfferNotFoundException;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.models.User;
@@ -125,8 +121,7 @@ public class OfferServiceImpl implements OfferService<String> {
     @Override
     @Cacheable("offers")
     public DetailOffer getAll(String offerDescription) {
-        Offer offer = offerRepository.findByDescription(offerDescription)
-                .orElseThrow(() -> new ModelNotFoundException("Offer with name " + offerDescription + " not found"));
+        Optional<Offer> offer = offerRepository.findByDescription(offerDescription);
         return modelMapper.map(offer, DetailOffer.class);
     }
 

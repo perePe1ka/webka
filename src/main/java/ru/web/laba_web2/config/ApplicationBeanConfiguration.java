@@ -13,8 +13,4 @@ public class ApplicationBeanConfiguration {
         return new ModelMapper();
     }
 
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/resources/images/**").addResourceLocations("file:resources/images");
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-    }
 }

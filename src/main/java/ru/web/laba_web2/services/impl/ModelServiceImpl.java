@@ -3,12 +3,10 @@ package ru.web.laba_web2.services.impl;
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
-import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
 import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.repositories.BrandRepository;
@@ -102,8 +100,7 @@ public class ModelServiceImpl implements ModelService<String> {
     @Override
     @Cacheable("models")
     public DetailModel getAll(String modelName) {
-        Model model = modelRepository.findByName(modelName)
-                .orElseThrow(() -> new ModelNotFoundException("Model with name " + modelName + " not found"));
+        Optional<Model> model = modelRepository.findByName(modelName);
         return modelMapper.map(model, DetailModel.class);
     }
 

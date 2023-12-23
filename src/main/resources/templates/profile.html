@@ -19,6 +19,13 @@
             <h4 th:text="'Email: ' + *{email}"></h4>
             <b>User Roles: </b>
             <div sec:authentication="principal.authorities"></div>
+            <h4><a class="btn-block" th:href="@{/users/update/{uuid}(uuid = ${user.uuid})}">Редактировать профиль</a></h4>
+            <h4>
+              <a class="btn-block" th:href="@{/users/delete/{username}(username=${user.username})}"
+                 th:if="${#authentication.name == user.username}">
+                Удалить профиль
+              </a>
+            </h4>
           </div>
           <div class="col-md-6"></div>
         </div>

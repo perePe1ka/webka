@@ -9,9 +9,7 @@ import ru.web.laba_web2.utils.UniqueBrandName;
 
 import java.time.LocalDateTime;
 
-public class EditModel {
-    private String uuid;
-
+public class EditModel extends BaseViewModel{
     @UniqueBrandName
     private String name; //имя модели
 
@@ -81,14 +79,6 @@ public class EditModel {
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     public LocalDateTime getCreated() {

@@ -4,10 +4,10 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import ru.web.laba_web2.constants.Category;
+import ru.web.laba_web2.viewModel.BaseViewModel;
 
 
-public class ModelDto {
-    private String uuid;
+public class ModelDto extends BaseViewModel {
     private String name; //имя модели
 
     private Category category;
@@ -33,13 +33,6 @@ public class ModelDto {
         this.brand = brand;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "Ошибка, введите минимум 2 символа")

@@ -14,10 +14,9 @@
            type="text" class="form-control text-center" id="nameBrand"
            aria-describedby="nameHelp"
            name="name"/>
-    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error
-      message</small>
+    <small th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Error message</small>
   </div>
-  <button type="submit" class="btn btn-secondary">Add Company</button>
+  <button type="submit" class="btn btn-secondary">Добавить бренд</button>
 </form>
 <footer th:replace="~{fragments/footer}"/>
 </body>

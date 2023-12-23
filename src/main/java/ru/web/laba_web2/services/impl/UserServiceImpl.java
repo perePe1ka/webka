@@ -1,26 +1,24 @@
 package ru.web.laba_web2.services.impl;
 
-import jakarta.validation.ConstraintViolation;
+import io.micrometer.common.util.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.web.laba_web2.models.Model;
-import ru.web.laba_web2.models.Roles;
+import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.repositories.RolesRepository;
 import ru.web.laba_web2.repositories.UserRepository;
 import ru.web.laba_web2.services.RolesService;
 import ru.web.laba_web2.services.UserService;
-import ru.web.laba_web2.services.dtos.OfferDto;
-import ru.web.laba_web2.services.dtos.RolesDto;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
-import ru.web.laba_web2.viewModel.AddModelViewModel;
 import ru.web.laba_web2.viewModel.EditUser;
+import ru.web.laba_web2.viewModel.UserRegistration;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +33,12 @@ public class UserServiceImpl implements UserService<String> {
     private ValidationUtil validationUtil;
     private RolesService rolesService;
 
-
+    private PasswordEncoder passwordEncoder;
     @Autowired
-    public UserServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
+    public UserServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil, PasswordEncoder passwordEncoder) {
         this.modelMapper = modelMapper;
         this.validationUtil = validationUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Autowired
@@ -59,43 +58,50 @@ public class UserServiceImpl implements UserService<String> {
 
     @Override
     @CacheEvict(cacheNames = "users", allEntries = true)
-    public void register(UserDto newUser) {
-        if (!this.validationUtil.isValid(newUser)) {
-            this.validationUtil
-                    .violations(newUser)
-                    .stream()
-                    .map(ConstraintViolation::getMessage)
-                    .forEach(System.out::println);
-        } else {
-            try {
-                User user = modelMapper.map(newUser, User.class);
-                user.setRole((List<Roles>) rolesRepository.findRolesByRole(newUser.getRole()).orElse(null));
-                this.userRepository.saveAndFlush(user);
-            } catch (Exception e) {
-                System.out.println("Oops, something went wrong! :(");
-            }
+    public void register(UserRegistration registrationDTO) {
+        if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
+            throw new RuntimeException("passwords.match");
         }
+
+        Optional<User> byEmail = this.userRepository.findByEmail(registrationDTO.getEmail());
+
+        if (byEmail.isPresent()) {
+            throw new RuntimeException("email.used");
+        }
+
+        var userRole = rolesRepository.
+                findRolesByRole(Role.USER).orElseThrow();
+
+        User user = new User(
+                registrationDTO.getUsername(),
+                registrationDTO.getFirstName(),
+                registrationDTO.getLastName(),
+                registrationDTO.getEmail(),
+                passwordEncoder.encode(registrationDTO.getPassword())
+        );
+
+        user.setRole(List.of(userRole));
+
+        this.userRepository.save(user);
     }
 
     @Override
     @CacheEvict(cacheNames = "users", allEntries = true)
-    public void deleteByUserName(String username) {
+    public void deleteByUsername(String username) {
         userRepository.deleteByUsername(username);
     }
 
-    @Override
-    public void transfer(UserDto userDto, RolesDto rolesDto, OfferDto offerDto) {
-        User user = userRepository.findByUuid(userDto.getUuid()).get();
-        Roles roles = rolesRepository.findByUuid(rolesDto.getUuid()).get();
-        user.setRole((List<Roles>) roles);
-        userRepository.saveAndFlush(user);
-    }
 
     @Override
     public Optional<UserDto> findByUuid(String uuid) {
         return Optional.ofNullable(modelMapper.map(userRepository.findByUuid(uuid), UserDto.class));
     }
 
+    @Override
+    public User getUser(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username + " was not found!"));
+    }
 
     @Override
     @Cacheable("users")
@@ -105,24 +111,25 @@ public class UserServiceImpl implements UserService<String> {
 
     @Override
     @CacheEvict(cacheNames = "users", allEntries = true)
-    public void editUser(EditUser editUser) {
-        if (!this.validationUtil.isValid(editUser)) {
-            this.validationUtil
-                    .violations(editUser)
-                    .stream()
-                    .map(ConstraintViolation::getMessage)
-                    .forEach(System.out::println);
-        } else {
-            try {
-                User user = modelMapper.map(editUser, User.class);
-                user.setRole((List<Roles>) rolesRepository.findRolesByRole(editUser.getRoles()).orElse(null));
-                this.userRepository.saveAndFlush(user);
-            } catch (Exception e) {
-                System.out.println("Что-то пошло не так");
-            }
-        }
-    }
+    public void update(EditUser editUser) {
+        Optional<User> existingUserOptional = userRepository.findByUuid(editUser.getUuid());
+        User existingUser = existingUserOptional.orElseThrow(() -> new RuntimeException());
 
+        if (StringUtils.isNotBlank(editUser.getPassword())) {
+            if (!editUser.getPassword().equals(editUser.getConfirmPassword())) {
+                throw new RuntimeException("passwords.match");
+            }
+            existingUser.setPassword(passwordEncoder.encode(editUser.getPassword()));
+        }
+        existingUser.setUsername(editUser.getUsername());
+        existingUser.setFirstName(editUser.getFirstName());
+        existingUser.setLastName(editUser.getLastName());
+        existingUser.setActive(editUser.isActive());
+        existingUser.setImageUrl(editUser.getImageUrl());
+        existingUser.setEmail(editUser.getEmail());
+
+        userRepository.save(existingUser);
+    }
 
     @Override
     public User findByUsername(String userName) {

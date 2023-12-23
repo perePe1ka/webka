@@ -1,30 +1,20 @@
 package ru.web.laba_web2.services.dtos;
 
 import ru.web.laba_web2.constants.Role;
+import ru.web.laba_web2.viewModel.BaseViewModel;
 
 
-
-public class RolesDto {
-    private String uuid;
-
+public class RolesDto extends BaseViewModel {
     private Role role;
 
 
     public RolesDto() {
 
     }
-
     public RolesDto(Role role) {
         this.role = role;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     public Role getRole() {
         return role;

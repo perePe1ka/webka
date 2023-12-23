@@ -3,24 +3,15 @@ package ru.web.laba_web2.services.dtos;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
+import ru.web.laba_web2.viewModel.BaseViewModel;
 
 
-public class BrandDto {
-    private String uuid;
+public class BrandDto extends BaseViewModel {
     private String name; //наименование бренда
-
-
     public BrandDto() {
 
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     @NotNull
     @NotEmpty

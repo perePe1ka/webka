@@ -3,8 +3,7 @@ package ru.web.laba_web2.viewModel;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class DetailBrand {
-    private String uuid;
+public class DetailBrand extends BaseViewModel{
     private String name;
     private String  modified;
     private String  created;
@@ -33,13 +32,6 @@ public class DetailBrand {
         this.created = created;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
 
     @Override
     public String toString() {

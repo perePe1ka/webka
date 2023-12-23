@@ -1,6 +1,7 @@
 package ru.web.laba_web2.viewModel;
 
 public class UserProfileView {
+    private String uuid;
     private String username;
 
     private String email;
@@ -13,12 +14,12 @@ public class UserProfileView {
     public UserProfileView() {
     }
 
-    public UserProfileView(String username, String email, String firstName, String lastName) {
+    public UserProfileView(String uuid,String username, String email, String firstName, String lastName) {
+        this.uuid = uuid;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-
     }
 
     public String getUsername() {
@@ -51,5 +52,13 @@ public class UserProfileView {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public String getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 }

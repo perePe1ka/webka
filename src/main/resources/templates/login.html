@@ -7,15 +7,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2"></div>
-            <div class="jumbotron text-center rounded col-md-8 align-self-center pt-5">
+            <div class="text-center rounded col-md-8 align-self-center pt-5">
                 <div class="justify-content-center">
-                    <h1>Login</h1>
+                    <h1>Авторизация</h1>
                 </div>
                 <form th:action="@{/users/login}"
                       th:method="post"
                       class="m-md-auto w-50 pb-3">
                     <div class="mb-3">
-                        <label class="form-label" for="username">Name</label>
+                        <label class="form-label" for="username">Логин</label>
                         <input id="username"
                                name="username"
                                th:value="${username}"
@@ -23,14 +23,14 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label" for="password">Password</label>
+                        <label class="form-label" for="password">Пароль</label>
                         <input id="password"
                                name="password"
                                type="password" class="form-control text-center" aria-describedby="passwordHelp"/>
                     </div>
 
                     <p class="text-danger" th:if="${badCredentials}">
-                        Invalid username or password.
+                        Неверный логин или пароль
                     </p>
 
                     <button type="submit" class="btn btn-secondary">Login</button>

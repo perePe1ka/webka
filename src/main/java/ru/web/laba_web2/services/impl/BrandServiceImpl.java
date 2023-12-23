@@ -1,15 +1,13 @@
 package ru.web.laba_web2.services.impl;
 
-import jakarta.transaction.Transactional;
+
 import jakarta.validation.ConstraintViolation;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
-import ru.web.laba_web2.controllers.exceptions.BrandNotFoundException;
 import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.repositories.BrandRepository;
 import ru.web.laba_web2.services.BrandService;
@@ -87,8 +85,7 @@ public class BrandServiceImpl implements BrandService<String> {
     @Override
     @Cacheable("brands")
     public DetailBrand getAll(String brandName) {
-        Brand brand = brandRepository.findByName(brandName)
-                .orElseThrow(() -> new BrandNotFoundException("Brand with name " + brandName + " not found"));
+        Optional<Brand> brand = brandRepository.findByName(brandName);
         return modelMapper.map(brand, DetailBrand.class);
     }
 

@@ -11,8 +11,7 @@ import ru.web.laba_web2.utils.UniqueOffer;
 
 import java.time.LocalDateTime;
 
-public class EditOffer {
-    private String uuid;
+public class EditOffer extends BaseViewModel{
     @UniqueOffer
     private String description;
 
@@ -125,14 +124,6 @@ public class EditOffer {
 
     public void setCreated(LocalDateTime created) {
         this.created = created;
-    }
-
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
     }
 
     @Override

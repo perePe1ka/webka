@@ -11,16 +11,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.web.laba_web2.controllers.exceptions.ModelNotFoundException;
-import ru.web.laba_web2.services.dtos.ModelDto;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
 import ru.web.laba_web2.services.impl.ModelServiceImpl;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
+import ru.web.laba_web2.viewModel.EditBrand;
 import ru.web.laba_web2.viewModel.EditModel;
-import ru.web.laba_web2.viewModel.EditOffer;
 
 import java.security.Principal;
-import java.util.List;
 
 
 @Controller
@@ -72,11 +69,6 @@ public class ModelController {
         return new AddModelViewModel();
     }
 
-    @ModelAttribute("editModel")
-    public EditModel editModel() {
-        return new EditModel();
-    }
-
     @PostMapping("/add")
     String registerModel(@Valid AddModelViewModel newModel, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -90,6 +82,11 @@ public class ModelController {
         return "redirect:/models/show";
     }
 
+    @ModelAttribute("editModel")
+    public EditModel editModel() {
+        return new EditModel();
+    }
+
     @GetMapping("/delete{modelName}")
     String deleteModel(@PathVariable("modelName") String modelName) {
         modelService.deleteByModelName(modelName);
@@ -97,13 +94,13 @@ public class ModelController {
         return "redirect:/models/show";
     }
 
+
+
     @GetMapping("/update/{uuid}")
     String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) {
         LOG.log(Level.INFO, "Edit models for" + principal.getName());
         model.addAttribute("availableBrands", brandService.allBrands());
-
-        model.addAttribute("editModel", modelService.findByUuid(uuid)
-                .orElseThrow(() -> new ModelNotFoundException(uuid)));
+        model.addAttribute("editModel", modelService.findByUuid(uuid));
         return "editModel";
     }
 
