@@ -42,7 +42,7 @@ public class AppSecurityConfiguration {
                                         requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/pic/**", "/js/bootstrap.min.js", "/css/bootstrap.min.css")
                                         .permitAll().
                                         requestMatchers("/users/profile").authenticated().
-                                        requestMatchers("/brands/add", "/models/add", "","/brands/delete", "/models/delete/").hasRole(Role.ADMIN.name()).
+                                        requestMatchers("/brands/add", "/models/add", "","/brands/delete", "/models/delete").hasRole(Role.ADMIN.name()).
                                         anyRequest().authenticated()
                 )
                 .formLogin(

@@ -114,32 +114,28 @@ public class UserController {
     }
 
 
-    @ModelAttribute("editUser")
-    public EditUser editUser() {
-        return new EditUser();
-    }
-    @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) throws Throwable {
-        LOG.log(Level.INFO, "Edit user for" + principal.getName());
-        model.addAttribute("editUser", userService.findByUuid(uuid));
-        return "editUser";
-    }
 
-    @PostMapping("/update/{uuid}")
-    String updateUser(@PathVariable("uuid") String uuid,
-                      @Valid EditUser editUser,
-                      BindingResult bindingResult,
-                      RedirectAttributes redirectAttributes,
-                      Principal principal) {
-        LOG.log(Level.INFO, "Update profile for: " + principal.getName());
-        if (bindingResult.hasErrors()) {
-            LOG.log(Level.INFO, "Trouble with update for: " + principal.getName());
-            redirectAttributes.addFlashAttribute("editUser", editUser);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editUser", bindingResult);
-            return "redirect:/users/update/" + uuid;
+
+        @GetMapping("/profile/edit")
+        public String showEditProfile(Model model, Principal principal) {
+            User editUser = userService.findByUsername(principal.getName());
+            model.addAttribute("user", editUser);
+            return "editUser";
         }
 
-        userService.update(editUser);
-        return "redirect:/users/profile";
+        @PostMapping("/profile/edit")
+        public String editProfile(@Valid @ModelAttribute("user") EditUser editUser,
+                                  BindingResult bindingResult) {
+            if (bindingResult.hasErrors()) {
+                return "editUser";
+            }
+
+            userService.update(editUser);
+
+            return "redirect:/users/profile";
     }
+
+
+
+
 }

@@ -1,6 +1,5 @@
 package ru.web.laba_web2.services.impl;
 
-import io.micrometer.common.util.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -110,26 +109,15 @@ public class UserServiceImpl implements UserService<String> {
     }
 
     @Override
-    @CacheEvict(cacheNames = "users", allEntries = true)
-    public void update(EditUser editUser) {
-        Optional<User> existingUserOptional = userRepository.findByUuid(editUser.getUuid());
-        User existingUser = existingUserOptional.orElseThrow(() -> new RuntimeException());
-
-        if (StringUtils.isNotBlank(editUser.getPassword())) {
-            if (!editUser.getPassword().equals(editUser.getConfirmPassword())) {
-                throw new RuntimeException("passwords.match");
-            }
-            existingUser.setPassword(passwordEncoder.encode(editUser.getPassword()));
-        }
-        existingUser.setUsername(editUser.getUsername());
-        existingUser.setFirstName(editUser.getFirstName());
-        existingUser.setLastName(editUser.getLastName());
-//        existingUser.setActive(editUser.isActive());
-        existingUser.setImageUrl(editUser.getImageUrl());
-        existingUser.setEmail(editUser.getEmail());
-
-        userRepository.save(existingUser);
+    @CacheEvict(value = "users", allEntries = true)
+    public EditUser update(EditUser editUser) {
+        User user = findByUsername(editUser.getUsername());
+        user.setFirstName(editUser.getFirstName());
+        user.setLastName(editUser.getLastName());
+        return modelMapper.map(userRepository.save(user), EditUser.class);
     }
+
+
 
     @Override
     public User findByUsername(String userName) {

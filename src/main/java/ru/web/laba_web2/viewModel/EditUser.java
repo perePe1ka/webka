@@ -7,13 +7,13 @@ import ru.web.laba_web2.utils.UniqueEmail;
 import ru.web.laba_web2.utils.UniqueUsername;
 
 public class EditUser extends BaseViewModel{
-    @UniqueUsername
+//    @UniqueUsername
     private String username;
 
     private String firstName;
 
     private String lastName;
-    @UniqueEmail
+//    @UniqueEmail
     private String email;
 
     private boolean isActive;
@@ -24,9 +24,9 @@ public class EditUser extends BaseViewModel{
 
     private String confirmPassword;
 
-    @NotNull
-    @NotEmpty
-    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
+//    @NotNull
+//    @NotEmpty
+//    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getUsername() {
         return username;
     }
@@ -63,9 +63,7 @@ public class EditUser extends BaseViewModel{
         isActive = active;
     }
 
-    @NotNull
-    @NotEmpty
-    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -75,9 +73,9 @@ public class EditUser extends BaseViewModel{
     }
 
 
-    @NotNull
-    @NotEmpty
-    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
+//    @NotNull
+//    @NotEmpty
+//    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getPassword() {
         return password;
     }
@@ -93,9 +91,9 @@ public class EditUser extends BaseViewModel{
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
-    @NotNull
-    @NotEmpty
-    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
+//    @NotNull
+//    @NotEmpty
+//    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getEmail() {
         return email;
     }

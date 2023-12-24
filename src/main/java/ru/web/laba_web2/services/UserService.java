@@ -1,5 +1,6 @@
 package ru.web.laba_web2.services;
 
+import org.springframework.cache.annotation.CacheEvict;
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.viewModel.EditUser;
@@ -19,7 +20,8 @@ public interface UserService<String> {
 
     List<UserDto> getAll();
 
-    void update(EditUser editUser);
+
+    EditUser update(EditUser editUser);
 
     User findByUsername(String userName);
 }
