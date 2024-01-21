@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueUsername {
-    String message() default "Username already exist";
+    String message() default "Имя пользователя занято";
 
     Class<?>[] groups() default {};
 

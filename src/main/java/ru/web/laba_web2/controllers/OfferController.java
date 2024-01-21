@@ -132,14 +132,10 @@ public class OfferController {
     }
 
     @PostMapping("/update/{uuid}")
-    String updateOffer(@PathVariable("uuid") String uuid,
-                       @Valid EditOffer editOffer,
-                       BindingResult bindingResult,
-                       RedirectAttributes redirectAttributes) {
+    String updateOffer(@Valid @ModelAttribute("editOffer") EditOffer editOffer,
+                       BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("editOffer", editOffer);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editOffer", bindingResult);
-            return "redirect:/offers/update/" + uuid;
+            return "editOffer";
         }
 
         offerService.editOffer(editOffer);

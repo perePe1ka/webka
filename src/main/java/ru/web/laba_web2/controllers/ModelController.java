@@ -17,6 +17,7 @@ import ru.web.laba_web2.viewModel.AddModelViewModel;
 import ru.web.laba_web2.viewModel.EditModel;
 
 import java.security.Principal;
+import java.util.Optional;
 
 
 @Controller
@@ -98,19 +99,16 @@ public class ModelController {
     String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) {
         LOG.log(Level.INFO, "Edit models for" + principal.getName());
         model.addAttribute("availableBrands", brandService.allBrands());
-        model.addAttribute("editModel", modelService.findByUuid(uuid));
+        Optional<EditModel> editModel = modelService.findByUuid(uuid);
+        model.addAttribute("editModel", editModel.orElse(new EditModel()));
         return "editModel";
     }
 
     @PostMapping("/update/{uuid}")
-    String updateModel(@PathVariable("uuid") String uuid,
-                       @Valid EditModel editModel,
-                       BindingResult bindingResult,
-                       RedirectAttributes redirectAttributes) {
+    String updateModel(@Valid @ModelAttribute("editModel") EditModel editModel,
+                       BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("editModel", editModel);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editModel", bindingResult);
-            return "redirect:/models/update/" + uuid;
+             return "editModel";
         }
 
         modelService.editModel(editModel);

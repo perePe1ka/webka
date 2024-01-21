@@ -16,6 +16,7 @@ import ru.web.laba_web2.viewModel.AddBrandViewModel;
 import ru.web.laba_web2.viewModel.EditBrand;
 
 import java.security.Principal;
+import java.util.Optional;
 
 
 @Controller
@@ -62,7 +63,6 @@ public class BrandController {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("newBrand", newBrand);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newBrand", bindingResult);
-
             return "redirect:/brands/add";
         }
         brandService.register(newBrand);
@@ -77,27 +77,23 @@ public class BrandController {
         return "redirect:/brands/show";
     }
 
+    @GetMapping("/update/{uuid}")
+    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) {
+        LOG.log(Level.INFO, "Edit brands for" + principal.getName());
+        Optional<EditBrand> editBrand = brandService.findByUuid(uuid);
+        model.addAttribute("editBrand", editBrand.orElse(new EditBrand()));
+        return "editBrand";
+    }
+
     @ModelAttribute("editBrand")
     public EditBrand editBrand() {
         return new EditBrand();
     }
-
-    @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) {
-        LOG.log(Level.INFO, "Edit brands for" + principal.getName());
-        model.addAttribute("editBrand", brandService.findByUuid(uuid));
-        return "editBrand";
-    }
-
     @PostMapping("/update/{uuid}")
-    String updateBrand(@PathVariable("uuid") String uuid,
-                       @Valid EditBrand editBrand,
-                       BindingResult bindingResult,
-                       RedirectAttributes redirectAttributes) {
+    String updateBrand(@Valid @ModelAttribute("editBrand") EditBrand editBrand,
+                       BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            redirectAttributes.addFlashAttribute("editBrand", editBrand);
-            redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.editBrand", bindingResult);
-            return "redirect:/brands/update/" + uuid;
+            return "editBrand";
         }
 
         brandService.editBrand(editBrand);
