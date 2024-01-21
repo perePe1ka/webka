@@ -7,10 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.web.laba_web2.models.Model;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface IModelRepository extends JpaRepository<Model, String> {
-    Optional<Model> findByUuid(String uuid);
+public interface IModelRepository extends JpaRepository<Model, UUID> {
+    Optional<Model> findByUuid(UUID uuid);
 
     Model findModelByName(String name);
 

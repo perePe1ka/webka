@@ -8,11 +8,12 @@ import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.models.Roles;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface IRolesRepository extends JpaRepository<Roles, String> {
+public interface IRolesRepository extends JpaRepository<Roles, UUID> {
 
-    Optional<Roles> findByUuid(String uuid);
+    Optional<Roles> findByUuid(UUID uuid);
 
     Optional<Roles> findRolesByRole(Role role);
 }

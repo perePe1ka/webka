@@ -19,6 +19,7 @@ import ru.web.laba_web2.viewModel.ShowBrand;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -71,7 +72,7 @@ public class BrandServiceImpl implements IBrandService<String> {
 
 
     @Override
-    public Optional<EditBrand> findByUuid(String uuid) {
+    public Optional<EditBrand> findByUuid(UUID uuid) {
         return Optional.ofNullable(modelMapper.map(brandRepository.findByUuid(uuid), EditBrand.class));
     }
 

@@ -58,7 +58,7 @@ public class RolesServiceImpl implements IRolesService<String> {
     }
 
     @Override
-    public Optional<RolesDto> findByUuid(String uuid) {
+    public Optional<RolesDto> findByUuid(UUID uuid) {
         return Optional.ofNullable(modelMapper.map(rolesRepository.findByUuid(uuid), RolesDto.class));
     }
 

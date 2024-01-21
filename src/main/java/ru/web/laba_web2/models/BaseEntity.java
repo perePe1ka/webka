@@ -1,28 +1,29 @@
 package ru.web.laba_web2.models;
 
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
 
 
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    protected String uuid;
+    protected UUID uuid;
 
     public BaseEntity() {
     }
 
     @Id
-    @GeneratedValue(generator = "uuid-string")
-    @GenericGenerator(name = "uuid-string",
-            strategy = "org.hibernate.id.UUIDGenerator")
-    public String getUuid() {
+    @GeneratedValue(strategy = GenerationType.UUID)
+    public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 }

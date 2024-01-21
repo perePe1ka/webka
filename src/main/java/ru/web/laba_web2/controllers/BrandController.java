@@ -17,6 +17,7 @@ import ru.web.laba_web2.viewModel.EditBrand;
 
 import java.security.Principal;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Controller
@@ -78,7 +79,7 @@ public class BrandController {
     }
 
     @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) {
+    String showUpdateForm(@PathVariable("uuid") UUID uuid, Model model, Principal principal) {
         LOG.log(Level.INFO, "Edit brands for" + principal.getName());
         Optional<EditBrand> editBrand = brandService.findByUuid(uuid);
         model.addAttribute("editBrand", editBrand.orElse(new EditBrand()));

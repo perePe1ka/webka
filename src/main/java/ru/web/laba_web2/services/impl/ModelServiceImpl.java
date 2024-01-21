@@ -20,6 +20,7 @@ import ru.web.laba_web2.viewModel.ShowModel;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,7 +82,7 @@ public class ModelServiceImpl implements IModelService<String> {
     }
 
     @Override
-    public Optional<EditModel> findByUuid(String uuid) {
+    public Optional<EditModel> findByUuid(UUID uuid) {
         return Optional.ofNullable(modelMapper.map(modelRepository.findByUuid(uuid), EditModel.class));
     }
 

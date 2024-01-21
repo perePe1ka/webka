@@ -20,6 +20,7 @@ import ru.web.laba_web2.viewModel.EditOffer;
 
 import java.security.Principal;
 import java.util.Optional;
+import java.util.UUID;
 
 
 @Controller
@@ -110,7 +111,7 @@ public class OfferController {
     }
 
     @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") String uuid, Model model, Principal principal) throws Throwable {
+    String showUpdateForm(@PathVariable("uuid") UUID uuid, Model model, Principal principal) throws Throwable {
         LOG.log(Level.INFO, "Edit offer for " + principal.getName());
         Optional<EditOffer> editOfferOptional = offerService.findByUuid(uuid);
 

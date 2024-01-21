@@ -7,13 +7,14 @@ import ru.web.laba_web2.viewModel.UserRegistration;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IUserService<String> {
     void register(UserRegistration registrationDTO);
 
     void deleteByUsername(String username);
 
-    Optional<UserDto> findByUuid(String uuid);
+    Optional<UserDto> findByUuid(UUID uuid);
 
     User getUser(String username);
 

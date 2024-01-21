@@ -7,13 +7,14 @@ import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IOfferService<String> {
     void register(AddOfferViewModel addOfferViewModel);
 
     void deleteByOfferDescription(String description);
 
-    Optional<EditOffer> findByUuid(String uuid);
+    Optional<EditOffer> findByUuid(UUID uuid);
 
     DetailOffer getAll(String offerDescription);
 

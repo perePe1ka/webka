@@ -7,10 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.web.laba_web2.models.Offer;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface IOfferRepository extends JpaRepository<Offer, String> {
-    Optional<Offer> findByUuid(String uuid);
+public interface IOfferRepository extends JpaRepository<Offer, UUID> {
+    Optional<Offer> findByUuid(UUID uuid);
 
     Optional<Offer> findByDescription(String description);
 

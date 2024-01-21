@@ -7,13 +7,14 @@ import ru.web.laba_web2.viewModel.ShowBrand;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IBrandService<String> {
     void register(AddBrandViewModel addBrandViewModel);
 
     void deleteByName(String brandName);
 
-    Optional<EditBrand> findByUuid(String uuid);
+    Optional<EditBrand> findByUuid(UUID uuid);
 
     List<ShowBrand> allBrands();
 

@@ -7,10 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.web.laba_web2.models.User;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
-public interface IUserRepository extends JpaRepository<User, String> {
-    Optional<User> findByUuid(String uuid);
+public interface IUserRepository extends JpaRepository<User, UUID> {
+    Optional<User> findByUuid(UUID uuid);
 
     Optional<User> findByUsername(String userName);
 

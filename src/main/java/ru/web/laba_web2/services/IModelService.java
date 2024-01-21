@@ -8,13 +8,14 @@ import ru.web.laba_web2.viewModel.ShowModel;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface IModelService<String> {
     void register(AddModelViewModel newModel);
 
     void deleteByModelName(String modelName);
 
-    Optional<EditModel> findByUuid(String uuid);
+    Optional<EditModel> findByUuid(UUID uuid);
 
     DetailModel getAll(String name);
 

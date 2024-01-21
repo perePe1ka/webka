@@ -21,6 +21,7 @@ import ru.web.laba_web2.viewModel.UserRegistration;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -93,7 +94,7 @@ public class UserServiceImpl implements IUserService<String> {
 
 
     @Override
-    public Optional<UserDto> findByUuid(String uuid) {
+    public Optional<UserDto> findByUuid(UUID uuid) {
         return Optional.ofNullable(modelMapper.map(userRepository.findByUuid(uuid), UserDto.class));
     }
 

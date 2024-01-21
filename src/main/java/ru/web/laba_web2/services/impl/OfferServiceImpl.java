@@ -24,6 +24,7 @@ import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,7 +106,7 @@ public class OfferServiceImpl implements IOfferService<String> {
     }
 
     @Override
-    public Optional<EditOffer> findByUuid(String uuid) {
+    public Optional<EditOffer> findByUuid(UUID uuid) {
         Optional<Offer> offer = offerRepository.findByUuid(uuid);
         return offer.map(o -> modelMapper.map(o, EditOffer.class));
     }

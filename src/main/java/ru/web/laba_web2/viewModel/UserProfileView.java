@@ -1,7 +1,9 @@
 package ru.web.laba_web2.viewModel;
 
+import java.util.UUID;
+
 public class UserProfileView {
-    private String uuid;
+    private UUID uuid;
     private String username;
 
     private String email;
@@ -9,11 +11,7 @@ public class UserProfileView {
     private String firstName;
     private String lastName;
 
-
-    public UserProfileView() {
-    }
-
-    public UserProfileView(String uuid, String username, String email, String firstName, String lastName) {
+    public UserProfileView(UUID uuid, String username, String email, String firstName, String lastName) {
         this.uuid = uuid;
         this.username = username;
         this.email = email;
@@ -53,11 +51,11 @@ public class UserProfileView {
         this.lastName = lastName;
     }
 
-    public String getUuid() {
+    public UUID getUuid() {
         return uuid;
     }
 
-    public void setUuid(String uuid) {
+    public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
 }
