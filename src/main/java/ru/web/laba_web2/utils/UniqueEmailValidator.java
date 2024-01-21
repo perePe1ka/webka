@@ -3,12 +3,12 @@ package ru.web.laba_web2.utils;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.web.laba_web2.repositories.UserRepository;
+import ru.web.laba_web2.repositories.IUserRepository;
 
 public class UniqueEmailValidator implements ConstraintValidator<UniqueEmail, String> {
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     @Override
     public void initialize(UniqueEmail constraintAnnotation) {

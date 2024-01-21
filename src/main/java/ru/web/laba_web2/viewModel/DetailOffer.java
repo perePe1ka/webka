@@ -3,9 +3,7 @@ package ru.web.laba_web2.viewModel;
 import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Transmission;
 
-import java.time.LocalDateTime;
-
-public class DetailOffer extends BaseViewModel{
+public class DetailOffer extends BaseViewModel {
     private String description;
     private Engine engine;
 

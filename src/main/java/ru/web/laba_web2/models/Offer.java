@@ -27,7 +27,6 @@ public class Offer extends TimeClass {
 
     private Model model;
 
-
     private User seller;
 
     public Offer(LocalDateTime created,
@@ -56,7 +55,6 @@ public class Offer extends TimeClass {
     public Offer() {
 
     }
-
 
     @Column(name = "description", length = 255, nullable = false)
     public String getDescription() {

@@ -7,34 +7,30 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
-import ru.web.laba_web2.models.Brand;
 import ru.web.laba_web2.models.Model;
-import ru.web.laba_web2.repositories.BrandRepository;
-import ru.web.laba_web2.repositories.ModelRepository;
-import ru.web.laba_web2.services.BrandService;
-import ru.web.laba_web2.services.ModelService;
-import ru.web.laba_web2.services.dtos.BrandDto;
-import ru.web.laba_web2.services.dtos.ModelDto;
+import ru.web.laba_web2.repositories.IBrandRepository;
+import ru.web.laba_web2.repositories.IModelRepository;
+import ru.web.laba_web2.services.IBrandService;
+import ru.web.laba_web2.services.IModelService;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
 import ru.web.laba_web2.viewModel.DetailModel;
 import ru.web.laba_web2.viewModel.EditModel;
 import ru.web.laba_web2.viewModel.ShowModel;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @EnableCaching
-public class ModelServiceImpl implements ModelService<String> {
+public class ModelServiceImpl implements IModelService<String> {
     private final ModelMapper modelMapper;
-    private BrandRepository brandRepository;
-    private ModelRepository modelRepository;
+    private IBrandRepository brandRepository;
+    private IModelRepository modelRepository;
     private final ValidationUtil validationUtil;
 
-    private BrandService brandService;
+    private IBrandService brandService;
 
     @Autowired
     public ModelServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
@@ -43,17 +39,17 @@ public class ModelServiceImpl implements ModelService<String> {
     }
 
     @Autowired
-    public void setBrandService(BrandService brandService) {
+    public void setBrandService(IBrandService brandService) {
         this.brandService = brandService;
     }
 
     @Autowired
-    public void setBrandRepository(BrandRepository brandRepository) {
+    public void setBrandRepository(IBrandRepository brandRepository) {
         this.brandRepository = brandRepository;
     }
 
     @Autowired
-    public void setModelRepository(ModelRepository modelRepository) {
+    public void setModelRepository(IModelRepository modelRepository) {
         this.modelRepository = modelRepository;
     }
 
@@ -79,17 +75,9 @@ public class ModelServiceImpl implements ModelService<String> {
 
 
     @Override
-    @CacheEvict(cacheNames = {"models","offers"}, allEntries = true)
+    @CacheEvict(cacheNames = {"models", "offers"}, allEntries = true)
     public void deleteByModelName(String modelName) {
         modelRepository.deleteByName(modelName);
-    }
-
-    @Override
-    public void transfer(ModelDto modelDto, BrandDto brandDto) {
-        Model model = modelRepository.findByUuid(modelDto.getUuid()).get();
-        Brand brand = brandRepository.findByUuid(brandDto.getUuid()).get();
-        model.setBrand(brand);
-        modelRepository.saveAndFlush(model);
     }
 
     @Override
@@ -135,5 +123,4 @@ public class ModelServiceImpl implements ModelService<String> {
     public Model findByName(String name) {
         return this.modelRepository.findModelByName(name);
     }
-
 }

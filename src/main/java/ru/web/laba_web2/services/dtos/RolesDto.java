@@ -11,6 +11,7 @@ public class RolesDto extends BaseViewModel {
     public RolesDto() {
 
     }
+
     public RolesDto(Role role) {
         this.role = role;
     }

@@ -2,12 +2,12 @@ package ru.web.laba_web2.utils;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import ru.web.laba_web2.repositories.OfferRepository;
+import ru.web.laba_web2.repositories.IOfferRepository;
 
 public class UniqueOfferValidator implements ConstraintValidator<UniqueOffer, String> {
-    private final OfferRepository offerRepository;
+    private final IOfferRepository offerRepository;
 
-    public UniqueOfferValidator(OfferRepository offerRepository) {
+    public UniqueOfferValidator(IOfferRepository offerRepository) {
         this.offerRepository = offerRepository;
     }
 

@@ -4,20 +4,19 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.web.laba_web2.constants.Role;
-import ru.web.laba_web2.models.Roles;
+import ru.web.laba_web2.models.Model;
 
 import java.util.Optional;
 
 @Repository
-public interface RolesRepository extends JpaRepository<Roles, String> {
-    Optional<Roles> findByUuid(String uuid);
+public interface IModelRepository extends JpaRepository<Model, String> {
+    Optional<Model> findByUuid(String uuid);
 
-    Optional<Roles> findRolesByRole(String role);
+    Model findModelByName(String name);
 
-    Optional<Roles> findRolesByRole(Role role);
+    Optional<Model> findByName(String name);
 
     @Modifying
     @Transactional
-    void deleteByRole(String role);
+    void deleteByName(String name);
 }

@@ -103,5 +103,4 @@ public class BrandController {
         brandService.editBrand(editBrand);
         return "redirect:/brands/show";
     }
-
 }

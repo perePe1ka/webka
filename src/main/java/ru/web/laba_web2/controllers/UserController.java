@@ -13,11 +13,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.models.User;
-import ru.web.laba_web2.services.UserService;
+import ru.web.laba_web2.services.IUserService;
 import ru.web.laba_web2.viewModel.EditUser;
 import ru.web.laba_web2.viewModel.UserProfileView;
 import ru.web.laba_web2.viewModel.UserRegistration;
-
 
 import java.security.Principal;
 
@@ -25,16 +24,16 @@ import java.security.Principal;
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
+    private IUserService userService;
 
     private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(IUserService userService) {
         this.userService = userService;
     }
 
-    public void setAuthService(UserService userService) {
+    public void setAuthService(IUserService userService) {
         this.userService = userService;
     }
 
@@ -113,29 +112,22 @@ public class UserController {
         return "profile";
     }
 
+    @GetMapping("/profile/edit")
+    public String showEditProfile(Model model, Principal principal) {
+        User editUser = userService.findByUsername(principal.getName());
+        model.addAttribute("user", editUser);
+        return "editUser";
+    }
 
-
-
-        @GetMapping("/profile/edit")
-        public String showEditProfile(Model model, Principal principal) {
-            User editUser = userService.findByUsername(principal.getName());
-            model.addAttribute("user", editUser);
+    @PostMapping("/profile/edit")
+    public String editProfile(@Valid @ModelAttribute("user") EditUser editUser,
+                              BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "editUser";
         }
 
-        @PostMapping("/profile/edit")
-        public String editProfile(@Valid @ModelAttribute("user") EditUser editUser,
-                                  BindingResult bindingResult) {
-            if (bindingResult.hasErrors()) {
-                return "editUser";
-            }
+        userService.update(editUser);
 
-            userService.update(editUser);
-
-            return "redirect:/users/profile";
+        return "redirect:/users/profile";
     }
-
-
-
-
 }

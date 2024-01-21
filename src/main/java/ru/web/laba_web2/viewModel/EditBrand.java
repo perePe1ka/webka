@@ -2,12 +2,11 @@ package ru.web.laba_web2.viewModel;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-import org.springframework.cglib.core.Local;
 import ru.web.laba_web2.utils.UniqueBrandName;
 
 import java.time.LocalDateTime;
 
-public class EditBrand extends BaseViewModel{
+public class EditBrand extends BaseViewModel {
     @UniqueBrandName
     private String name;
 

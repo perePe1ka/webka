@@ -8,22 +8,22 @@ import org.springframework.stereotype.Component;
 import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.models.Roles;
 import ru.web.laba_web2.models.User;
-import ru.web.laba_web2.repositories.RolesRepository;
-import ru.web.laba_web2.repositories.UserRepository;
+import ru.web.laba_web2.repositories.IRolesRepository;
+import ru.web.laba_web2.repositories.IUserRepository;
 
 import java.util.List;
 
 @Component
 public class DataInitializer implements CommandLineRunner {
-    private final UserRepository userRepository;
+    private final IUserRepository userRepository;
 
-    private final RolesRepository userRoleRepository;
+    private final IRolesRepository userRoleRepository;
 
     private final PasswordEncoder passwordEncoder;
     private final String defaultPassword;
 
     @Autowired
-    public DataInitializer(UserRepository userRepository, RolesRepository userRoleRepository, PasswordEncoder passwordEncoder,@Value("${app.default.password}") String defaultPassword) {
+    public DataInitializer(IUserRepository userRepository, IRolesRepository userRoleRepository, PasswordEncoder passwordEncoder, @Value("${app.default.password}") String defaultPassword) {
         this.userRepository = userRepository;
         this.userRoleRepository = userRoleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -53,17 +53,17 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
-    private void initAdmin(){
+    private void initAdmin() {
         var adminRole = userRoleRepository.
                 findRolesByRole(Role.ADMIN).orElseThrow();
 
-        var adminUser = new User("admin","Vladislav", "Uskov", "admin@mail.ru",  passwordEncoder.encode(defaultPassword));
+        var adminUser = new User("admin", "Vladislav", "Uskov", "admin@mail.ru", passwordEncoder.encode(defaultPassword));
         adminUser.setRole(List.of(adminRole));
 
         userRepository.save(adminUser);
     }
 
-    private void initNormalUser(){
+    private void initNormalUser() {
         var userRole = userRoleRepository.
                 findRolesByRole(Role.USER).orElseThrow();
 

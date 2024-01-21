@@ -1,6 +1,5 @@
 package ru.web.laba_web2.controllers;
 
-import org.apache.catalina.LifecycleState;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

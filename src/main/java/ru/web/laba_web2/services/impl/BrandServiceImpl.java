@@ -9,8 +9,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.models.Brand;
-import ru.web.laba_web2.repositories.BrandRepository;
-import ru.web.laba_web2.services.BrandService;
+import ru.web.laba_web2.repositories.IBrandRepository;
+import ru.web.laba_web2.services.IBrandService;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddBrandViewModel;
 import ru.web.laba_web2.viewModel.DetailBrand;
@@ -23,12 +23,12 @@ import java.util.stream.Collectors;
 
 @Service
 @EnableCaching
-public class BrandServiceImpl implements BrandService<String> {
+public class BrandServiceImpl implements IBrandService<String> {
 
     private final ModelMapper modelMapper;
 
     private final ValidationUtil validationUtil;
-    private BrandRepository brandRepository;
+    private IBrandRepository brandRepository;
 
     @Autowired
     public BrandServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil) {
@@ -37,7 +37,7 @@ public class BrandServiceImpl implements BrandService<String> {
     }
 
     @Autowired
-    public void setBrandRepository(BrandRepository brandRepository) {
+    public void setBrandRepository(IBrandRepository brandRepository) {
         this.brandRepository = brandRepository;
     }
 
@@ -64,7 +64,7 @@ public class BrandServiceImpl implements BrandService<String> {
 
 
     @Override
-    @CacheEvict(cacheNames = {"brands","models","offers"}, allEntries = true)
+    @CacheEvict(cacheNames = {"brands", "models", "offers"}, allEntries = true)
     public void deleteByName(String brandName) {
         brandRepository.deleteByName(brandName);
     }
@@ -106,11 +106,5 @@ public class BrandServiceImpl implements BrandService<String> {
                 System.out.println("Что-то пошло не так");
             }
         }
-    }
-
-
-    @Override
-    public Brand findByName(String name) {
-        return this.brandRepository.findBrandByName(name);
     }
 }

@@ -9,13 +9,13 @@ import ru.web.laba_web2.utils.UniqueBrandName;
 
 import java.time.LocalDateTime;
 
-public class EditModel extends BaseViewModel{
+public class EditModel extends BaseViewModel {
     @UniqueBrandName
-    private String name; //имя модели
+    private String name;
 
     private Category category;
 
-    private String imageUrl; //ссылка на юрл
+    private String imageUrl;
 
     private int startYear;
 

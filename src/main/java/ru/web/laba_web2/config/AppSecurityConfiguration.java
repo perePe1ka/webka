@@ -15,19 +15,20 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import ru.web.laba_web2.constants.Role;
-import ru.web.laba_web2.repositories.UserRepository;
+import ru.web.laba_web2.repositories.IUserRepository;
 import ru.web.laba_web2.services.impl.AppUserDetailsService;
 
 
 @Configuration
 public class AppSecurityConfiguration {
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
+
     @Autowired
-    public AppSecurityConfiguration(UserRepository userRepository) {
+    public AppSecurityConfiguration(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -42,7 +43,7 @@ public class AppSecurityConfiguration {
                                         requestMatchers("/", "/users/login", "/users/register", "/users/login-error", "/pic/**", "/js/bootstrap.min.js", "/css/bootstrap.min.css")
                                         .permitAll().
                                         requestMatchers("/users/profile").authenticated().
-                                        requestMatchers("/brands/add", "/models/add", "","/brands/delete", "/models/delete").hasRole(Role.ADMIN.name()).
+                                        requestMatchers("/brands/add", "/models/add", "", "/brands/delete", "/models/delete").hasRole(Role.ADMIN.name()).
                                         anyRequest().authenticated()
                 )
                 .formLogin(
@@ -80,5 +81,7 @@ public class AppSecurityConfiguration {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() { return new AppUserDetailsService(userRepository); }
+    public UserDetailsService userDetailsService() {
+        return new AppUserDetailsService(userRepository);
+    }
 }

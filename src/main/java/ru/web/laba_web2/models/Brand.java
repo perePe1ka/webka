@@ -46,5 +46,4 @@ public class Brand extends TimeClass {
     public String toString() {
         return name;
     }
-
 }

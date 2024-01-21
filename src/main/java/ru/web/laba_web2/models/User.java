@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User extends TimeClass implements Serializable{
+public class User extends TimeClass implements Serializable {
 
     private String username;
     private String firstName;
@@ -22,7 +22,7 @@ public class User extends TimeClass implements Serializable{
     private Set<Offer> offers;
 
     public User(String username,
-               String firstName,
+                String firstName,
                 String lastName,
                 String email,
                 String password) {
@@ -85,7 +85,6 @@ public class User extends TimeClass implements Serializable{
     }
 
     @ManyToMany(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "roles_uuid", referencedColumnName = "uuid", nullable = false)
     public List<Roles> getRole() {
         return role;
     }
@@ -111,6 +110,7 @@ public class User extends TimeClass implements Serializable{
     public void setOffers(Set<Offer> offers) {
         this.offers = offers;
     }
+
     @Column(name = "email", length = 255)
     public String getEmail() {
         return email;

@@ -3,7 +3,7 @@ package ru.web.laba_web2.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.models.Offer;
-import ru.web.laba_web2.repositories.OfferRepository;
+import ru.web.laba_web2.repositories.IOfferRepository;
 
 import java.util.Comparator;
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 
 @Service
 public class StatisticsService {
-    private OfferRepository offerRepository;
+    private IOfferRepository offerRepository;
 
     @Autowired
-    public void setOfferRepository(OfferRepository offerRepository) {
+    public void setOfferRepository(IOfferRepository offerRepository) {
         this.offerRepository = offerRepository;
     }
 
@@ -37,6 +37,4 @@ public class StatisticsService {
                 .limit(4)
                 .collect(Collectors.toList());
     }
-
-
 }

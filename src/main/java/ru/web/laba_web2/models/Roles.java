@@ -3,8 +3,6 @@ package ru.web.laba_web2.models;
 import jakarta.persistence.*;
 import ru.web.laba_web2.constants.Role;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "roles")
 public class Roles extends BaseEntity {
@@ -27,7 +25,6 @@ public class Roles extends BaseEntity {
     public void setRole(Role role) {
         this.role = role;
     }
-
 
     @Override
     public String toString() {

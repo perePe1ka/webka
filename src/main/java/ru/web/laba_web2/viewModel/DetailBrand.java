@@ -1,12 +1,9 @@
 package ru.web.laba_web2.viewModel;
 
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
-public class DetailBrand extends BaseViewModel{
+public class DetailBrand extends BaseViewModel {
     private String name;
-    private String  modified;
-    private String  created;
+    private String modified;
+    private String created;
 
     public String getName() {
         return name;
@@ -16,7 +13,7 @@ public class DetailBrand extends BaseViewModel{
         this.name = name;
     }
 
-    public String  getModified() {
+    public String getModified() {
         return modified;
     }
 

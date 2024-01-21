@@ -3,17 +3,15 @@ package ru.web.laba_web2.viewModel;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
-import ru.web.laba_web2.utils.UniqueEmail;
-import ru.web.laba_web2.utils.UniqueUsername;
 
-public class EditUser extends BaseViewModel{
-//    @UniqueUsername
+public class EditUser extends BaseViewModel {
+    //    @UniqueUsername
     private String username;
 
     private String firstName;
 
     private String lastName;
-//    @UniqueEmail
+    //    @UniqueEmail
     private String email;
 
     private boolean isActive;
@@ -24,7 +22,7 @@ public class EditUser extends BaseViewModel{
 
     private String confirmPassword;
 
-//    @NotNull
+    //    @NotNull
 //    @NotEmpty
 //    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getUsername() {
@@ -34,6 +32,7 @@ public class EditUser extends BaseViewModel{
     public void setUsername(String username) {
         this.username = username;
     }
+
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
@@ -44,6 +43,7 @@ public class EditUser extends BaseViewModel{
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
@@ -73,7 +73,7 @@ public class EditUser extends BaseViewModel{
     }
 
 
-//    @NotNull
+    //    @NotNull
 //    @NotEmpty
 //    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getPassword() {
@@ -91,7 +91,8 @@ public class EditUser extends BaseViewModel{
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
-//    @NotNull
+
+    //    @NotNull
 //    @NotEmpty
 //    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getEmail() {

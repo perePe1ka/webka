@@ -14,7 +14,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
 import ru.web.laba_web2.services.impl.ModelServiceImpl;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
-import ru.web.laba_web2.viewModel.EditBrand;
 import ru.web.laba_web2.viewModel.EditModel;
 
 import java.security.Principal;
@@ -93,7 +92,6 @@ public class ModelController {
 
         return "redirect:/models/show";
     }
-
 
 
     @GetMapping("/update/{uuid}")

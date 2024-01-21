@@ -5,14 +5,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import ru.web.laba_web2.repositories.UserRepository;
+import ru.web.laba_web2.repositories.IUserRepository;
 
 import java.util.stream.Collectors;
 
 public class AppUserDetailsService implements UserDetailsService {
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
-    public AppUserDetailsService(UserRepository userRepository) {
+    public AppUserDetailsService(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

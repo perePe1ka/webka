@@ -39,6 +39,7 @@ public class UserRegistration {
     public void setUsername(String username) {
         this.username = username;
     }
+
     @NotEmpty(message = "Имя не может быть пустым")
     @Size(min = 2, max = 40, message = "Имя минимум 2 символа")
     public String getFirstName() {
@@ -48,6 +49,7 @@ public class UserRegistration {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     @NotEmpty(message = "Фамилия не может быть пустым")
     @Size(min = 2, max = 40, message = "Фамилия минимум 2 символа")
     public String getLastName() {
@@ -57,6 +59,7 @@ public class UserRegistration {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
     @NotEmpty(message = "Почта не может быть пустым")
     @Size(min = 2, max = 40, message = "Почта минимум 2 символа")
     public String getEmail() {
@@ -77,6 +80,7 @@ public class UserRegistration {
     public void setPassword(String password) {
         this.password = password;
     }
+
     @NotEmpty(message = "Пароль не может быть пустым")
     @Size(min = 2, max = 40, message = "Пароль минимум 2 символа")
     public String getConfirmPassword() {

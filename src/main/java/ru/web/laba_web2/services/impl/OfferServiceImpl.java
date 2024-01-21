@@ -8,20 +8,19 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import ru.web.laba_web2.models.Model;
 import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.models.User;
-import ru.web.laba_web2.repositories.ModelRepository;
-import ru.web.laba_web2.repositories.OfferRepository;
-import ru.web.laba_web2.repositories.UserRepository;
-import ru.web.laba_web2.services.ModelService;
-import ru.web.laba_web2.services.OfferService;
-import ru.web.laba_web2.services.UserService;
-import ru.web.laba_web2.services.dtos.ModelDto;
-import ru.web.laba_web2.services.dtos.OfferDto;
-import ru.web.laba_web2.services.dtos.UserDto;
+import ru.web.laba_web2.repositories.IModelRepository;
+import ru.web.laba_web2.repositories.IOfferRepository;
+import ru.web.laba_web2.repositories.IUserRepository;
+import ru.web.laba_web2.services.IModelService;
+import ru.web.laba_web2.services.IOfferService;
+import ru.web.laba_web2.services.IUserService;
 import ru.web.laba_web2.utils.ValidationUtil;
-import ru.web.laba_web2.viewModel.*;
+import ru.web.laba_web2.viewModel.AddOfferViewModel;
+import ru.web.laba_web2.viewModel.DetailOffer;
+import ru.web.laba_web2.viewModel.EditOffer;
+import ru.web.laba_web2.viewModel.ShowOffer;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,20 +28,20 @@ import java.util.stream.Collectors;
 
 @Service
 @EnableCaching
-public class OfferServiceImpl implements OfferService<String> {
+public class OfferServiceImpl implements IOfferService<String> {
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
-    private UserRepository userRepository;
-    private ModelRepository modelRepository;
-    private OfferRepository offerRepository;
-    private ModelService modelService;
+    private IUserRepository userRepository;
+    private IModelRepository modelRepository;
+    private IOfferRepository offerRepository;
+    private IModelService modelService;
 
-    private UserService userService;
+    private IUserService userService;
 
     private StatisticsService statisticsService;
 
     @Autowired
-    public void setStatisticsService(StatisticsService statisticsService){
+    public void setStatisticsService(StatisticsService statisticsService) {
         this.statisticsService = statisticsService;
     }
 
@@ -53,27 +52,27 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public void setUserService(IUserService userService) {
         this.userService = userService;
     }
 
     @Autowired
-    public void setModelService(ModelService modelService) {
+    public void setModelService(IModelService modelService) {
         this.modelService = modelService;
     }
 
     @Autowired
-    public void setModelRepository(ModelRepository modelRepository) {
+    public void setModelRepository(IModelRepository modelRepository) {
         this.modelRepository = modelRepository;
     }
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Autowired
-    public void setOfferRepository(OfferRepository offerRepository) {
+    public void setOfferRepository(IOfferRepository offerRepository) {
         this.offerRepository = offerRepository;
     }
 
@@ -106,21 +105,10 @@ public class OfferServiceImpl implements OfferService<String> {
     }
 
     @Override
-    public void transfer(OfferDto offerDto, ModelDto modelDto, UserDto userDto) {
-        Offer offer = offerRepository.findByUuid(offerDto.getUuid()).get();
-        Model model = modelRepository.findByUuid(modelDto.getUuid()).get();
-        User user = userRepository.findByUuid(userDto.getUuid()).get();
-        offer.setModel(model);
-        offer.setSeller(user);
-        offerRepository.save(offer);
-    }
-
-    @Override
     public Optional<EditOffer> findByUuid(String uuid) {
         Optional<Offer> offer = offerRepository.findByUuid(uuid);
         return offer.map(o -> modelMapper.map(o, EditOffer.class));
     }
-
 
     @Override
     @Cacheable("offers")
@@ -155,6 +143,4 @@ public class OfferServiceImpl implements OfferService<String> {
             }
         }
     }
-
-
 }

@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.models.User;
-import ru.web.laba_web2.services.ModelService;
-import ru.web.laba_web2.services.OfferService;
-import ru.web.laba_web2.services.UserService;
+import ru.web.laba_web2.services.IModelService;
+import ru.web.laba_web2.services.IOfferService;
+import ru.web.laba_web2.services.IUserService;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
 import ru.web.laba_web2.viewModel.EditOffer;
 
@@ -25,26 +25,26 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/offers")
 public class OfferController {
-    private OfferService offerService;
+    private IOfferService offerService;
 
-    private ModelService modelService;
+    private IModelService modelService;
 
-    private UserService userService;
+    private IUserService userService;
 
     private static final Logger LOG = LogManager.getLogger(Controller.class);
 
     @Autowired
-    public void setModelService(ModelService modelService) {
+    public void setModelService(IModelService modelService) {
         this.modelService = modelService;
     }
 
     @Autowired
-    public void setUserService(UserService userService) {
+    public void setUserService(IUserService userService) {
         this.userService = userService;
     }
 
     @Autowired
-    public void setOfferService(OfferService offerService) {
+    public void setOfferService(IOfferService offerService) {
         this.offerService = offerService;
     }
 
@@ -131,9 +131,6 @@ public class OfferController {
         }
     }
 
-
-
-
     @PostMapping("/update/{uuid}")
     String updateOffer(@PathVariable("uuid") String uuid,
                        @Valid EditOffer editOffer,
@@ -148,6 +145,4 @@ public class OfferController {
         offerService.editOffer(editOffer);
         return "redirect:/offers/show";
     }
-
-
 }

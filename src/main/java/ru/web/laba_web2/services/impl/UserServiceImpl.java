@@ -10,10 +10,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.models.User;
-import ru.web.laba_web2.repositories.RolesRepository;
-import ru.web.laba_web2.repositories.UserRepository;
-import ru.web.laba_web2.services.RolesService;
-import ru.web.laba_web2.services.UserService;
+import ru.web.laba_web2.repositories.IRolesRepository;
+import ru.web.laba_web2.repositories.IUserRepository;
+import ru.web.laba_web2.services.IRolesService;
+import ru.web.laba_web2.services.IUserService;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.EditUser;
@@ -25,14 +25,15 @@ import java.util.stream.Collectors;
 
 @Service
 @EnableCaching
-public class UserServiceImpl implements UserService<String> {
+public class UserServiceImpl implements IUserService<String> {
     private final ModelMapper modelMapper;
-    private RolesRepository rolesRepository;
-    private UserRepository userRepository;
+    private IRolesRepository rolesRepository;
+    private IUserRepository userRepository;
     private ValidationUtil validationUtil;
-    private RolesService rolesService;
+    private IRolesService rolesService;
 
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     public UserServiceImpl(ModelMapper modelMapper, ValidationUtil validationUtil, PasswordEncoder passwordEncoder) {
         this.modelMapper = modelMapper;
@@ -41,17 +42,17 @@ public class UserServiceImpl implements UserService<String> {
     }
 
     @Autowired
-    public void setRolesRepository(RolesRepository rolesRepository) {
+    public void setRolesRepository(IRolesRepository rolesRepository) {
         this.rolesRepository = rolesRepository;
     }
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    public void setUserRepository(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Autowired
-    public void setRolesService(RolesService rolesService) {
+    public void setRolesService(IRolesService rolesService) {
         this.rolesService = rolesService;
     }
 
@@ -117,11 +118,8 @@ public class UserServiceImpl implements UserService<String> {
         return modelMapper.map(userRepository.save(user), EditUser.class);
     }
 
-
-
     @Override
     public User findByUsername(String userName) {
         return this.userRepository.findUserByUsername(userName);
     }
-
 }

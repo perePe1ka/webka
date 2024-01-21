@@ -2,14 +2,12 @@ package ru.web.laba_web2.viewModel;
 
 import ru.web.laba_web2.constants.Category;
 
-import java.time.LocalDateTime;
-
-public class DetailModel extends BaseViewModel{
+public class DetailModel extends BaseViewModel {
     private String name;
 
     private Category category;
 
-    private String imageUrl; //ссылка на юрл
+    private String imageUrl;
 
     private int startYear;
 

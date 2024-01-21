@@ -4,21 +4,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.web.laba_web2.models.Brand;
+import ru.web.laba_web2.models.Offer;
 
 import java.util.Optional;
 
 @Repository
-public interface BrandRepository extends JpaRepository<Brand, String> {
+public interface IOfferRepository extends JpaRepository<Offer, String> {
+    Optional<Offer> findByUuid(String uuid);
 
-    Optional<Brand> findByUuid(String uuid);
-
-    Brand findBrandByName(String name);
-
-    Optional<Brand> findByName(String name);
+    Optional<Offer> findByDescription(String description);
 
     @Modifying
     @Transactional
-    void deleteByName(String name);
-
+    void deleteByDescription(String description);
 }

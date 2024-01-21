@@ -3,12 +3,9 @@ package ru.web.laba_web2.services.dtos;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
-import ru.web.laba_web2.constants.Role;
 import ru.web.laba_web2.utils.UniqueEmail;
 import ru.web.laba_web2.utils.UniqueUsername;
 import ru.web.laba_web2.viewModel.BaseViewModel;
-
-import java.time.LocalDateTime;
 
 public class UserDto extends BaseViewModel {
     @UniqueUsername
@@ -19,8 +16,6 @@ public class UserDto extends BaseViewModel {
     private String firstName;
 
     private String lastName;
-
-//    private boolean isActive;
 
     private String role;
     @UniqueEmail
@@ -63,6 +58,7 @@ public class UserDto extends BaseViewModel {
     public void setUsername(String username) {
         this.username = username;
     }
+
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
@@ -73,6 +69,7 @@ public class UserDto extends BaseViewModel {
     public void setPassword(String password) {
         this.password = password;
     }
+
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
@@ -83,6 +80,7 @@ public class UserDto extends BaseViewModel {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
@@ -134,6 +132,7 @@ public class UserDto extends BaseViewModel {
     public void setModified(String modified) {
         this.modified = modified;
     }
+
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
@@ -144,6 +143,7 @@ public class UserDto extends BaseViewModel {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
+
     @NotNull
     @NotEmpty
     @Length(min = 2, message = "Ошибка, введите минимум 2 символа")

@@ -9,11 +9,11 @@ import ru.web.laba_web2.utils.UniqueBrandName;
 
 public class AddModelViewModel {
     @UniqueBrandName
-    private String name; //имя модели
+    private String name;
 
     private Category category;
 
-    private String imageUrl; //ссылка на юрл
+    private String imageUrl;
 
     private int startYear;
 
