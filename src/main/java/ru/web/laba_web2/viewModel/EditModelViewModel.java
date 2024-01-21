@@ -9,7 +9,7 @@ import ru.web.laba_web2.utils.UniqueBrandName;
 
 import java.time.LocalDateTime;
 
-public class EditModel extends BaseViewModel {
+public class EditModelViewModel extends BaseViewModel {
     @UniqueBrandName
     private String name;
 

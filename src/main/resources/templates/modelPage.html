@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" class="h-100" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:replace="~{fragments/head}"/>
 <body>
 <div th:replace="~{fragments/navbar}">Navbar</div>
@@ -15,8 +15,8 @@
             <h6 th:text="'Год конца: ' + *{m.endYear}"></h6>
             <h6 th:text="'Изменено: ' + *{m.modified}"></h6>
             <h6 th:text="'Создано: ' + *{m.created}"></h6>
-            <h4><a class="btn-block" th:href="@{/models/update/{uuid}(uuid = ${m.uuid})}">Обновить информацию</a></h4>
-            <div class="align-bottom">
+            <h4 sec:authorize="hasRole('ADMIN')"><a class="btn-block" th:href="@{/models/update/{uuid}(uuid = ${m.uuid})}">Обновить информацию</a></h4>
+            <div class="align-bottom" sec:authorize="hasRole('ADMIN')">
                 <a class="btn btn-danger align-bottom"
                    th:href="@{/models/delete{modelName}(modelName=${models.name})}">Удалить модель</a>
             </div>

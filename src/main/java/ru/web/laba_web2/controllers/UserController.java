@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.IUserService;
-import ru.web.laba_web2.viewModel.EditUser;
-import ru.web.laba_web2.viewModel.UserProfileView;
-import ru.web.laba_web2.viewModel.UserRegistration;
+import ru.web.laba_web2.viewModel.EditUserViewModel;
+import ru.web.laba_web2.viewModel.UserProfileViewModel;
+import ru.web.laba_web2.viewModel.UserRegistrationViewModel;
 
 import java.security.Principal;
 
@@ -38,8 +38,8 @@ public class UserController {
     }
 
     @ModelAttribute("userRegistration")
-    public UserRegistration initForm() {
-        return new UserRegistration();
+    public UserRegistrationViewModel initForm() {
+        return new UserRegistrationViewModel();
     }
 
     @GetMapping("/register")
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String doRegister(@Valid UserRegistration userRegistration,
+    public String doRegister(@Valid UserRegistrationViewModel userRegistration,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
@@ -99,7 +99,7 @@ public class UserController {
         String username = principal.getName();
         User user = userService.getUser(username);
 
-        UserProfileView userProfileView = new UserProfileView(
+        UserProfileViewModel userProfileView = new UserProfileViewModel(
                 user.getUuid(),
                 username,
                 user.getEmail(),
@@ -120,7 +120,7 @@ public class UserController {
     }
 
     @PostMapping("/profile/edit")
-    public String editProfile(@Valid @ModelAttribute("user") EditUser editUser,
+    public String editProfile(@Valid @ModelAttribute("user") EditUserViewModel editUser,
                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "editUser";

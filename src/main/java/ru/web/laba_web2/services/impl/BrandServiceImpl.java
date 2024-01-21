@@ -13,9 +13,9 @@ import ru.web.laba_web2.repositories.IBrandRepository;
 import ru.web.laba_web2.services.IBrandService;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddBrandViewModel;
-import ru.web.laba_web2.viewModel.DetailBrand;
-import ru.web.laba_web2.viewModel.EditBrand;
-import ru.web.laba_web2.viewModel.ShowBrand;
+import ru.web.laba_web2.viewModel.DetailBrandViewModel;
+import ru.web.laba_web2.viewModel.EditBrandViewModel;
+import ru.web.laba_web2.viewModel.ShowBrandViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -72,27 +72,27 @@ public class BrandServiceImpl implements IBrandService<String> {
 
 
     @Override
-    public Optional<EditBrand> findByUuid(UUID uuid) {
-        return Optional.ofNullable(modelMapper.map(brandRepository.findByUuid(uuid), EditBrand.class));
+    public Optional<EditBrandViewModel> findByUuid(UUID uuid) {
+        return Optional.ofNullable(modelMapper.map(brandRepository.findByUuid(uuid), EditBrandViewModel.class));
     }
 
     @Override
     @Cacheable("brands")
-    public List<ShowBrand> allBrands() {
-        return brandRepository.findAll().stream().map(brand -> modelMapper.map(brand, ShowBrand.class))
+    public List<ShowBrandViewModel> allBrands() {
+        return brandRepository.findAll().stream().map(brand -> modelMapper.map(brand, ShowBrandViewModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     @Cacheable("brands")
-    public DetailBrand getAll(String brandName) {
+    public DetailBrandViewModel getAll(String brandName) {
         Optional<Brand> brand = brandRepository.findByName(brandName);
-        return modelMapper.map(brand, DetailBrand.class);
+        return modelMapper.map(brand, DetailBrandViewModel.class);
     }
 
     @Override
     @CacheEvict(cacheNames = "brands", allEntries = true)
-    public void editBrand(EditBrand editBrand) {
+    public void editBrand(EditBrandViewModel editBrand) {
         if (!this.validationUtil.isValid(editBrand)) {
             this.validationUtil
                     .violations(editBrand)

@@ -2,7 +2,7 @@ package ru.web.laba_web2.viewModel;
 
 import ru.web.laba_web2.constants.Engine;
 
-public class ShowOffer {
+public class ShowOfferViewModel {
     private String description;
     private Engine engine;
     private int milleage;

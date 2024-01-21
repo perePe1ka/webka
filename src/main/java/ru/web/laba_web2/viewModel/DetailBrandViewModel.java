@@ -1,6 +1,6 @@
 package ru.web.laba_web2.viewModel;
 
-public class DetailBrand extends BaseViewModel {
+public class DetailBrandViewModel extends BaseViewModel {
     private String name;
     private String modified;
     private String created;

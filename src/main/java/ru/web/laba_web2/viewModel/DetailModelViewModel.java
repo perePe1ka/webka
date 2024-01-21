@@ -2,7 +2,7 @@ package ru.web.laba_web2.viewModel;
 
 import ru.web.laba_web2.constants.Category;
 
-public class DetailModel extends BaseViewModel {
+public class DetailModelViewModel extends BaseViewModel {
     private String name;
 
     private Category category;

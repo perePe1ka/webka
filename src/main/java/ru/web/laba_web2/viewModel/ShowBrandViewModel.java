@@ -1,6 +1,6 @@
 package ru.web.laba_web2.viewModel;
 
-public class ShowBrand {
+public class ShowBrandViewModel {
     private String name;
 
     public String getName() {

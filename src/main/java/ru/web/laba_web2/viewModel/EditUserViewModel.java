@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-public class EditUser extends BaseViewModel {
+public class EditUserViewModel extends BaseViewModel {
     //    @UniqueUsername
     private String username;
 

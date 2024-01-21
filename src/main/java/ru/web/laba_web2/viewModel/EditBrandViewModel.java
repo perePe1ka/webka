@@ -6,7 +6,7 @@ import ru.web.laba_web2.utils.UniqueBrandName;
 
 import java.time.LocalDateTime;
 
-public class EditBrand extends BaseViewModel {
+public class EditBrandViewModel extends BaseViewModel {
     @UniqueBrandName
     private String name;
 

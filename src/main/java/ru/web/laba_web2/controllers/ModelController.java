@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
 import ru.web.laba_web2.services.impl.ModelServiceImpl;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
-import ru.web.laba_web2.viewModel.EditModel;
+import ru.web.laba_web2.viewModel.EditModelViewModel;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -84,8 +84,8 @@ public class ModelController {
     }
 
     @ModelAttribute("editModel")
-    public EditModel editModel() {
-        return new EditModel();
+    public EditModelViewModel editModel() {
+        return new EditModelViewModel();
     }
 
     @GetMapping("/delete{modelName}")
@@ -100,13 +100,13 @@ public class ModelController {
     String showUpdateForm(@PathVariable("uuid") UUID uuid, Model model, Principal principal) {
         LOG.log(Level.INFO, "Edit models for" + principal.getName());
         model.addAttribute("availableBrands", brandService.allBrands());
-        Optional<EditModel> editModel = modelService.findByUuid(uuid);
-        model.addAttribute("editModel", editModel.orElse(new EditModel()));
+        Optional<EditModelViewModel> editModel = modelService.findByUuid(uuid);
+        model.addAttribute("editModel", editModel.orElse(new EditModelViewModel()));
         return "editModel";
     }
 
     @PostMapping("/update/{uuid}")
-    String updateModel(@Valid @ModelAttribute("editModel") EditModel editModel,
+    String updateModel(@Valid @ModelAttribute("editModel") EditModelViewModel editModel,
                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
              return "editModel";

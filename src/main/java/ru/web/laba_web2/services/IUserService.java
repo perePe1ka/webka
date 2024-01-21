@@ -2,15 +2,15 @@ package ru.web.laba_web2.services;
 
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.dtos.UserDto;
-import ru.web.laba_web2.viewModel.EditUser;
-import ru.web.laba_web2.viewModel.UserRegistration;
+import ru.web.laba_web2.viewModel.EditUserViewModel;
+import ru.web.laba_web2.viewModel.UserRegistrationViewModel;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface IUserService<String> {
-    void register(UserRegistration registrationDTO);
+    void register(UserRegistrationViewModel registrationDTO);
 
     void deleteByUsername(String username);
 
@@ -20,7 +20,7 @@ public interface IUserService<String> {
 
     List<UserDto> getAll();
 
-    EditUser update(EditUser editUser);
+    EditUserViewModel update(EditUserViewModel editUser);
 
     User findByUsername(String userName);
 }

@@ -14,9 +14,9 @@ import ru.web.laba_web2.services.IBrandService;
 import ru.web.laba_web2.services.IModelService;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddModelViewModel;
-import ru.web.laba_web2.viewModel.DetailModel;
-import ru.web.laba_web2.viewModel.EditModel;
-import ru.web.laba_web2.viewModel.ShowModel;
+import ru.web.laba_web2.viewModel.DetailModelViewModel;
+import ru.web.laba_web2.viewModel.EditModelViewModel;
+import ru.web.laba_web2.viewModel.ShowModelViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -82,27 +82,27 @@ public class ModelServiceImpl implements IModelService<String> {
     }
 
     @Override
-    public Optional<EditModel> findByUuid(UUID uuid) {
-        return Optional.ofNullable(modelMapper.map(modelRepository.findByUuid(uuid), EditModel.class));
+    public Optional<EditModelViewModel> findByUuid(UUID uuid) {
+        return Optional.ofNullable(modelMapper.map(modelRepository.findByUuid(uuid), EditModelViewModel.class));
     }
 
     @Override
     @Cacheable("models")
-    public DetailModel getAll(String modelName) {
+    public DetailModelViewModel getAll(String modelName) {
         Optional<Model> model = modelRepository.findByName(modelName);
-        return modelMapper.map(model, DetailModel.class);
+        return modelMapper.map(model, DetailModelViewModel.class);
     }
 
     @Override
     @Cacheable("models")
-    public List<ShowModel> allModels() {
-        return modelRepository.findAll().stream().map(model -> modelMapper.map(model, ShowModel.class))
+    public List<ShowModelViewModel> allModels() {
+        return modelRepository.findAll().stream().map(model -> modelMapper.map(model, ShowModelViewModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
     @CacheEvict(cacheNames = "models", allEntries = true)
-    public void editModel(EditModel editModel) {
+    public void editModel(EditModelViewModel editModel) {
         if (!this.validationUtil.isValid(editModel)) {
             this.validationUtil
                     .violations(editModel)

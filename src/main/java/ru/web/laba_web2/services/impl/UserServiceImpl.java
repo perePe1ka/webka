@@ -16,8 +16,8 @@ import ru.web.laba_web2.services.IRolesService;
 import ru.web.laba_web2.services.IUserService;
 import ru.web.laba_web2.services.dtos.UserDto;
 import ru.web.laba_web2.utils.ValidationUtil;
-import ru.web.laba_web2.viewModel.EditUser;
-import ru.web.laba_web2.viewModel.UserRegistration;
+import ru.web.laba_web2.viewModel.EditUserViewModel;
+import ru.web.laba_web2.viewModel.UserRegistrationViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +59,7 @@ public class UserServiceImpl implements IUserService<String> {
 
     @Override
     @CacheEvict(cacheNames = "users", allEntries = true)
-    public void register(UserRegistration registrationDTO) {
+    public void register(UserRegistrationViewModel registrationDTO) {
         if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
             throw new RuntimeException("passwords.match");
         }
@@ -112,11 +112,11 @@ public class UserServiceImpl implements IUserService<String> {
 
     @Override
     @CacheEvict(value = "users", allEntries = true)
-    public EditUser update(EditUser editUser) {
+    public EditUserViewModel update(EditUserViewModel editUser) {
         User user = findByUsername(editUser.getUsername());
         user.setFirstName(editUser.getFirstName());
         user.setLastName(editUser.getLastName());
-        return modelMapper.map(userRepository.save(user), EditUser.class);
+        return modelMapper.map(userRepository.save(user), EditUserViewModel.class);
     }
 
     @Override

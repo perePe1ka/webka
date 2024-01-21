@@ -13,7 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.services.impl.BrandServiceImpl;
 import ru.web.laba_web2.viewModel.AddBrandViewModel;
-import ru.web.laba_web2.viewModel.EditBrand;
+import ru.web.laba_web2.viewModel.EditBrandViewModel;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -81,17 +81,17 @@ public class BrandController {
     @GetMapping("/update/{uuid}")
     String showUpdateForm(@PathVariable("uuid") UUID uuid, Model model, Principal principal) {
         LOG.log(Level.INFO, "Edit brands for" + principal.getName());
-        Optional<EditBrand> editBrand = brandService.findByUuid(uuid);
-        model.addAttribute("editBrand", editBrand.orElse(new EditBrand()));
+        Optional<EditBrandViewModel> editBrand = brandService.findByUuid(uuid);
+        model.addAttribute("editBrand", editBrand.orElse(new EditBrandViewModel()));
         return "editBrand";
     }
 
     @ModelAttribute("editBrand")
-    public EditBrand editBrand() {
-        return new EditBrand();
+    public EditBrandViewModel editBrand() {
+        return new EditBrandViewModel();
     }
     @PostMapping("/update/{uuid}")
-    String updateBrand(@Valid @ModelAttribute("editBrand") EditBrand editBrand,
+    String updateBrand(@Valid @ModelAttribute("editBrand") EditBrandViewModel editBrand,
                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "editBrand";

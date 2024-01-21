@@ -1,9 +1,9 @@
 package ru.web.laba_web2.services;
 
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
-import ru.web.laba_web2.viewModel.DetailOffer;
-import ru.web.laba_web2.viewModel.EditOffer;
-import ru.web.laba_web2.viewModel.ShowOffer;
+import ru.web.laba_web2.viewModel.DetailOfferViewModel;
+import ru.web.laba_web2.viewModel.EditOfferViewModel;
+import ru.web.laba_web2.viewModel.ShowOfferViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,11 +14,11 @@ public interface IOfferService<String> {
 
     void deleteByOfferDescription(String description);
 
-    Optional<EditOffer> findByUuid(UUID uuid);
+    Optional<EditOfferViewModel> findByUuid(UUID uuid);
 
-    DetailOffer getAll(String offerDescription);
+    DetailOfferViewModel getAll(String offerDescription);
 
-    List<ShowOffer> allOffers();
+    List<ShowOfferViewModel> allOffers();
 
-    void editOffer(EditOffer editOffer);
+    void editOffer(EditOfferViewModel editOffer);
 }

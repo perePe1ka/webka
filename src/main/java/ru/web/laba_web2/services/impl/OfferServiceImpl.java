@@ -18,9 +18,9 @@ import ru.web.laba_web2.services.IOfferService;
 import ru.web.laba_web2.services.IUserService;
 import ru.web.laba_web2.utils.ValidationUtil;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
-import ru.web.laba_web2.viewModel.DetailOffer;
-import ru.web.laba_web2.viewModel.EditOffer;
-import ru.web.laba_web2.viewModel.ShowOffer;
+import ru.web.laba_web2.viewModel.DetailOfferViewModel;
+import ru.web.laba_web2.viewModel.EditOfferViewModel;
+import ru.web.laba_web2.viewModel.ShowOfferViewModel;
 
 import java.util.List;
 import java.util.Optional;
@@ -106,27 +106,27 @@ public class OfferServiceImpl implements IOfferService<String> {
     }
 
     @Override
-    public Optional<EditOffer> findByUuid(UUID uuid) {
+    public Optional<EditOfferViewModel> findByUuid(UUID uuid) {
         Optional<Offer> offer = offerRepository.findByUuid(uuid);
-        return offer.map(o -> modelMapper.map(o, EditOffer.class));
+        return offer.map(o -> modelMapper.map(o, EditOfferViewModel.class));
     }
 
     @Override
     @Cacheable("offers")
-    public DetailOffer getAll(String offerDescription) {
+    public DetailOfferViewModel getAll(String offerDescription) {
         Optional<Offer> offer = offerRepository.findByDescription(offerDescription);
-        return modelMapper.map(offer, DetailOffer.class);
+        return modelMapper.map(offer, DetailOfferViewModel.class);
     }
 
     @Override
     @Cacheable("offers")
-    public List<ShowOffer> allOffers() {
-        return offerRepository.findAll().stream().map(offer -> modelMapper.map(offer, ShowOffer.class)).collect(Collectors.toList());
+    public List<ShowOfferViewModel> allOffers() {
+        return offerRepository.findAll().stream().map(offer -> modelMapper.map(offer, ShowOfferViewModel.class)).collect(Collectors.toList());
     }
 
     @Override
     @CacheEvict(cacheNames = "offers", allEntries = true)
-    public void editOffer(EditOffer editOffer) {
+    public void editOffer(EditOfferViewModel editOffer) {
         if (!this.validationUtil.isValid(editOffer)) {
             this.validationUtil
                     .violations(editOffer)

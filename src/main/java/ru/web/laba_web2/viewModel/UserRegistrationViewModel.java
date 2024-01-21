@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 import ru.web.laba_web2.utils.UniqueEmail;
 import ru.web.laba_web2.utils.UniqueUsername;
 
-public class UserRegistration {
+public class UserRegistrationViewModel {
     @UniqueUsername
     private String username;
 
@@ -18,10 +18,10 @@ public class UserRegistration {
 
     private String confirmPassword;
 
-    public UserRegistration() {
+    public UserRegistrationViewModel() {
     }
 
-    public UserRegistration(String username, String firstName, String lastName, String email, String password, String confirmPassword) {
+    public UserRegistrationViewModel(String username, String firstName, String lastName, String email, String password, String confirmPassword) {
         this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;

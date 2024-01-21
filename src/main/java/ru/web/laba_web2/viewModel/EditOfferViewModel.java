@@ -11,7 +11,7 @@ import ru.web.laba_web2.utils.UniqueOffer;
 
 import java.time.LocalDateTime;
 
-public class EditOffer extends BaseViewModel {
+public class EditOfferViewModel extends BaseViewModel {
     @UniqueOffer
     private String description;
 

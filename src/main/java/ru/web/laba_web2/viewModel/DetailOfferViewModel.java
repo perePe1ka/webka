@@ -3,7 +3,7 @@ package ru.web.laba_web2.viewModel;
 import ru.web.laba_web2.constants.Engine;
 import ru.web.laba_web2.constants.Transmission;
 
-public class DetailOffer extends BaseViewModel {
+public class DetailOfferViewModel extends BaseViewModel {
     private String description;
     private Engine engine;
 

@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,7 +17,7 @@ import ru.web.laba_web2.services.IModelService;
 import ru.web.laba_web2.services.IOfferService;
 import ru.web.laba_web2.services.IUserService;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
-import ru.web.laba_web2.viewModel.EditOffer;
+import ru.web.laba_web2.viewModel.EditOfferViewModel;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -106,21 +107,25 @@ public class OfferController {
     }
 
     @ModelAttribute("editOffer")
-    public EditOffer editOffer() {
-        return new EditOffer();
+    public EditOfferViewModel editOffer() {
+        return new EditOfferViewModel();
     }
 
     @GetMapping("/update/{uuid}")
-    String showUpdateForm(@PathVariable("uuid") UUID uuid, Model model, Principal principal) throws Throwable {
+    String showUpdateForm(@PathVariable("uuid") UUID uuid, Model model, Principal principal, Authentication authentication) throws Throwable {
         LOG.log(Level.INFO, "Edit offer for " + principal.getName());
-        Optional<EditOffer> editOfferOptional = offerService.findByUuid(uuid);
+        Optional<EditOfferViewModel> editOfferOptional = offerService.findByUuid(uuid);
 
         if (editOfferOptional.isPresent()) {
-            EditOffer editOffer = editOfferOptional.get();
+            EditOfferViewModel editOffer = editOfferOptional.get();
             String sellerUsername = editOffer.getSeller().getUsername();
             LOG.log(Level.INFO, "sellerUsername: " + sellerUsername);
             LOG.log(Level.INFO, "principal: " + principal.getName());
-            if (sellerUsername.equals(principal.getName())) {
+
+            boolean isAdmin = authentication.getAuthorities().stream()
+                    .anyMatch(role -> role.getAuthority().equals("ADMIN"));
+
+            if (sellerUsername.equals(principal.getName()) || isAdmin) {
                 model.addAttribute("availableModels", modelService.allModels());
                 model.addAttribute("editOffer", editOffer);
                 return "editOffer";
@@ -133,7 +138,7 @@ public class OfferController {
     }
 
     @PostMapping("/update/{uuid}")
-    String updateOffer(@Valid @ModelAttribute("editOffer") EditOffer editOffer,
+    String updateOffer(@Valid @ModelAttribute("editOffer") EditOfferViewModel editOffer,
                        BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "editOffer";

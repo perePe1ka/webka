@@ -2,7 +2,7 @@ package ru.web.laba_web2.viewModel;
 
 import java.util.UUID;
 
-public class UserProfileView {
+public class UserProfileViewModel {
     private UUID uuid;
     private String username;
 
@@ -11,7 +11,7 @@ public class UserProfileView {
     private String firstName;
     private String lastName;
 
-    public UserProfileView(UUID uuid, String username, String email, String firstName, String lastName) {
+    public UserProfileViewModel(UUID uuid, String username, String email, String firstName, String lastName) {
         this.uuid = uuid;
         this.username = username;
         this.email = email;
