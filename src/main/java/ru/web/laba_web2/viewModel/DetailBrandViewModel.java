@@ -29,7 +29,6 @@ public class DetailBrandViewModel extends BaseViewModel {
         this.created = created;
     }
 
-
     @Override
     public String toString() {
         return name;

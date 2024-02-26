@@ -23,4 +23,6 @@ public interface IUserService<String> {
     EditUserViewModel update(EditUserViewModel editUser);
 
     User findByUsername(String userName);
+
+//    User getCurrentUser();
 }

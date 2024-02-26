@@ -17,6 +17,9 @@
             <h4 th:text="'ФИО: ' + *{firstName} + ' ' + *{lastName}"></h4>
             <h4 th:text="'Username: ' + *{username}"></h4>
             <h4 th:text="'Email: ' + *{email}"></h4>
+            <div >
+              <img class="img-thumbnail" th:src="'/uploads_users/' +  *{imageUrl}" alt="Подожди, заебал">
+            </div>
             <b>User Roles: </b>
             <div sec:authentication="principal.authorities"></div>
             <a th:href="@{/users/profile/edit}" class="btn btn-primary">Редактировать профиль</a>

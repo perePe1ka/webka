@@ -52,7 +52,7 @@ public class EditOfferViewModel extends BaseViewModel {
         this.engine = engine;
     }
 
-    @NotEmpty(message = "Укажите ссылку на фотографию!")
+    @NotEmpty(message = "Выберите фотографию!")
     public String getImageUrl() {
         return imageUrl;
     }

@@ -5,11 +5,13 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.models.User;
@@ -19,6 +21,8 @@ import ru.web.laba_web2.services.IUserService;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
 import ru.web.laba_web2.viewModel.EditOfferViewModel;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Optional;
 import java.util.UUID;
@@ -84,12 +88,27 @@ public class OfferController {
     }
 
     @PostMapping("/add")
-    String registerOffer(@Valid AddOfferViewModel newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal) {
+    String registerOffer(@Valid AddOfferViewModel newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal, @RequestParam("file")MultipartFile file) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("newOffer", newOffer);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newOffer", bindingResult);
 
             return "redirect:/offers/add";
+        }
+
+        if (file != null && !file.isEmpty()) {
+            File uploadFolder = new File(uploadPath);
+
+            if (uploadFolder.exists()) {
+                uploadFolder.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "2222" + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+
+            newOffer.setImageUrl(resultFileName);
         }
 
         User currentUser = userService.findByUsername(principal.getName());
@@ -137,11 +156,29 @@ public class OfferController {
         }
     }
 
+    @Value("${upload_offers.path}")
+    private String uploadPath;
+
     @PostMapping("/update/{uuid}")
     String updateOffer(@Valid @ModelAttribute("editOffer") EditOfferViewModel editOffer,
-                       BindingResult bindingResult) {
+                       BindingResult bindingResult, @RequestParam("file")MultipartFile file) throws IOException {
         if (bindingResult.hasErrors()) {
             return "editOffer";
+        }
+
+        if (file != null && !file.isEmpty()) {
+            File uploadFolder = new File(uploadPath);
+
+            if (uploadFolder.exists()) {
+                uploadFolder.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "2222" + file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+
+            editOffer.setImageUrl(resultFileName);
         }
 
         offerService.editOffer(editOffer);

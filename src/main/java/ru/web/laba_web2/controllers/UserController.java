@@ -5,12 +5,15 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.IUserService;
@@ -18,7 +21,10 @@ import ru.web.laba_web2.viewModel.EditUserViewModel;
 import ru.web.laba_web2.viewModel.UserProfileViewModel;
 import ru.web.laba_web2.viewModel.UserRegistrationViewModel;
 
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/users")
@@ -104,7 +110,8 @@ public class UserController {
                 username,
                 user.getEmail(),
                 user.getFirstName(),
-                user.getLastName()
+                user.getLastName(),
+                user.getImageUrl()
         );
 
         model.addAttribute("user", userProfileView);
@@ -118,16 +125,36 @@ public class UserController {
         model.addAttribute("user", editUser);
         return "editUser";
     }
+    @Value("${upload_users.path}")
+    private String uploadPath;
 
     @PostMapping("/profile/edit")
     public String editProfile(@Valid @ModelAttribute("user") EditUserViewModel editUser,
-                              BindingResult bindingResult) {
+                              BindingResult bindingResult,
+                              @RequestParam("file")MultipartFile file) throws IOException {
         if (bindingResult.hasErrors()) {
             return "editUser";
+        }
+
+        if(file != null) {
+            File uploadFolder = new File(uploadPath);
+
+            if (!uploadFolder.exists()) {
+                uploadFolder.mkdir();
+            }
+
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "1111" +  file.getOriginalFilename();
+
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+
+
+            editUser.setImageUrl(resultFileName);
         }
 
         userService.update(editUser);
 
         return "redirect:/users/profile";
     }
+
 }

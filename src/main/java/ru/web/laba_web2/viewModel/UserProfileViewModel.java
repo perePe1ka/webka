@@ -8,15 +8,25 @@ public class UserProfileViewModel {
 
     private String email;
 
+    private String imageUrl;
     private String firstName;
     private String lastName;
 
-    public UserProfileViewModel(UUID uuid, String username, String email, String firstName, String lastName) {
+    public UserProfileViewModel(UUID uuid, String username, String email, String firstName, String lastName, String imageUrl) {
         this.uuid = uuid;
+        this.imageUrl = imageUrl;
         this.username = username;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String getUsername() {

@@ -18,5 +18,4 @@ public interface IBrandRepository extends JpaRepository<Brand, UUID> {
     @Modifying
     @Transactional
     void deleteByName(String name);
-
 }

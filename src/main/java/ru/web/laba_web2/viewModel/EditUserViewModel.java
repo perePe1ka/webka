@@ -5,13 +5,11 @@ import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 public class EditUserViewModel extends BaseViewModel {
-    //    @UniqueUsername
     private String username;
 
     private String firstName;
 
     private String lastName;
-    //    @UniqueEmail
     private String email;
 
     private boolean isActive;
@@ -22,9 +20,6 @@ public class EditUserViewModel extends BaseViewModel {
 
     private String confirmPassword;
 
-    //    @NotNull
-//    @NotEmpty
-//    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getUsername() {
         return username;
     }
@@ -72,10 +67,6 @@ public class EditUserViewModel extends BaseViewModel {
         this.imageUrl = imageUrl;
     }
 
-
-    //    @NotNull
-//    @NotEmpty
-//    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getPassword() {
         return password;
     }
@@ -92,9 +83,6 @@ public class EditUserViewModel extends BaseViewModel {
         this.confirmPassword = confirmPassword;
     }
 
-    //    @NotNull
-//    @NotEmpty
-//    @Length(min = 2, message = "Ошибка, введите минимум 2 символа")
     public String getEmail() {
         return email;
     }

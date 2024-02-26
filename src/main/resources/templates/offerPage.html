@@ -12,7 +12,9 @@
                 <h4 th:text="'Продавец: ' + *{o.seller}"></h4>
                 <h4 th:text="'Модель: ' + *{o.model}"></h4>
                 <h6 th:text="'Двигатель: ' + *{o.engine}"></h6>
-                <h6 th:text="'Ссылка на картинку: ' + *{o.imageUrl}"></h6>
+                <h6>
+                    <img class="img-thumbnail" th:src="'/uploads_offers/' +  *{o.imageUrl}" alt="Подожди, заебал">
+                </h6>
                 <h6 th:text="'Пробег: ' + *{o.milleage}"></h6>
                 <h6 th:text="'Цена: ' + *{o.price}"></h6>
                 <h6 th:text="'Трансмиссия: ' + *{o.transmission}"></h6>

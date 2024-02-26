@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -116,6 +118,7 @@ public class UserServiceImpl implements IUserService<String> {
         User user = findByUsername(editUser.getUsername());
         user.setFirstName(editUser.getFirstName());
         user.setLastName(editUser.getLastName());
+        user.setImageUrl(editUser.getImageUrl());
         return modelMapper.map(userRepository.save(user), EditUserViewModel.class);
     }
 
@@ -123,4 +126,5 @@ public class UserServiceImpl implements IUserService<String> {
     public User findByUsername(String userName) {
         return this.userRepository.findUserByUsername(userName);
     }
+
 }

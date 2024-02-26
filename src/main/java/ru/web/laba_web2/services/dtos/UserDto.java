@@ -39,7 +39,6 @@ public class UserDto extends BaseViewModel {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-//        this.isActive = isActive;
         this.role = role;
         this.imageUrl = imageUrl;
         this.created = created;
@@ -91,14 +90,6 @@ public class UserDto extends BaseViewModel {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-//    public boolean isActive() {
-//        return isActive;
-//    }
-//
-//    public void setActive(boolean isActive) {
-//        isActive = isActive;
-//    }
 
     public String getRole() {
         return role;
@@ -154,6 +145,4 @@ public class UserDto extends BaseViewModel {
     public void setEmail(String email) {
         this.email = email;
     }
-
-
 }

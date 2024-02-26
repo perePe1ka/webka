@@ -4,6 +4,7 @@
 <body>
 <div th:replace="~{fragments/navbar}">Navbar</div>
 <form th:action="@{/offers/update/{uuid}}"
+      enctype="multipart/form-data"
       th:method="post"
       th:object="${editOffer}"
       class="m-md-auto w-50 pb-3">
@@ -143,13 +144,10 @@
     </div>
 
 
-<!--    <div class="form-group">-->
-<!--        <label for="seller">Выберите пользователя</label>-->
-<!--        <select class="form-control" id="seller" name="seller" th:field="*{seller}">-->
-<!--            <option th:each="b : ${availableUsers}" th:value="${b.username}" th:text="${b.username}">Seller name</option>-->
-<!--        </select>-->
-<!--        <small th:if="${#fields.hasErrors('seller')}" th:errors="*{seller}" class="text-danger">Error message</small>-->
-<!--    </div>-->
+    <div class="mb-3">
+        <label for="file" class="form-label">Фото профиля:</label>
+        <input id="file" name="file" class="form-control" type="file"/>
+    </div>
 
 
     <button type="submit" class="btn btn-secondary">Обновить данные оффера</button>

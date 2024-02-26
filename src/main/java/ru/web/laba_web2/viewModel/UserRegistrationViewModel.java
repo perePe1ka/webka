@@ -83,6 +83,7 @@ public class UserRegistrationViewModel {
 
     @NotEmpty(message = "Пароль не может быть пустым")
     @Size(min = 2, max = 40, message = "Пароль минимум 2 символа")
+
     public String getConfirmPassword() {
         return confirmPassword;
     }
@@ -90,6 +91,4 @@ public class UserRegistrationViewModel {
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
     }
-
-
 }
