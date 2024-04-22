@@ -27,7 +27,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@EnableCaching
+//@EnableCaching
 public class UserServiceImpl implements IUserService<String> {
     private final ModelMapper modelMapper;
     private IRolesRepository rolesRepository;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements IUserService<String> {
     }
 
     @Override
-    @CacheEvict(cacheNames = "users", allEntries = true)
+//    @CacheEvict(cacheNames = "users", allEntries = true)
     public void register(UserRegistrationViewModel registrationDTO) {
         if (!registrationDTO.getPassword().equals(registrationDTO.getConfirmPassword())) {
             throw new RuntimeException("passwords.match");
@@ -89,7 +89,7 @@ public class UserServiceImpl implements IUserService<String> {
     }
 
     @Override
-    @CacheEvict(cacheNames = "users", allEntries = true)
+//    @CacheEvict(cacheNames = "users", allEntries = true)
     public void deleteByUsername(String username) {
         userRepository.deleteByUsername(username);
     }
@@ -107,13 +107,13 @@ public class UserServiceImpl implements IUserService<String> {
     }
 
     @Override
-    @Cacheable("users")
+//    @Cacheable("users")
     public List<UserDto> getAll() {
         return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
     @Override
-    @CacheEvict(value = "users", allEntries = true)
+//    @CacheEvict(value = "users", allEntries = true)
     public EditUserViewModel update(EditUserViewModel editUser) {
         User user = findByUsername(editUser.getUsername());
         user.setFirstName(editUser.getFirstName());

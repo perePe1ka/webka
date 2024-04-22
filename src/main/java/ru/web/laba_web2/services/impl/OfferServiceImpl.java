@@ -22,13 +22,14 @@ import ru.web.laba_web2.viewModel.DetailOfferViewModel;
 import ru.web.laba_web2.viewModel.EditOfferViewModel;
 import ru.web.laba_web2.viewModel.ShowOfferViewModel;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@EnableCaching
+//@EnableCaching
 public class OfferServiceImpl implements IOfferService<String> {
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
@@ -78,7 +79,7 @@ public class OfferServiceImpl implements IOfferService<String> {
     }
 
     @Override
-    @CacheEvict(cacheNames = "offers", allEntries = true)
+//    @CacheEvict(cacheNames = "offers", allEntries = true)
     public void register(AddOfferViewModel newOffer) {
         if (!this.validationUtil.isValid(newOffer)) {
             this.validationUtil
@@ -99,11 +100,7 @@ public class OfferServiceImpl implements IOfferService<String> {
         this.offerRepository.saveAndFlush(offer);
     }
 
-    @Override
-    @CacheEvict(cacheNames = "offers", allEntries = true)
-    public void deleteByOfferDescription(String description) {
-        offerRepository.deleteByDescription(description);
-    }
+
 
     @Override
     public Optional<EditOfferViewModel> findByUuid(UUID uuid) {
@@ -112,20 +109,20 @@ public class OfferServiceImpl implements IOfferService<String> {
     }
 
     @Override
-    @Cacheable("offers")
+//    @Cacheable("offers")
     public DetailOfferViewModel getAll(String offerDescription) {
         Optional<Offer> offer = offerRepository.findByDescription(offerDescription);
         return modelMapper.map(offer, DetailOfferViewModel.class);
     }
 
     @Override
-    @Cacheable("offers")
+//    @Cacheable("offers")
     public List<ShowOfferViewModel> allOffers() {
         return offerRepository.findAll().stream().map(offer -> modelMapper.map(offer, ShowOfferViewModel.class)).collect(Collectors.toList());
     }
 
     @Override
-    @CacheEvict(cacheNames = "offers", allEntries = true)
+//    @CacheEvict(cacheNames = "offers", allEntries = true)
     public void editOffer(EditOfferViewModel editOffer) {
         if (!this.validationUtil.isValid(editOffer)) {
             this.validationUtil
@@ -143,5 +140,14 @@ public class OfferServiceImpl implements IOfferService<String> {
                 System.out.println("Что-то пошло не так");
             }
         }
+    }
+
+    @Override
+//    @CacheEvict(cacheNames = "offers", allEntries = true)
+    public void deleteByOfferDescription(String description) {
+
+            offerRepository.deleteByDescription(description);
+
+
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.models.User;
 import ru.web.laba_web2.services.IModelService;
 import ru.web.laba_web2.services.IOfferService;
@@ -88,7 +89,7 @@ public class OfferController {
     }
 
     @PostMapping("/add")
-    String registerOffer(@Valid AddOfferViewModel newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal, @RequestParam("file")MultipartFile file) throws IOException {
+    String registerOffer(@Valid AddOfferViewModel newOffer, BindingResult bindingResult, RedirectAttributes redirectAttributes, Principal principal, @RequestParam("file") MultipartFile file) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("newOffer", newOffer);
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.newOffer", bindingResult);
@@ -120,8 +121,8 @@ public class OfferController {
 
     @GetMapping("/delete{offerDescription}")
     String deleteOffer(@PathVariable("offerDescription") String offerDescription) {
-        offerService.deleteByOfferDescription(offerDescription);
 
+        offerService.deleteByOfferDescription(offerDescription);
         return "redirect:/offers/show";
     }
 
@@ -161,7 +162,7 @@ public class OfferController {
 
     @PostMapping("/update/{uuid}")
     String updateOffer(@Valid @ModelAttribute("editOffer") EditOfferViewModel editOffer,
-                       BindingResult bindingResult, @RequestParam("file")MultipartFile file) throws IOException {
+                       BindingResult bindingResult, @RequestParam("file") MultipartFile file) throws IOException {
         if (bindingResult.hasErrors()) {
             return "editOffer";
         }

@@ -24,6 +24,7 @@ import ru.web.laba_web2.viewModel.UserRegistrationViewModel;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.EnumSet;
 import java.util.UUID;
 
 @Controller
@@ -70,6 +71,7 @@ public class UserController {
         return "redirect:/users/login";
     }
 
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -113,6 +115,7 @@ public class UserController {
                 user.getLastName(),
                 user.getImageUrl()
         );
+
 
         model.addAttribute("user", userProfileView);
 

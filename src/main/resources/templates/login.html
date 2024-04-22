@@ -13,6 +13,7 @@
                 </div>
                 <form th:action="@{/users/login}"
                       th:method="post"
+                      th:object="${userRegistration}"
                       class="m-md-auto w-50 pb-3">
                     <div class="mb-3">
                         <label class="form-label" for="username">Логин</label>

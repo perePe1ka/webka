@@ -1,10 +1,13 @@
 package ru.web.laba_web2.services;
 
+import org.springframework.cache.annotation.CacheEvict;
+import ru.web.laba_web2.models.Offer;
 import ru.web.laba_web2.viewModel.AddOfferViewModel;
 import ru.web.laba_web2.viewModel.DetailOfferViewModel;
 import ru.web.laba_web2.viewModel.EditOfferViewModel;
 import ru.web.laba_web2.viewModel.ShowOfferViewModel;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,4 +24,5 @@ public interface IOfferService<String> {
     List<ShowOfferViewModel> allOffers();
 
     void editOffer(EditOfferViewModel editOffer);
+
 }

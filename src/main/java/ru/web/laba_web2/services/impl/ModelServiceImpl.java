@@ -24,7 +24,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@EnableCaching
+//@EnableCaching
 public class ModelServiceImpl implements IModelService<String> {
     private final ModelMapper modelMapper;
     private IBrandRepository brandRepository;
@@ -55,7 +55,7 @@ public class ModelServiceImpl implements IModelService<String> {
     }
 
     @Override
-    @CacheEvict(cacheNames = "models", allEntries = true)
+//    @CacheEvict(cacheNames = "models", allEntries = true)
     public void register(AddModelViewModel newModel) {
         if (!this.validationUtil.isValid(newModel)) {
             this.validationUtil
@@ -76,7 +76,7 @@ public class ModelServiceImpl implements IModelService<String> {
 
 
     @Override
-    @CacheEvict(cacheNames = {"models", "offers"}, allEntries = true)
+//    @CacheEvict(cacheNames = {"models", "offers"}, allEntries = true)
     public void deleteByModelName(String modelName) {
         modelRepository.deleteByName(modelName);
     }
@@ -87,21 +87,21 @@ public class ModelServiceImpl implements IModelService<String> {
     }
 
     @Override
-    @Cacheable("models")
+//    @Cacheable("models")
     public DetailModelViewModel getAll(String modelName) {
         Optional<Model> model = modelRepository.findByName(modelName);
         return modelMapper.map(model, DetailModelViewModel.class);
     }
 
     @Override
-    @Cacheable("models")
+//    @Cacheable("models")
     public List<ShowModelViewModel> allModels() {
         return modelRepository.findAll().stream().map(model -> modelMapper.map(model, ShowModelViewModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    @CacheEvict(cacheNames = "models", allEntries = true)
+//    @CacheEvict(cacheNames = "models", allEntries = true)
     public void editModel(EditModelViewModel editModel) {
         if (!this.validationUtil.isValid(editModel)) {
             this.validationUtil

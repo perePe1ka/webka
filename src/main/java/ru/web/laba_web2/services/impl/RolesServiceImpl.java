@@ -19,7 +19,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@EnableCaching
+//@EnableCaching
 public class RolesServiceImpl implements IRolesService<String> {
     private final ModelMapper modelMapper;
     private IRolesRepository rolesRepository;
@@ -38,7 +38,7 @@ public class RolesServiceImpl implements IRolesService<String> {
     }
 
     @Override
-    @CacheEvict(cacheNames = "roles", allEntries = true)
+//    @CacheEvict(cacheNames = "roles", allEntries = true)
     public void register(RolesDto rolesDto) {
         if (!this.validationUtil.isValid(rolesDto)) {
             this.validationUtil
@@ -63,7 +63,7 @@ public class RolesServiceImpl implements IRolesService<String> {
     }
 
     @Override
-    @Cacheable("roles")
+//    @Cacheable("roles")
     public List<RolesDto> getAll() {
         return rolesRepository.findAll().stream().map(roles -> modelMapper.map(roles, RolesDto.class)).collect(Collectors.toList());
     }

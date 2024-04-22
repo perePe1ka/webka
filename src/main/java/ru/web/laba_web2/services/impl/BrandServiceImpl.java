@@ -23,7 +23,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@EnableCaching
+//@EnableCaching
 public class BrandServiceImpl implements IBrandService<String> {
 
     private final ModelMapper modelMapper;
@@ -43,7 +43,7 @@ public class BrandServiceImpl implements IBrandService<String> {
     }
 
     @Override
-    @CacheEvict(cacheNames = "brands", allEntries = true)
+//    @CacheEvict(cacheNames = "brands", allEntries = true)
     public void register(AddBrandViewModel addBrandViewModel) {
 
         if (!this.validationUtil.isValid(addBrandViewModel)) {
@@ -63,9 +63,8 @@ public class BrandServiceImpl implements IBrandService<String> {
         }
     }
 
-
     @Override
-    @CacheEvict(cacheNames = {"brands", "models", "offers"}, allEntries = true)
+//    @CacheEvict(cacheNames = {"brands", "models", "offers"}, allEntries = true)
     public void deleteByName(String brandName) {
         brandRepository.deleteByName(brandName);
     }
@@ -77,21 +76,22 @@ public class BrandServiceImpl implements IBrandService<String> {
     }
 
     @Override
-    @Cacheable("brands")
+//    @Cacheable("brands")
     public List<ShowBrandViewModel> allBrands() {
         return brandRepository.findAll().stream().map(brand -> modelMapper.map(brand, ShowBrandViewModel.class))
                 .collect(Collectors.toList());
     }
 
     @Override
-    @Cacheable("brands")
+//    @Cacheable("brands")
     public DetailBrandViewModel getAll(String brandName) {
         Optional<Brand> brand = brandRepository.findByName(brandName);
         return modelMapper.map(brand, DetailBrandViewModel.class);
     }
 
+
     @Override
-    @CacheEvict(cacheNames = "brands", allEntries = true)
+//    @CacheEvict(cacheNames = "brands", allEntries = true)
     public void editBrand(EditBrandViewModel editBrand) {
         if (!this.validationUtil.isValid(editBrand)) {
             this.validationUtil

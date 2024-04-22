@@ -122,6 +122,6 @@ public class User extends TimeClass implements Serializable {
 
     @Override
     public String toString() {
-        return firstName + ' ' + lastName + "\n" + email;
+        return username;
     }
 }
